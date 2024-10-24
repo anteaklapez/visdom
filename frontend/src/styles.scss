@@ -1,4 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@use "../src/theme/visdom-theme.scss" as visdom-theme;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+:root {
+    @include mat.all-component-themes(visdom-theme.$light-theme);
+    @include mat.typography-hierarchy(visdom-theme.$typography-config);
+}
+
+html,
+body {
+    height: 100%;
+}
