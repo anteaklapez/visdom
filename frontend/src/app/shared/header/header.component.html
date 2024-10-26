@@ -1,0 +1,20 @@
+<mat-toolbar color="primary" class="toolbar">
+  <img
+    src="https://images.vexels.com/media/users/3/142789/isolated/preview/2bfb04ad814c4995f0c537c68db5cd0b-multicolor-swirls-circle-logo.png"
+    alt="Logo"
+    class="logo"
+    height="50px"
+    routerLink="/"
+    style="cursor: pointer;"
+  />
+
+  <span class="nav-links">
+    <a mat-button routerLink="/">PONUDA</a>
+    <a mat-button routerLink="/kontakt">KONTAKT</a>
+    <a mat-button routerLink="/prijava">PRIJAVA</a>
+  </span>
+
+  <button class="menu-button" mat-icon-button aria-label="Menu button" (click)="openMenu()">
+    <mat-icon>menu</mat-icon>
+  </button>
+</mat-toolbar>

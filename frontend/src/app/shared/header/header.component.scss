@@ -1,0 +1,31 @@
+@use '../../../theme/material/mat-toolbar.scss';
+@use '../../../theme/colors.scss' as color;
+
+mat-toolbar {
+    .nav-links {
+        margin-left: 1rem;
+
+        a {
+            color: color.$text;
+            margin-left: 1rem;
+        }
+    }
+
+    .menu-button {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .menu-button {
+        display: block !important;
+    }
+
+    mat-toolbar {
+        justify-content: space-between;
+    }
+
+    .nav-links {
+        display: none;
+    }
+}

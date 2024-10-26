@@ -1,0 +1,7 @@
+@use '../colors.scss' as colors;
+
+mat-toolbar {
+    display: flex;
+    align-items: center;
+    background-color: colors.$background;
+}

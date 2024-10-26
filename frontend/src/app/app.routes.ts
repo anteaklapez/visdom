@@ -26,6 +26,14 @@ export const routes: Routes = [
       title: 'Login',
     },
     {
+      path: 'kontakt',
+      loadComponent: () =>
+        import('./pages/contact/contact.component').then(
+          (c) => c.ContactComponent
+        ),
+      title: 'Login',
+    },
+    {
       path: 'izrada/:offerObject',
       loadComponent: () =>
         import('./pages/offer-create/offer-create.component').then(

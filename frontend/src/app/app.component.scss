@@ -1,0 +1,13 @@
+@use '../theme/material/mat-drawer.scss';
+@use '../theme/colors.scss' as color;
+
+mat-drawer-container {
+    a {
+        width: 100%;
+        color: color.$text;
+    }
+}
+
+app-footer {
+    margin-top: auto;
+}
