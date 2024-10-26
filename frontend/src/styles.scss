@@ -1,5 +1,6 @@
 @use '@angular/material' as mat;
-@use "../src/theme/visdom-theme.scss" as visdom-theme;
+@use '../src/theme/visdom-theme.scss' as visdom-theme;
+@use './theme/scrollbar.scss';
 
 :root {
     @include mat.all-component-themes(visdom-theme.$light-theme);

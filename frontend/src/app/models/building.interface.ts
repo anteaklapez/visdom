@@ -1,4 +1,5 @@
 export interface Building {
+  id: string;
   location: string;
   title: string;
   price: number;
@@ -11,7 +12,7 @@ export interface Building {
   description?: string;
 }
 
-enum BuildingType {
+export enum BuildingType {
   DETACHED_HOUSE = 'Samostojeća kuća',
   SEMI_DETACHED_HOUSE = 'Dvojna kuća (poluugrađena)',
   TERRACED_HOUSE = 'Kuća u nizu',

@@ -1,1 +1,49 @@
-<p>offer-item works!</p>
+<mat-list class="car-list">
+  @for (item of cars; track item.id) {
+  <mat-list-item class="list-item">
+    <mat-card>
+      <mat-card-content class="card-content">
+        <img
+          [src]="item.image[0]"
+          alt="{{ item.name }} image"
+          class="card-image"
+        />
+        <div class="card-data">
+          <mat-card-title class="card-title">{{ item.name }}</mat-card-title>
+          <div class="card-details">
+            <div class="detail-item">
+              <mat-icon>menu</mat-icon>
+              <span>{{ item.mileage | number }} km</span>
+            </div>
+            <div class="detail-item">
+              <mat-icon>calendar_today</mat-icon>
+              <span>{{ item.productionYear }}</span>
+            </div>
+            <div class="detail-item">
+              <mat-icon>power</mat-icon>
+              <span>{{ item.power }} kW ({{ item.power! * 1.34102 | number: '1.0-0' }} hp)</span>
+            </div>
+            <div class="detail-item">
+              <mat-icon>settings</mat-icon>
+              <span>{{ item.transmission | titlecase }}</span>
+            </div>
+            <div class="detail-item">
+              <mat-icon>local_gas_station</mat-icon>
+              <span>{{ item.engine | titlecase }}</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="location">
+                <mat-icon>location_on</mat-icon>
+                <span class="location-text">{{ item.location }}</span>
+              </span>
+              <span class="price">€{{ item.price | number }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-list-item>
+  } @empty {
+  <mat-list-item>There are no items.</mat-list-item>
+  }
+</mat-list>

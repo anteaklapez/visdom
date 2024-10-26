@@ -1,4 +1,5 @@
 export interface Car {
+    id: string;
     name: string;
     model: string;
     brand: string;
@@ -15,14 +16,14 @@ export interface Car {
     transmission?: Transmission;
 }
 
-enum Engine {
+export enum Engine {
     DIESEL = 'dizel',
     GASOLINE = 'benzin',
     ELECTRIC = 'električni',
     HYBRID = 'hibrid'
 }
 
-enum Transmission {
+export enum Transmission {
     MANUAL = 'ručni',
     AUTOMATIC = 'automatik',
 }
