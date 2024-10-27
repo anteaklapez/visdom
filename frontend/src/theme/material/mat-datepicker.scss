@@ -1,0 +1,18 @@
+@use '../colors.scss' as color;
+
+::ng-deep {
+    mat-datepicker-content {
+        background: color.$white !important;
+        box-shadow: color.$box-shadow !important;
+    }
+
+    .mat-calendar-body-cell-content.mat-focus-indicator {
+        font-weight: 600;
+    }
+
+    @media screen and (max-width: 349px) {
+        .mat-datepicker-content .mat-calendar {
+            width: 95vw !important;
+        }
+    }
+}

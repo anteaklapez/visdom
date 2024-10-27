@@ -1,0 +1,31 @@
+@use '../../../theme/colors.scss' as color;
+@use '../../../theme/material/mat-expansion-panel.scss';
+
+mat-accordion {
+    display: none;
+}
+
+@media screen and (max-width: 749px) {
+    mat-accordion {
+        display: block;
+        width: 500px;
+        margin: 0 auto;
+        border-bottom: solid 1px color.$border;
+    }
+
+    .dektop-filter {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 599px) {
+    mat-accordion {
+        width: 90vw;
+    }
+}
+
+@media screen and (max-width: 349px) {
+    mat-panel-title {
+        font-size: 5vw;
+    }
+}

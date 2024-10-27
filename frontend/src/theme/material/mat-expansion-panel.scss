@@ -1,0 +1,23 @@
+@use '../colors.scss' as color;
+
+.mat-expansion-panel-header-title,
+.mat-expansion-panel-header-description {
+    color: color.$text;
+    font-weight: bold;
+}
+
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled=true]):hover,
+.mat-expansion-panel {
+    background-color: transparent;
+}
+
+.mat-expansion-panel {
+    box-shadow: none !important;
+}
+
+@media screen and (max-width: 749px) {
+    ::ng-deep .mat-expansion-panel-body {
+        display: flex !important;
+        justify-content: center !important;
+    }
+}

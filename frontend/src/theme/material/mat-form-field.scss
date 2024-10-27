@@ -1,0 +1,64 @@
+@use '../colors.scss' as color;
+
+@mixin smallBold {
+    color: color.$text;
+    font-size: small;
+    font-weight: 600;
+}
+
+mat-form-field {
+    @include smallBold();
+    height: 50px;
+    margin-bottom: 20px;
+
+    mat-label {
+        @include smallBold();
+    }
+
+    input {
+        color: color.$text !important;
+        caret-color: color.$text !important;
+    }
+
+    ;
+}
+
+::ng-deep {
+    .mat-mdc-text-field-wrapper {
+        align-items: center !important;
+        height: 100% !important;
+        background-color: color.$white;
+        border-radius: 4px !important;
+    }
+
+    .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
+        top: 26px !important;
+    }
+
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+        border-color: color.$white !important;
+    }
+
+    .mat-mdc-form-field:not(.mat-form-field-disabled) .mat-mdc-floating-label.mdc-floating-label,
+    .mat-mdc-form-field:not(.mat-form-field-no-animations) .mdc-floating-label {
+        padding-bottom: 0.3rem;
+    }
+
+    .mat-mdc-icon-button img, .mat-mdc-icon-button svg {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    @media screen and (max-width: 299px) {
+        mat-form-field {
+            font-size: 4vw;
+        }
+        
+        .mat-mdc-icon-button img, .mat-mdc-icon-button svg {
+            width: 8vw !important;
+            height: 8vw !important;
+        }
+    }
+}
