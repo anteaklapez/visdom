@@ -12,7 +12,7 @@ export class ItemService {
     new BehaviorSubject<(Car | Building | BasicObject)[]>([
       {
         id: 'sauce',
-        location: 'Dubrovnik, Croatia',
+        location: 'Dubrovnik',
         title: 'Luxury Villa with Sea View',
         price: 2500000,
         image: ['https://cf.bstatic.com/xdata/images/hotel/max1024x768/473296975.jpg?k=d66796d0c65d527bfc9b69bd22ca75728ff4ea96bf319667f059f1c709f14adb&o=&hp=1'],

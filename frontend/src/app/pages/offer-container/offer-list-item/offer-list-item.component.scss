@@ -1,4 +1,5 @@
 @use '../../../../theme/material/mat-card.scss';
+@use '../../../../theme/material/mat-expansion-panel.scss';
 @use '../../../../theme/colors.scss' as color;
 
 mat-list {
@@ -189,6 +190,14 @@ mat-list-item {
     }
 }
 
+@media screen and (max-width: 749px) {
+    mat-accordion {
+        width: 500px;
+        margin: 0 auto;
+        border-bottom: solid 1px color.$border;
+    }
+}
+
 @media screen and (max-width: 599px) {
     mat-list {
         width: 90vw;
@@ -197,9 +206,11 @@ mat-list-item {
     .card-title {
         width: auto;
     }
-}
 
-@media screen and (max-width: 599px) {
+    mat-accordion {
+        width: 90vw;
+    }
+
     .card-content {
         flex-direction: column;
         gap: 0;
@@ -245,5 +256,11 @@ mat-list-item {
 
     .price {
         font-size: 8vw;
+    }
+}
+
+@media screen and (max-width: 349px) {
+    mat-panel-title {
+        font-size: 5vw;
     }
 }

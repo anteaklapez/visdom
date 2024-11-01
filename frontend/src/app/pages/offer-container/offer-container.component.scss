@@ -1,20 +1,11 @@
 @use '../../../theme/colors.scss' as color;
 @use '../../../theme/material/mat-expansion-panel.scss';
 
-mat-accordion {
-    display: none;
-}
-
 @media screen and (max-width: 749px) {
     mat-accordion {
-        display: block;
         width: 500px;
         margin: 0 auto;
         border-bottom: solid 1px color.$border;
-    }
-
-    .desktop-filter {
-        display: none;
     }
 }
 

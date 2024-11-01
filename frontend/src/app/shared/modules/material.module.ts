@@ -19,6 +19,9 @@ import {
 } from '@angular/material/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatRippleModule } from '@angular/material/core';
+import { LayoutModule } from '@angular/cdk/layout';
 
 @Injectable()
 class CustomDateAdapter extends NativeDateAdapter {
@@ -29,6 +32,8 @@ class CustomDateAdapter extends NativeDateAdapter {
 
 @NgModule({
   exports: [
+    LayoutModule,
+    MatMenuModule,
     MatButtonModule,
     MatToolbarModule,
     MatSidenavModule,
@@ -40,6 +45,7 @@ class CustomDateAdapter extends NativeDateAdapter {
     MatDatepickerModule,
     MatButtonToggleModule,
     MatExpansionModule,
+    MatRippleModule,
   ],
   providers: [
     provideNativeDateAdapter(),

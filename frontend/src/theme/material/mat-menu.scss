@@ -1,0 +1,21 @@
+@use '../colors.scss' as color;
+
+::ng-deep {
+    .mat-mdc-menu-content {
+        background-color: color.$white !important;
+    }
+
+    .mat-mdc-menu-content > span > button:hover {
+        background-color: color.$hover !important;
+    }
+
+    .mat-mdc-menu-item-text {
+        color: color.$text;
+        font-weight: 600 !important;
+        z-index: 2;
+    }
+
+    .mat-mdc-menu-item:focus {
+        background-color: transparent !important;
+    }
+}

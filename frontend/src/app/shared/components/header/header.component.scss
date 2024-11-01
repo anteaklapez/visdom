@@ -1,7 +1,12 @@
-@use '../../../theme/material/mat-toolbar.scss';
-@use '../../../theme/colors.scss' as color;
+@use '../../../../theme/material/mat-toolbar.scss';
+@use '../../../../theme/material/mat-menu.scss';
+@use '../../../../theme/colors.scss' as color;
 
 mat-toolbar {
+    .remove-hover:hover {
+        background-color: #fbfbd9;
+    }
+
     .nav-links {
         margin-left: 1rem;
 

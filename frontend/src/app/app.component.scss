@@ -3,11 +3,21 @@
 
 mat-drawer-container {
     background-image: radial-gradient(color.$background-dots, 1px, transparent 0);
-  background-size: 40px 40px;
+    background-size: 40px 40px;
+
     a {
         width: 100%;
         color: color.$text;
         font-weight: 600;
+    }
+
+    .sub-menu {
+        border-top: solid 1px color.$background-dark;
+        border-bottom: solid 1px color.$background-dark;
+        background-color: color.$gray;
+        a {
+            font-size: smaller;
+        }
     }
 }
 

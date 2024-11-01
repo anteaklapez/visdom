@@ -1,25 +1,27 @@
 import { Component, inject } from '@angular/core';
-import { MaterialModule } from '../../../shared/material.module';
-import { CommonModule } from '@angular/common';
+import { MaterialModule } from '../../../shared/modules/material.module';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { ItemService } from '../../../services/item.service';
 import { ActivatedRoute } from '@angular/router';
 import { Offer } from '../../../models/offer.enum';
+import { OfferFilterComponent } from '../offer-filter/offer-filter.component';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-offer-list-item',
   standalone: true,
-  imports: [CommonModule, MaterialModule],
+  imports: [CommonModule, MaterialModule, OfferFilterComponent, AsyncPipe],
   templateUrl: './offer-list-item.component.html',
   styleUrl: './offer-list-item.component.scss',
 })
 export class OfferItemComponent {
   readonly itemService = inject(ItemService);
   readonly route = inject(ActivatedRoute);
-  selectedCategory: Offer = Offer.CARS;
+  private readonly _breakpointObserver = inject(BreakpointObserver);
 
-  public get Offer() {
-    return Offer; 
-  }
+  isSmallScreen$!: Observable<boolean>;
+  selectedCategory: Offer = Offer.CARS;
 
   ngOnInit() {
     this.route.url.subscribe((urlSegments) => {
@@ -39,5 +41,13 @@ export class OfferItemComponent {
           break;
       }
     });
+
+    this.isSmallScreen$ = this._breakpointObserver
+      .observe('(max-width: 749px)')
+      .pipe(map((result) => result.matches));
+  }
+
+  public get Offer() {
+    return Offer;
   }
 }

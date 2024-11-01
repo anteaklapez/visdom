@@ -1,3 +1,16 @@
+@if(isSmallScreen$ | async) {
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Filter</mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-offer-filter></app-offer-filter>
+    </mat-expansion-panel>
+  </mat-accordion>
+  } @else {
+  <app-offer-filter></app-offer-filter>
+  }
+
 <mat-list class="car-list">
   @if (selectedCategory === Offer.CARS) { @for (item of itemService.cars$ |
   async; track item.id) {
