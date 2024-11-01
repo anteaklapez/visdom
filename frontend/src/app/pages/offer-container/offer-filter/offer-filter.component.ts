@@ -19,15 +19,15 @@ import { MaterialModule } from '../../../shared/modules/material.module';
   styleUrl: './offer-filter.component.scss',
 })
 export class OfferFilterComponent implements OnInit {
-  readonly fb = inject(FormBuilder);
-  readonly itemService = inject(ItemService);
-  readonly route = inject(ActivatedRoute);
+  private readonly _fb = inject(FormBuilder);
+  private readonly _route = inject(ActivatedRoute);
+  private readonly _itemService = inject(ItemService);
 
   selectedCategory: Offer = Offer.CARS;
   filterForm!: FormGroup;
 
   ngOnInit(): void {
-    this.filterForm = this.fb.group({
+    this.filterForm = this._fb.group({
       priceFrom: ['', [Validators.min(0), Validators.max(10000000)]],
       priceTo: ['', [Validators.min(0), Validators.max(10000000)]],
       mileageFrom: ['', [Validators.min(0), Validators.max(10000000)]],
@@ -62,7 +62,7 @@ export class OfferFilterComponent implements OnInit {
   }
 
   private _selectCategory() {
-    this.route.url.subscribe((urlSegments) => {
+    this._route.url.subscribe((urlSegments) => {
       const path = urlSegments[1]?.path;
       switch (path) {
         case Offer.CARS:

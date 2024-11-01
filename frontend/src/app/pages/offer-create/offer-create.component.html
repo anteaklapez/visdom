@@ -1,1 +1,9 @@
-<p>offer-create works!</p>
+@if (selectedCategory === Offer.CARS) {
+    <app-car-form></app-car-form>
+}
+@if (selectedCategory === Offer.BUILDINGS) {
+    <app-building-form></app-building-form>
+}
+@if (selectedCategory === Offer.ELSE) {
+    <app-else-form></app-else-form>
+}

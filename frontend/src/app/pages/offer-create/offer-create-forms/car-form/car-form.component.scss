@@ -1,0 +1,11 @@
+@use '../../../../../theme/material/mat-form-field.scss';
+
+form {
+    display: flex;
+    justify-content: center;
+}
+
+.basic-info-container {
+    display: flex;
+    flex-direction: column;
+}

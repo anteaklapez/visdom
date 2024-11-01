@@ -1,0 +1,45 @@
+<form [formGroup]="carsForm" (ngSubmit)="onSubmit()">
+  <div class="basic-info-container">
+    <h2>Osnovne informacije</h2>
+
+    <mat-form-field>
+      <mat-label>Naslov</mat-label>
+      <input matInput type="text" formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Marka</mat-label>
+      <input
+        type="text"
+        aria-label="Marka"
+        matInput
+        formControlName="brand"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="onCarMakeSelected()"
+      >
+        @for (make of filteredCarBrand$ | async; track make) {
+        <mat-option [value]="make">{{ make }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Model</mat-label>
+      <input
+        type="text"
+        aria-label="Marka"
+        matInput
+        formControlName="model"
+        [matAutocomplete]="autoModel"
+      />
+      <mat-autocomplete #autoModel="matAutocomplete">
+        @for (model of filteredCarModel$ | async; track model) {
+        <mat-option [value]="model">{{ model }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+</form>

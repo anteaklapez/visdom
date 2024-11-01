@@ -1,9 +1,9 @@
 @use '../colors.scss' as color;
 
 @mixin smallBold {
-    color: color.$text;
-    font-size: small;
-    font-weight: 600;
+    color: color.$text !important;
+    font-size: small !important;
+    font-weight: 600 !important;
 }
 
 mat-form-field {
@@ -19,11 +19,17 @@ mat-form-field {
         color: color.$text !important;
         caret-color: color.$text !important;
     }
-
-    ;
 }
 
 ::ng-deep {
+    .mat-mdc-option {
+        @include smallBold();
+    }
+
+    .mat-mdc-autocomplete-panel {
+        background-color: color.$white !important;
+    }
+
     .mat-mdc-text-field-wrapper {
         align-items: center !important;
         height: 100% !important;

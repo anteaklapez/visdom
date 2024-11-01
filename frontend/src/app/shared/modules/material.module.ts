@@ -23,6 +23,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatRippleModule } from '@angular/material/core';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @Injectable()
 class CustomDateAdapter extends NativeDateAdapter {
@@ -48,6 +49,7 @@ class CustomDateAdapter extends NativeDateAdapter {
     MatExpansionModule,
     MatRippleModule,
     MatTooltipModule,
+    MatAutocompleteModule,
   ],
   providers: [
     provideNativeDateAdapter(),
