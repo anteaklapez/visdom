@@ -2,56 +2,60 @@
   <div class="info-container">
     <h2>Obavezne informacije</h2>
 
-    <!-- NASLOV -->
-    <mat-form-field>
-      <mat-label>Naslov</mat-label>
-      <input matInput type="text" formControlName="name" />
-    </mat-form-field>
+    <div class="group-container">
+      <!-- NASLOV -->
+      <mat-form-field>
+        <mat-label>Naslov</mat-label>
+        <input matInput type="text" formControlName="name" />
+      </mat-form-field>
 
-    <!-- MARKA -->
-    <mat-form-field>
-      <mat-label>Marka</mat-label>
-      <input
-        type="text"
-        aria-label="Marka"
-        matInput
-        formControlName="brand"
-        [matAutocomplete]="auto"
-      />
-      <mat-autocomplete
-        #auto="matAutocomplete"
-        (optionSelected)="onCarMakeSelected()"
-      >
-        @for (make of filteredCarBrand$ | async; track make) {
-        <mat-option [value]="make" matRipple [matRippleColor]="rippleColor">{{
-          make
-        }}</mat-option>
-        }
-      </mat-autocomplete>
-    </mat-form-field>
+      <!-- CIJENA -->
+      <mat-form-field>
+        <mat-label>Cijena (€)</mat-label>
+        <input matInput type="number" formControlName="price" />
+      </mat-form-field>
+    </div>
 
-    <!-- MODEL -->
-    <mat-form-field>
-      <mat-label>Model</mat-label>
-      <input
-        type="text"
-        aria-label="Marka"
-        matInput
-        formControlName="model"
-        [matAutocomplete]="autoModel"
-      />
-      <mat-autocomplete #autoModel="matAutocomplete">
-        @for (model of filteredCarModel$ | async; track model) {
-        <mat-option [value]="model">{{ model }}</mat-option>
-        }
-      </mat-autocomplete>
-    </mat-form-field>
+    <div class="group-container">
+      <!-- MARKA -->
+      <mat-form-field>
+        <mat-label>Marka</mat-label>
+        <input
+          type="text"
+          aria-label="Marka"
+          matInput
+          formControlName="brand"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="onCarMakeSelected()"
+        >
+          @for (make of filteredCarBrand$ | async; track make) {
+          <mat-option [value]="make" matRipple [matRippleColor]="rippleColor">{{
+            make
+          }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
 
-    <!-- CIJENA -->
-    <mat-form-field>
-      <mat-label>Cijena (€)</mat-label>
-      <input matInput type="number" formControlName="price" />
-    </mat-form-field>
+      <!-- MODEL -->
+      <mat-form-field>
+        <mat-label>Model</mat-label>
+        <input
+          type="text"
+          aria-label="Marka"
+          matInput
+          formControlName="model"
+          [matAutocomplete]="autoModel"
+        />
+        <mat-autocomplete #autoModel="matAutocomplete">
+          @for (model of filteredCarModel$ | async; track model) {
+          <mat-option [value]="model">{{ model }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
 
     <!-- SLIKE -->
     <mat-form-field>
@@ -128,62 +132,68 @@
       </mat-button-toggle-group>
     </div>
 
-    <!-- GODINA MODELA -->
-    <mat-form-field>
-      <mat-label>Godina modela</mat-label>
-      <input
-        matInput
-        formControlName="modelYear"
-        [matDatepicker]="pickerModelYear"
-      />
-      <mat-datepicker-toggle
-        matIconSuffix
-        [for]="pickerModelYear"
-      ></mat-datepicker-toggle>
-      <mat-datepicker
-        #pickerModelYear
-        startView="multi-year"
-        disabled="false"
-        (yearSelected)="onModelYearSelected($event, pickerModelYear)"
-      ></mat-datepicker>
-    </mat-form-field>
+    <div class="group-container">
+      <!-- GODINA MODELA -->
+      <mat-form-field>
+        <mat-label>Godina modela</mat-label>
+        <input
+          matInput
+          formControlName="modelYear"
+          [matDatepicker]="pickerModelYear"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="pickerModelYear"
+        ></mat-datepicker-toggle>
+        <mat-datepicker
+          #pickerModelYear
+          startView="multi-year"
+          disabled="false"
+          (yearSelected)="onModelYearSelected($event, pickerModelYear)"
+        ></mat-datepicker>
+      </mat-form-field>
 
-    <!-- GODINA PROIZVODNJE -->
-    <mat-form-field>
-      <mat-label>Godina proizvodnje</mat-label>
-      <input
-        matInput
-        formControlName="productionYear"
-        [matDatepicker]="pickerProductionYear"
-      />
-      <mat-datepicker-toggle
-        matIconSuffix
-        [for]="pickerProductionYear"
-      ></mat-datepicker-toggle>
-      <mat-datepicker
-        #pickerProductionYear
-        startView="multi-year"
-        disabled="false"
-        (yearSelected)="onProductionYearSelected($event, pickerProductionYear)"
-      ></mat-datepicker>
-    </mat-form-field>
+      <!-- GODINA PROIZVODNJE -->
+      <mat-form-field>
+        <mat-label>Godina proizvodnje</mat-label>
+        <input
+          matInput
+          formControlName="productionYear"
+          [matDatepicker]="pickerProductionYear"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="pickerProductionYear"
+        ></mat-datepicker-toggle>
+        <mat-datepicker
+          #pickerProductionYear
+          startView="multi-year"
+          disabled="false"
+          (yearSelected)="
+            onProductionYearSelected($event, pickerProductionYear)
+          "
+        ></mat-datepicker>
+      </mat-form-field>
+    </div>
 
-    <!-- VELIČINA MOTORA -->
-    <mat-form-field>
-      <mat-label>Veličina motora</mat-label>
-      <input matInput type="number" formControlName="engineSize" />
-    </mat-form-field>
+    <div class="group-container">
+      <!-- VELIČINA MOTORA -->
+      <mat-form-field>
+        <mat-label>Veličina motora</mat-label>
+        <input matInput type="number" formControlName="engineSize" />
+      </mat-form-field>
+
+      <!-- SNAGA -->
+      <mat-form-field>
+        <mat-label>Snaga (kW)</mat-label>
+        <input matInput type="number" formControlName="power" />
+      </mat-form-field>
+    </div>
 
     <!-- LOKACIJA -->
     <mat-form-field>
       <mat-label>Lokacija</mat-label>
       <input matInput type="text" formControlName="location" />
-    </mat-form-field>
-
-    <!-- SNAGA -->
-    <mat-form-field>
-      <mat-label>Snaga (kW)</mat-label>
-      <input matInput type="number" formControlName="power" />
     </mat-form-field>
 
     <!-- OPIS -->

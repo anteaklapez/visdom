@@ -44,6 +44,16 @@ form {
     flex-direction: column;
 }
 
+.group-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+
+    mat-form-field {
+        width: 100%;
+    }
+}
+
 .text-area-field {
     height: auto !important;
 }
