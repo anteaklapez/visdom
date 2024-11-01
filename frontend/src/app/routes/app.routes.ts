@@ -9,7 +9,7 @@ export const appRoutes: Routes = [
   ...authRoutes,
   {
     path: '**',
-    redirectTo: 'ponuda',
+    redirectTo: 'ponuda/vozila',
     pathMatch: 'full',
   },
 ];

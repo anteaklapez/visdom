@@ -1,0 +1,33 @@
+<mat-card>
+  <mat-card-content class="card-content">
+    <img
+      [src]="building.image[0]"
+      alt="{{ building.title }} image"
+      class="card-image"
+    />
+    <div class="card-data">
+      <mat-card-title class="card-title">{{ building.title }}</mat-card-title>
+      <div class="card-details">
+        <div class="detail-item">
+          <mat-icon>menu</mat-icon>
+          <span>{{ building.roomNumber | number }} km</span>
+        </div>
+        <div class="detail-item">
+          <mat-icon>calendar_today</mat-icon>
+          <span>{{ building.buildingArea }}</span>
+        </div>
+        <div class="detail-item">
+          <mat-icon>settings</mat-icon>
+          <span>{{ building.gardenArea | number }}</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="location">
+          <mat-icon>location_on</mat-icon>
+          <span class="location-text">{{ building.location }}</span>
+        </span>
+        <span class="price">€{{ building.price | number }}</span>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

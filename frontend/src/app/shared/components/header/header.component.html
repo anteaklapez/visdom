@@ -32,29 +32,29 @@
   </button>
 </mat-toolbar>
 
-<mat-menu #menu="matMenu" [overlapTrigger]="false" color="primary">
+<mat-menu #menu="matMenu" [overlapTrigger]="false">
   <span (mouseleave)="menuTrigger.closeMenu()">
     <button
       mat-menu-item
-      routerLink="/ponuda/vozila"
+      routerLink="ponuda/vozila"
       matRipple
-      [matRippleColor]="'#FAD4C8'"
+      [matRippleColor]="rippleColor"
     >
       Vozila
     </button>
     <button
       mat-menu-item
-      routerLink="/ponuda/nekretnine"
+      routerLink="ponuda/nekretnine"
       matRipple
-      [matRippleColor]="'#FAD4C8'"
+      [matRippleColor]="rippleColor"
     >
       Nekretnie
     </button>
     <button
       mat-menu-item
-      routerLink="/ponuda/ostalo"
+      routerLink="ponuda/ostalo"
       matRipple
-      [matRippleColor]="'#FAD4C8'"
+      [matRippleColor]="rippleColor"
     >
       Ostalo
     </button></span

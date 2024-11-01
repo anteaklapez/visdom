@@ -1,0 +1,42 @@
+<mat-card>
+  <mat-card-content class="card-content">
+    <img [src]="car.image[0]" alt="{{ car.name }} image" class="card-image" />
+    <div class="card-data">
+      <mat-card-title class="card-title">{{ car.name }}</mat-card-title>
+      <div class="card-details">
+        <div class="detail-item">
+          <mat-icon>menu</mat-icon>
+          <span>{{ car.mileage | number }} km</span>
+        </div>
+        <div class="detail-item">
+          <mat-icon>calendar_today</mat-icon>
+          <span>{{ car.productionYear }}</span>
+        </div>
+        <div class="detail-item">
+          <mat-icon>power</mat-icon>
+          <span
+            >{{ car.power }} kW ({{
+              car.power! * 1.34102 | number : "1.0-0"
+            }}
+            hp)</span
+          >
+        </div>
+        <div class="detail-item">
+          <mat-icon>settings</mat-icon>
+          <span>{{ car.transmission | titlecase }}</span>
+        </div>
+        <div class="detail-item">
+          <mat-icon>local_gas_station</mat-icon>
+          <span>{{ car.engine | titlecase }}</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="location">
+          <mat-icon>location_on</mat-icon>
+          <span class="location-text">{{ car.location }}</span>
+        </span>
+        <span class="price">€{{ car.price | number }}</span>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

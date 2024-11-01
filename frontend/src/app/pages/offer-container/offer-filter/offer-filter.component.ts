@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { MaterialModule } from '../../../shared/modules/material.module';
 import {
   FormBuilder,
   FormGroup,
@@ -7,9 +6,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
-import { ItemService } from '../../../services/item.service';
 import { ActivatedRoute } from '@angular/router';
 import { Offer } from '../../../models/offer.enum';
+import { ItemService } from '../../../services/item.service';
+import { MaterialModule } from '../../../shared/modules/material.module';
 
 @Component({
   selector: 'app-offer-filter',
@@ -63,8 +63,7 @@ export class OfferFilterComponent implements OnInit {
 
   private _selectCategory() {
     this.route.url.subscribe((urlSegments) => {
-      const path = urlSegments[0]?.path;
-      console.log(path, 'offer filter')
+      const path = urlSegments[1]?.path;
       switch (path) {
         case Offer.CARS:
           this.selectedCategory = Offer.CARS;

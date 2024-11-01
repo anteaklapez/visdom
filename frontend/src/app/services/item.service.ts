@@ -265,4 +265,12 @@ export class ItemService {
       )
     );
   }
+
+  get basicObjects$(): Observable<BasicObject[]> {
+    return this._itemSubject$.pipe(
+      map((items: (Car | Building | BasicObject)[]): BasicObject[] =>
+        items.filter((item): item is BasicObject => 'subject' in item)
+      )
+    );
+  }
 }

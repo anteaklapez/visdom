@@ -1,6 +1,6 @@
 export interface BasicObject {
     id: string;
-    title: string;
+    subject: string;
     price: number;
     description: string;
     image: string[];

@@ -1,1 +1,85 @@
-<router-outlet></router-outlet>
+<!-- FAB -->
+<button
+  class="fab"
+  mat-mini-fab
+  [matMenuTriggerFor]="menu"
+  matTooltip="Dodajte novo"
+>
+  <mat-icon>add</mat-icon>
+</button>
+<mat-menu #menu="matMenu" class="mat-menu">
+  <button
+    mat-menu-item
+    matRipple
+    [matRippleColor]="rippleColor"
+    [routerLink]="['/izrada/vozila']"
+  >
+    <mat-icon class="z-index">directions_car</mat-icon>
+    <span>Vozilo</span>
+  </button>
+  <button
+    mat-menu-item
+    matRipple
+    [matRippleColor]="rippleColor"
+    [routerLink]="['/izrada/nekretnine']"
+  >
+    <mat-icon class="z-index">home</mat-icon>
+    <span>Nekretninu</span>
+  </button>
+  <button
+    mat-menu-item
+    matRipple
+    [matRippleColor]="rippleColor"
+    [routerLink]="['/izrada/ostalo']"
+  >
+    <mat-icon class="z-index">real_estate_agent</mat-icon>
+    <span>Ostalo</span>
+  </button>
+</mat-menu>
+
+<!-- FILTER -->
+@if(isSmallScreen$ | async) {
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Filter</mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-offer-filter></app-offer-filter>
+  </mat-expansion-panel>
+</mat-accordion>
+} @else {
+<app-offer-filter></app-offer-filter>
+}
+
+<!-- LIST -->
+<mat-list>
+  @if (selectedCategory === Offer.CARS) { 
+    @for (item of itemService.cars$ |async; track item.id) {
+      <mat-list-item class="list-item">
+        <app-car [car]="item"></app-car>
+      </mat-list-item>
+    } @empty {
+      <p>Trenutno nema ponude</p>
+    } 
+  } 
+  
+  @if (selectedCategory === Offer.BUILDINGS) { 
+    @for (item of itemService.buildings$ | async; track item.id) {
+      <mat-list-item class="list-item">
+        <app-building [building]="item"></app-building>
+      </mat-list-item>
+    } @empty {
+      <p>Trenutno nema ponude</p>
+    } 
+  } 
+  
+  @if (selectedCategory === Offer.ELSE) { 
+    @for (item of itemService.basicObjects$ | async; track item.id) {
+      <mat-list-item class="list-item">
+        <app-else [basicObject]="item"></app-else>
+      </mat-list-item>
+    } @empty {
+      <p>Trenutno nema ponude</p>
+    } 
+  }
+</mat-list>
