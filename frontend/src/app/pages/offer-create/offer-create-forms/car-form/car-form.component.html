@@ -1,12 +1,14 @@
 <form [formGroup]="carsForm" (ngSubmit)="onSubmit()">
-  <div class="basic-info-container">
-    <h2>Osnovne informacije</h2>
+  <div class="info-container">
+    <h2>Obavezne informacije</h2>
 
+    <!-- NASLOV -->
     <mat-form-field>
       <mat-label>Naslov</mat-label>
       <input matInput type="text" formControlName="name" />
     </mat-form-field>
 
+    <!-- MARKA -->
     <mat-form-field>
       <mat-label>Marka</mat-label>
       <input
@@ -21,11 +23,14 @@
         (optionSelected)="onCarMakeSelected()"
       >
         @for (make of filteredCarBrand$ | async; track make) {
-        <mat-option [value]="make">{{ make }}</mat-option>
+        <mat-option [value]="make" matRipple [matRippleColor]="rippleColor">{{
+          make
+        }}</mat-option>
         }
       </mat-autocomplete>
     </mat-form-field>
 
+    <!-- MODEL -->
     <mat-form-field>
       <mat-label>Model</mat-label>
       <input
@@ -41,5 +46,161 @@
         }
       </mat-autocomplete>
     </mat-form-field>
+
+    <!-- CIJENA -->
+    <mat-form-field>
+      <mat-label>Cijena (€)</mat-label>
+      <input matInput type="number" formControlName="price" />
+    </mat-form-field>
+
+    <!-- SLIKE -->
+    <mat-form-field>
+      <mat-label>Slike</mat-label>
+      <input matInput type="text" formControlName="image" />
+    </mat-form-field>
   </div>
+
+  <div class="info-container">
+    <h2>Ostale informacije</h2>
+
+    <!-- MJENJAČ -->
+    <div class="toggle-container">
+      <mat-label>Mjenjač</mat-label>
+      <mat-button-toggle-group
+        name="transmition"
+        formControlName="transmission"
+      >
+        <mat-button-toggle
+          value="ručni"
+          matRipple
+          [matRippleColor]="rippleColor"
+        >
+          <mat-icon>settings</mat-icon>
+          <span class="toggle-text">Ručni</span>
+        </mat-button-toggle>
+        <mat-button-toggle
+          value="automatski"
+          matRipple
+          [matRippleColor]="rippleColor"
+        >
+          <mat-icon>settings_suggest</mat-icon>
+          <span class="toggle-text">Automatik</span>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    <!-- GORIVO -->
+    <div class="toggle-container">
+      <mat-label>Tip goriva</mat-label>
+      <mat-button-toggle-group name="transmition" formControlName="engine">
+        <mat-button-toggle
+          value="dizel"
+          matRipple
+          [matRippleColor]="rippleColor"
+        >
+          <mat-icon>water_drop</mat-icon>
+          <span class="toggle-text">Dizel</span>
+        </mat-button-toggle>
+        <mat-button-toggle
+          value="benzin"
+          matRipple
+          [matRippleColor]="rippleColor"
+        >
+          <mat-icon>water_drop</mat-icon>
+          <span class="toggle-text">Benzin</span>
+        </mat-button-toggle>
+        <mat-button-toggle
+          value="hibrid"
+          matRipple
+          [matRippleColor]="rippleColor"
+        >
+          <mat-icon>cyclone</mat-icon>
+          <span class="toggle-text">Hibrid</span>
+        </mat-button-toggle>
+        <mat-button-toggle
+          value="električni"
+          matRipple
+          [matRippleColor]="rippleColor"
+        >
+          <mat-icon>bolt</mat-icon>
+          <span class="toggle-text">Električni</span>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    <!-- GODINA MODELA -->
+    <mat-form-field>
+      <mat-label>Godina modela</mat-label>
+      <input
+        matInput
+        formControlName="modelYear"
+        [matDatepicker]="pickerModelYear"
+      />
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="pickerModelYear"
+      ></mat-datepicker-toggle>
+      <mat-datepicker
+        #pickerModelYear
+        startView="multi-year"
+        disabled="false"
+        (yearSelected)="onModelYearSelected($event, pickerModelYear)"
+      ></mat-datepicker>
+    </mat-form-field>
+
+    <!-- GODINA PROIZVODNJE -->
+    <mat-form-field>
+      <mat-label>Godina proizvodnje</mat-label>
+      <input
+        matInput
+        formControlName="productionYear"
+        [matDatepicker]="pickerProductionYear"
+      />
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="pickerProductionYear"
+      ></mat-datepicker-toggle>
+      <mat-datepicker
+        #pickerProductionYear
+        startView="multi-year"
+        disabled="false"
+        (yearSelected)="onProductionYearSelected($event, pickerProductionYear)"
+      ></mat-datepicker>
+    </mat-form-field>
+
+    <!-- VELIČINA MOTORA -->
+    <mat-form-field>
+      <mat-label>Veličina motora</mat-label>
+      <input matInput type="number" formControlName="engineSize" />
+    </mat-form-field>
+
+    <!-- LOKACIJA -->
+    <mat-form-field>
+      <mat-label>Lokacija</mat-label>
+      <input matInput type="text" formControlName="location" />
+    </mat-form-field>
+
+    <!-- SNAGA -->
+    <mat-form-field>
+      <mat-label>Snaga (kW)</mat-label>
+      <input matInput type="number" formControlName="power" />
+    </mat-form-field>
+
+    <!-- OPIS -->
+    <mat-form-field class="text-area-field">
+      <mat-label>Opis</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+        cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        cdkAutosizeMinRows="1"
+        cdkAutosizeMaxRows="10"
+      ></textarea>
+    </mat-form-field>
+  </div>
+
+  <button mat-raised-button type="submit" [disabled]="carsForm.invalid">
+    Submit
+  </button>
 </form>

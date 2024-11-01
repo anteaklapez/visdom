@@ -25,5 +25,5 @@ export enum Engine {
 
 export enum Transmission {
     MANUAL = 'ručni',
-    AUTOMATIC = 'automatik',
+    AUTOMATIC = 'automatski',
 }

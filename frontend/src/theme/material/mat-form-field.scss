@@ -26,8 +26,16 @@ mat-form-field {
         @include smallBold();
     }
 
+    .mdc-list-item__primary-text {
+        z-index: 2;
+    }
+
     .mat-mdc-autocomplete-panel {
         background-color: color.$white !important;
+    }
+
+    .mat-mdc-option:not([disabled]):hover {
+        background-color: color.$hover !important;
     }
 
     .mat-mdc-text-field-wrapper {
