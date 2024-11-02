@@ -32,9 +32,7 @@
           (optionSelected)="onCarMakeSelected()"
         >
           @for (make of filteredCarBrand$ | async; track make) {
-          <mat-option [value]="make" matRipple [matRippleColor]="rippleColor">{{
-            make
-          }}</mat-option>
+          <mat-option [value]="make">{{ make }}</mat-option>
           }
         </mat-autocomplete>
       </mat-form-field>
@@ -57,36 +55,72 @@
       </mat-form-field>
     </div>
 
-    <!-- SLIKE -->
-    <mat-form-field>
-      <mat-label>Slike</mat-label>
-      <input matInput type="text" formControlName="image" />
-    </mat-form-field>
-  </div>
-
   <div class="info-container">
     <h2>Ostale informacije</h2>
 
+       <!-- SLIKE -->
+       <mat-label class="label-style">Slike</mat-label>
+       <div class="file-button-container">
+         <input
+           type="file"
+           #fileInput
+           (change)="onFileSelect($event)"
+           hidden
+           multiple
+           accept="image/*"
+         />
+         <button
+           type="button"
+           class="add-image-button"
+           mat-raised-button
+           (click)="fileInput.click()"
+           [disableRipple]="true"
+         >
+           <span class="plus-icon">+</span>
+         </button>
+         @if (images.length > 0) {
+         <button mat-button (click)="onClearImages()">Obrišite sve slike</button>
+         }
+       </div>
+   
+       @if (images.length > 0) {
+       <div
+         cdkDropList
+         cdkDropListOrientation="mixed"
+         class="image-list"
+         (cdkDropListDropped)="onImageDrop($event)"
+       >
+         @for (image of images; track image) {
+         <div class="image-icon-container">
+           @if(!isDragging) {
+           <mat-icon (click)="onDeleteImage(image)">remove</mat-icon>
+           }
+           <img
+             [src]="image"
+             alt="Image Preview"
+             class="image-box"
+             cdkDrag
+             (cdkDragStarted)="onDragStarted()"
+             (cdkDragEnded)="onDragEnded()"
+           />
+         </div>
+         }
+       </div>
+       }
+     </div>
+
     <!-- MJENJAČ -->
     <div class="toggle-container">
-      <mat-label>Mjenjač</mat-label>
+      <mat-label class="label-style">Mjenjač</mat-label>
       <mat-button-toggle-group
         name="transmition"
         formControlName="transmission"
       >
-        <mat-button-toggle
-          value="ručni"
-          matRipple
-          [matRippleColor]="rippleColor"
-        >
+        <mat-button-toggle value="ručni">
           <mat-icon>settings</mat-icon>
           <span class="toggle-text">Ručni</span>
         </mat-button-toggle>
-        <mat-button-toggle
-          value="automatski"
-          matRipple
-          [matRippleColor]="rippleColor"
-        >
+        <mat-button-toggle value="automatski">
           <mat-icon>settings_suggest</mat-icon>
           <span class="toggle-text">Automatik</span>
         </mat-button-toggle>
@@ -95,37 +129,21 @@
 
     <!-- GORIVO -->
     <div class="toggle-container">
-      <mat-label>Tip goriva</mat-label>
+      <mat-label class="label-style">Tip goriva</mat-label>
       <mat-button-toggle-group name="transmition" formControlName="engine">
-        <mat-button-toggle
-          value="dizel"
-          matRipple
-          [matRippleColor]="rippleColor"
-        >
+        <mat-button-toggle value="dizel">
           <mat-icon>water_drop</mat-icon>
           <span class="toggle-text">Dizel</span>
         </mat-button-toggle>
-        <mat-button-toggle
-          value="benzin"
-          matRipple
-          [matRippleColor]="rippleColor"
-        >
+        <mat-button-toggle value="benzin">
           <mat-icon>water_drop</mat-icon>
           <span class="toggle-text">Benzin</span>
         </mat-button-toggle>
-        <mat-button-toggle
-          value="hibrid"
-          matRipple
-          [matRippleColor]="rippleColor"
-        >
+        <mat-button-toggle value="hibrid">
           <mat-icon>cyclone</mat-icon>
           <span class="toggle-text">Hibrid</span>
         </mat-button-toggle>
-        <mat-button-toggle
-          value="električni"
-          matRipple
-          [matRippleColor]="rippleColor"
-        >
+        <mat-button-toggle value="električni">
           <mat-icon>bolt</mat-icon>
           <span class="toggle-text">Električni</span>
         </mat-button-toggle>
@@ -210,7 +228,11 @@
     </mat-form-field>
   </div>
 
-  <button mat-raised-button type="submit" [disabled]="carsForm.invalid">
-    Submit
+  <button
+    mat-raised-button
+    type="submit"
+    [disabled]="carsForm.invalid"
+  >
+    Spremi
   </button>
 </form>

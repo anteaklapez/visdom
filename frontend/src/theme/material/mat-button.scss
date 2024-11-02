@@ -1,0 +1,46 @@
+@use '../colors.scss' as color;
+
+/* FAB */
+::ng-deep {
+    .mat-mdc-fab {
+        background-color: color.$white !important;
+    }
+
+    .mat-mdc-focus-overlay {
+        background-color: transparent !important;
+    }
+}
+
+/* RAISED BUTTON */
+::ng-deep {
+    .mat-mdc-raised-button:not(:active) {
+        border-radius: 4px;
+        font-weight: 600;
+        box-shadow: none;
+    }
+    
+    .mat-mdc-raised-button:not(:disabled) {
+        color: color.$text;
+        font-weight: 600;
+        background-color: color.$primary;
+        color: color.$white;
+        border-radius: 4px;
+    }
+
+    .mat-mdc-raised-button:not(:disabled):hover {
+        box-shadow: none;
+        background-color: color.$ripple;
+    }
+
+    .mat-mdc-raised-button:not(:disabled):active {
+        background-color: color.$primary;
+    }
+}
+
+/* BASIC BUTTON */
+::ng-deep {
+    .mat-mdc-button:not(:disabled) {
+        font-weight: 600;
+        color: color.$text;
+    }
+}

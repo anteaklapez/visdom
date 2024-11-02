@@ -1,6 +1,7 @@
 @use '../../../../../theme/material/mat-form-field.scss';
 @use '../../../../../theme/material/mat-datepicker.scss';
 @use '../../../../../theme/material/mat-toggle-group.scss';
+@use '../../../../../theme/material/mat-button.scss';
 @use '../../../../../theme/colors.scss' as color;
 
 form {
@@ -23,13 +24,6 @@ form {
     align-items: start;
     margin-bottom: 1rem;
 
-    mat-label {
-        color: color.$text;
-        font-size: small;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-    }
-
     mat-button-toggle-group {
         margin: 0 auto;
     }
@@ -37,6 +31,37 @@ form {
     .toggle-text {
         margin-left: 0.25rem;
     }
+}
+
+.add-image-button {
+    height: 60px;
+    width: 60px;
+    color: color.$text;
+    background-color: color.$background-dark;
+}
+
+.add-image-button:hover {
+    background-color: color.$background-dark !important;
+}
+
+.plus-icon {
+    font-size: 2rem;
+    display: block;
+    font-weight: 400;
+}
+
+.label-style {
+    color: color.$text;
+    font-size: small;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.file-button-container {
+    margin-bottom: 1rem;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
 }
 
 .info-container {
@@ -56,4 +81,67 @@ form {
 
 .text-area-field {
     height: auto !important;
+}
+
+.image-list {
+    display: flex;
+    flex-wrap: wrap;
+    width: 470px;
+    max-width: 100%;
+    background-color: color.$background-dark;
+    justify-content: center;
+    gap: 15px;
+    padding: 15px;
+    min-height: 60px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.image-icon-container {
+    position: relative;
+
+    mat-icon {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        height: 20px;
+        width: 20px;
+        justify-content: center;
+        color: color.$primary;
+        right: -10px;
+        top: -10px;
+        background-color: white;
+        box-shadow: color.$box-shadow;
+        border-radius: 30px;
+        font-size: large;
+        cursor: pointer;
+    }
+}
+
+.image-box {
+    height: 85px;
+    width: 85px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background: white;
+    object-fit: cover;
+    box-shadow: color.$box-shadow;
+    cursor: move;
+}
+
+.cdk-drag-preview {
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+        0 8px 10px 1px rgba(0, 0, 0, 0.14),
+        0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+    opacity: 0;
+}
+
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }

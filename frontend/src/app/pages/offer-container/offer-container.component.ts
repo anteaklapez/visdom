@@ -1,5 +1,5 @@
-import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { AsyncPipe, CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { OfferFilterComponent } from './offer-filter/offer-filter.component';
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -30,10 +30,8 @@ import { ElseItemComponent } from './offer-items/else-item/else-item.component';
 export class OfferContainerComponent implements OnInit {
   private readonly _route = inject(ActivatedRoute);
   private readonly _breakpointObserver = inject(BreakpointObserver);
-  private readonly _platformId = inject(PLATFORM_ID);
   readonly itemService = inject(ItemService);
 
-  rippleColor!: string;
   isSmallScreen$!: Observable<boolean>;
   selectedCategory: Offer = Offer.CARS;
 
@@ -59,12 +57,6 @@ export class OfferContainerComponent implements OnInit {
     this.isSmallScreen$ = this._breakpointObserver
       .observe('(max-width: 749px)')
       .pipe(map((result) => result.matches));
-
-    if (isPlatformBrowser(this._platformId)) {
-      this.rippleColor = getComputedStyle(document.documentElement)
-        .getPropertyValue('--ripple')
-        .trim();
-    }
   }
 
   public get Offer() {

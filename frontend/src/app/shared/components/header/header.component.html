@@ -34,29 +34,8 @@
 
 <mat-menu #menu="matMenu" [overlapTrigger]="false">
   <span (mouseleave)="menuTrigger.closeMenu()">
-    <button
-      mat-menu-item
-      routerLink="ponuda/vozila"
-      matRipple
-      [matRippleColor]="rippleColor"
-    >
-      Vozila
-    </button>
-    <button
-      mat-menu-item
-      routerLink="ponuda/nekretnine"
-      matRipple
-      [matRippleColor]="rippleColor"
-    >
-      Nekretnie
-    </button>
-    <button
-      mat-menu-item
-      routerLink="ponuda/ostalo"
-      matRipple
-      [matRippleColor]="rippleColor"
-    >
-      Ostalo
-    </button></span
+    <button mat-menu-item routerLink="ponuda/vozila">Vozila</button>
+    <button mat-menu-item routerLink="ponuda/nekretnine">Nekretnie</button>
+    <button mat-menu-item routerLink="ponuda/ostalo">Ostalo</button></span
   >
 </mat-menu>

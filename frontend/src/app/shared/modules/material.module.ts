@@ -25,6 +25,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { TextFieldModule } from '@angular/cdk/text-field';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @Injectable()
 class CustomDateAdapter extends NativeDateAdapter {
@@ -35,6 +36,7 @@ class CustomDateAdapter extends NativeDateAdapter {
 
 @NgModule({
   exports: [
+    DragDropModule,
     LayoutModule,
     MatMenuModule,
     MatButtonModule,
