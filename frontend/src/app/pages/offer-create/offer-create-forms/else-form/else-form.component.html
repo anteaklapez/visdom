@@ -1,1 +1,96 @@
-<p>else-form works!</p>
+@if (isSubmitting) { 
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
+
+<form [formGroup]="basicObjectForm" (ngSubmit)="onSubmit()">
+    <h1>Dodavanje ostalih proizvoda</h1>
+
+    <div class="info-container">
+        <div class="group-container">
+            <!-- NASLOV -->
+            <mat-form-field>
+                <mat-label>Naslov</mat-label>
+                <input matInput type="text" formControlName="title" />
+            </mat-form-field>
+
+            <!-- CIJENA -->
+            <mat-form-field>
+                <mat-label>Cijena (€)</mat-label>
+                <input matInput type="number" formControlName="price" />
+            </mat-form-field>
+        </div>
+
+        <!-- SLIKE -->
+        <mat-label class="label-style">Slike</mat-label>
+        <div class="file-button-container">
+            <input
+                type="file"
+                #fileInput
+                (change)="onFileSelect($event)"
+                hidden
+                multiple
+                accept="image/*"
+            />
+            <button
+                type="button"
+                class="add-image-button"
+                mat-raised-button
+                (click)="fileInput.click()"
+                [disableRipple]="true"
+            >
+                <span class="plus-icon">+</span>
+            </button>
+            @if (images.length > 0) {
+                <button mat-button (click)="onClearImages()">Obrišite sve slike</button>
+            }
+        </div>
+
+        @if (images.length > 0) {
+            <div
+                cdkDropList
+                cdkDropListOrientation="mixed"
+                class="image-list"
+                (cdkDropListDropped)="onImageDrop($event)"
+            >
+                @for (image of images; track image) {
+                    <div class="image-icon-container">
+                        @if(!isDragging) {
+                            <mat-icon (click)="onDeleteImage(image)">remove</mat-icon>
+                        }
+                        <img
+                            [src]="image"
+                            alt="Image Preview"
+                            class="image-box"
+                            cdkDrag
+                            (cdkDragStarted)="onDragStarted()"
+                            (cdkDragEnded)="onDragEnded()"
+                        />
+                    </div>
+                }
+            </div>
+        }
+
+        <!-- OPIS -->
+        <div class="group-container">
+            <mat-form-field class="text-area-field">
+                <mat-label>Opis</mat-label>
+                <textarea
+                    matInput
+                    formControlName="description"
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="1"
+                    cdkAutosizeMaxRows="10"
+                ></textarea>
+            </mat-form-field>
+        </div>
+
+        <button
+            mat-raised-button
+            type="submit"
+            [disabled]="basicObjectForm.invalid || isSubmitting"
+        >
+            Spremi
+        </button>
+    </div>
+</form>

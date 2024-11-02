@@ -16,11 +16,18 @@ form {
     width: 500px;
     margin: 2rem auto;
 
-    h2 {
+    h1, h2 {
         font-weight: 700;
         font-style: italic;
         color: color.$text;
         margin-bottom: 0.5rem;
+    }
+
+    h1 {
+        margin-bottom: 1rem;
+        font-style: normal;
+        text-transform: uppercase;
+        text-align: center;
     }
 }
 

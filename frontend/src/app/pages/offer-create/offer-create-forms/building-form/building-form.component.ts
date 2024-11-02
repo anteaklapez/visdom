@@ -153,7 +153,6 @@ export class BuildingFormComponent implements OnInit {
         } as Image,
       ];
       this.isSubmitting = false;
-      console.log(this.buildingForm.value)
     }
   }
 }
