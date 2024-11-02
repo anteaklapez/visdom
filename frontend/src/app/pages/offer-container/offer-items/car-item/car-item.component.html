@@ -5,15 +5,15 @@
       <mat-card-title class="card-title">{{ car.name }}</mat-card-title>
       <div class="card-details">
         <div class="detail-item">
-          <mat-icon>menu</mat-icon>
+          <mat-icon svgIcon="road"></mat-icon>
           <span>{{ car.mileage | number }} km</span>
         </div>
         <div class="detail-item">
-          <mat-icon>calendar_today</mat-icon>
+          <mat-icon>edit_calendar</mat-icon>
           <span>{{ car.productionYear }}</span>
         </div>
         <div class="detail-item">
-          <mat-icon>power</mat-icon>
+          <mat-icon svgIcon="engine"></mat-icon>
           <span
             >{{ car.power }} kW ({{
               car.power! * 1.34102 | number : "1.0-0"
@@ -22,17 +22,17 @@
           >
         </div>
         <div class="detail-item">
-          <mat-icon>settings</mat-icon>
+          <mat-icon svgIcon="transmission"></mat-icon>
           <span>{{ car.transmission | titlecase }}</span>
         </div>
         <div class="detail-item">
-          <mat-icon>local_gas_station</mat-icon>
+          <mat-icon [svgIcon]="fuelIcon"></mat-icon>
           <span>{{ car.engine | titlecase }}</span>
         </div>
       </div>
       <div class="card-footer">
         <span class="location">
-          <mat-icon>location_on</mat-icon>
+          <mat-icon svgIcon="location-pin"></mat-icon>
           <span class="location-text">{{ car.location }}</span>
         </span>
         <span class="price">€{{ car.price | number }}</span>

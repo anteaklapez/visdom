@@ -7,6 +7,7 @@
 >
   <mat-icon>add</mat-icon>
 </button>
+
 <mat-menu #menu="matMenu" class="mat-menu">
   <button mat-menu-item [routerLink]="['/izrada/vozila']">
     <mat-icon class="z-index">directions_car</mat-icon>
@@ -23,41 +24,51 @@
 </mat-menu>
 
 <!-- FILTER -->
-@if(isSmallScreen$ | async) {
-<mat-accordion>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>Filter</mat-panel-title>
-    </mat-expansion-panel-header>
-    <app-offer-filter></app-offer-filter>
-  </mat-expansion-panel>
-</mat-accordion>
+@if (isSmallScreen$ | async) {
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Filter</mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-offer-filter></app-offer-filter>
+    </mat-expansion-panel>
+  </mat-accordion>
 } @else {
-<app-offer-filter></app-offer-filter>
+  <app-offer-filter></app-offer-filter>
 }
 
 <!-- LIST -->
 <mat-list>
-  @if (selectedCategory === Offer.CARS) { @for (item of itemService.cars$
-  |async; track item.id) {
-  <mat-list-item class="list-item">
-    <app-car [car]="item"></app-car>
-  </mat-list-item>
-  } @empty {
-  <p>Trenutno nema ponude</p>
-  } } @if (selectedCategory === Offer.BUILDINGS) { @for (item of
-  itemService.buildings$ | async; track item.id) {
-  <mat-list-item class="list-item">
-    <app-building [building]="item"></app-building>
-  </mat-list-item>
-  } @empty {
-  <p>Trenutno nema ponude</p>
-  } } @if (selectedCategory === Offer.ELSE) { @for (item of
-  itemService.basicObjects$ | async; track item.id) {
-  <mat-list-item class="list-item">
-    <app-else [basicObject]="item"></app-else>
-  </mat-list-item>
-  } @empty {
-  <p>Trenutno nema ponude</p>
-  } }
+  @if (selectedCategory === Offer.CARS) {
+    @for (item of itemService.cars$ | async; track item.id) {
+      <mat-list-item class="list-item">
+        <app-car [car]="item"></app-car>
+      </mat-list-item>
+    }
+    @empty {
+      <p class="no-offer-text">Trenutno nema ponude vozila</p>
+    }
+  }
+
+  @if (selectedCategory === Offer.BUILDINGS) {
+    @for (item of itemService.buildings$ | async; track item.id) {
+      <mat-list-item class="list-item">
+        <app-building [building]="item"></app-building>
+      </mat-list-item>
+    }
+    @empty {
+      <p class="no-offer-text">Trenutno nema ponude nekretnina</p>
+    }
+  }
+
+  @if (selectedCategory === Offer.ELSE) {
+    @for (item of itemService.basicObjects$ | async; track item.id) {
+      <mat-list-item class="list-item">
+        <app-else [basicObject]="item"></app-else>
+      </mat-list-item>
+    }
+    @empty {
+      <p class="no-offer-text">Trenutno nema ostale ponude</p>
+    }
+  }
 </mat-list>

@@ -7,6 +7,6 @@ export const authRoutes: Routes = [
       import('../auth/login/login.component').then(
         (c) => c.LoginComponent
       ),
-    title: 'Visdom | Prijava',
+    title: 'Vis Dom | Prijava',
   },
 ];

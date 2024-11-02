@@ -77,7 +77,7 @@ export class ItemService {
         description:
           'A well-maintained SUV with a powerful engine and automatic transmission, ideal for city and highway driving.',
         power: 110,
-        engine: Engine.DIESEL,
+        engine: Engine.HYBRID,
         transmission: Transmission.AUTOMATIC,
       },
     ]);

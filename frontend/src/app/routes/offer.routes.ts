@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const offerRoutes: Routes = [
   {
     path: 'izrada/vozila',
-    title: 'Visdom | Izrada Vozila',
+    title: 'Vis Dom | Izrada Vozila',
     loadComponent: () =>
       import('../pages/offer-create/offer-create.component').then(
         (c) => c.OfferCreateComponent
@@ -11,7 +11,7 @@ export const offerRoutes: Routes = [
   },
   {
     path: 'izrada/nekretnine',
-    title: 'Visdom | Izrada Vozila',
+    title: 'Vis Dom | Izrada Vozila',
     loadComponent: () =>
       import('../pages/offer-create/offer-create.component').then(
         (c) => c.OfferCreateComponent
@@ -19,7 +19,7 @@ export const offerRoutes: Routes = [
   },
   {
     path: 'izrada/ostalo',
-    title: 'Visdom | Izrada Vozila',
+    title: 'Vis Dom | Izrada Vozila',
     loadComponent: () =>
       import('../pages/offer-create/offer-create.component').then(
         (c) => c.OfferCreateComponent
@@ -27,7 +27,7 @@ export const offerRoutes: Routes = [
   },
   {
     path: 'ponuda/vozila',
-    title: 'Visdom | Vozila',
+    title: 'Vis Dom | Vozila',
     loadComponent: () =>
       import('../pages/offer-container/offer-container.component').then(
         (c) => c.OfferContainerComponent
@@ -35,7 +35,7 @@ export const offerRoutes: Routes = [
   },
   {
     path: 'ponuda/nekretnine',
-    title: 'Visdom | Nekretnine',
+    title: 'Vis Dom | Nekretnine',
     loadComponent: () =>
       import('../pages/offer-container/offer-container.component').then(
         (c) => c.OfferContainerComponent
@@ -43,7 +43,7 @@ export const offerRoutes: Routes = [
   },
   {
     path: 'ponuda/ostalo',
-    title: 'Visdom | Ostalo',
+    title: 'Vis Dom | Ostalo',
     loadComponent: () =>
       import('../pages/offer-container/offer-container.component').then(
         (c) => c.OfferContainerComponent
@@ -51,7 +51,7 @@ export const offerRoutes: Routes = [
   },
   {
     path: 'ponuda/vozila/:id',
-    title: 'Visdom | Vozila',
+    title: 'Vis Dom | Vozila',
     loadComponent: () =>
       import('../pages/offer-details/offer-details.component').then(
         (c) => c.OfferDetailsComponent
@@ -59,7 +59,7 @@ export const offerRoutes: Routes = [
   },
   {
     path: 'ponuda/nekretnine/:id',
-    title: 'Visdom | Nekretnine',
+    title: 'Vis Dom | Nekretnine',
     loadComponent: () =>
       import('../pages/offer-details/offer-details.component').then(
         (c) => c.OfferDetailsComponent
@@ -67,7 +67,7 @@ export const offerRoutes: Routes = [
   },
   {
     path: 'ponuda/ostalo/:id',
-    title: 'Visdom | Ostalo',
+    title: 'Vis Dom | Ostalo',
     loadComponent: () =>
       import('../pages/offer-details/offer-details.component').then(
         (c) => c.OfferDetailsComponent

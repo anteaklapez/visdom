@@ -1,0 +1,16 @@
+.card-data {
+    width: 100%;
+}
+
+.price {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-left: 1rem;
+}
+
+@media screen and (max-width: 599px) {
+    .card-data {
+        width: auto;
+    }
+}

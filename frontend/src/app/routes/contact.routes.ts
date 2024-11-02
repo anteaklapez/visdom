@@ -7,6 +7,6 @@ export const contactRoutes: Routes = [
       import('../pages/contact/contact.component').then(
         (c) => c.ContactComponent
       ),
-    title: 'Visdom | Kontakt',
+    title: 'Vis Dom | Kontakt',
   },
 ];
