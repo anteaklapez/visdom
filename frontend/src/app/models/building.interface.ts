@@ -1,9 +1,11 @@
+import { Image } from "./basic-object.interface";
+
 export interface Building {
   id: string;
   location: string;
   title: string;
   price: number;
-  image: string[];
+  image: Image[];
   roomNumber?: number;
   buildingArea?: number;
   gardenArea?: number;

@@ -1,3 +1,6 @@
+@if (isSubmitting) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
 <form [formGroup]="carsForm" (ngSubmit)="onSubmit()">
   <div class="info-container">
     <h2>Obavezne informacije</h2>
@@ -55,59 +58,59 @@
       </mat-form-field>
     </div>
 
-  <div class="info-container">
-    <h2>Ostale informacije</h2>
+    <div class="info-container">
+      <h2>Ostale informacije</h2>
 
-       <!-- SLIKE -->
-       <mat-label class="label-style">Slike</mat-label>
-       <div class="file-button-container">
-         <input
-           type="file"
-           #fileInput
-           (change)="onFileSelect($event)"
-           hidden
-           multiple
-           accept="image/*"
-         />
-         <button
-           type="button"
-           class="add-image-button"
-           mat-raised-button
-           (click)="fileInput.click()"
-           [disableRipple]="true"
-         >
-           <span class="plus-icon">+</span>
-         </button>
-         @if (images.length > 0) {
-         <button mat-button (click)="onClearImages()">Obrišite sve slike</button>
-         }
-       </div>
-   
-       @if (images.length > 0) {
-       <div
-         cdkDropList
-         cdkDropListOrientation="mixed"
-         class="image-list"
-         (cdkDropListDropped)="onImageDrop($event)"
-       >
-         @for (image of images; track image) {
-         <div class="image-icon-container">
-           @if(!isDragging) {
-           <mat-icon (click)="onDeleteImage(image)">remove</mat-icon>
-           }
-           <img
-             [src]="image"
-             alt="Image Preview"
-             class="image-box"
-             cdkDrag
-             (cdkDragStarted)="onDragStarted()"
-             (cdkDragEnded)="onDragEnded()"
-           />
-         </div>
-         }
-       </div>
-       }
-     </div>
+      <!-- SLIKE -->
+      <mat-label class="label-style">Slike</mat-label>
+      <div class="file-button-container">
+        <input
+          type="file"
+          #fileInput
+          (change)="onFileSelect($event)"
+          hidden
+          multiple
+          accept="image/*"
+        />
+        <button
+          type="button"
+          class="add-image-button"
+          mat-raised-button
+          (click)="fileInput.click()"
+          [disableRipple]="true"
+        >
+          <span class="plus-icon">+</span>
+        </button>
+        @if (images.length > 0) {
+        <button mat-button (click)="onClearImages()">Obrišite sve slike</button>
+        }
+      </div>
+
+      @if (images.length > 0) {
+      <div
+        cdkDropList
+        cdkDropListOrientation="mixed"
+        class="image-list"
+        (cdkDropListDropped)="onImageDrop($event)"
+      >
+        @for (image of images; track image) {
+        <div class="image-icon-container">
+          @if(!isDragging) {
+          <mat-icon (click)="onDeleteImage(image)">remove</mat-icon>
+          }
+          <img
+            [src]="image"
+            alt="Image Preview"
+            class="image-box"
+            cdkDrag
+            (cdkDragStarted)="onDragStarted()"
+            (cdkDragEnded)="onDragEnded()"
+          />
+        </div>
+        }
+      </div>
+      }
+    </div>
 
     <!-- MJENJAČ -->
     <div class="toggle-container">
@@ -231,7 +234,7 @@
   <button
     mat-raised-button
     type="submit"
-    [disabled]="carsForm.invalid"
+    [disabled]="carsForm.invalid || isSubmitting"
   >
     Spremi
   </button>

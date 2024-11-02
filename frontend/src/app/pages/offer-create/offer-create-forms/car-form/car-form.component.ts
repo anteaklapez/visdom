@@ -8,31 +8,34 @@ import {
 } from '@angular/forms';
 import { MaterialModule } from '../../../../shared/modules/material.module';
 import { forkJoin, map, Observable, startWith } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgFor } from '@angular/common';
 import { CarMake } from '../../../../models/car-make.enum';
 import { getCarModels } from '../../../../models/car-model.enum';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { environment } from '../../../../../environments/environment';
 import * as uuid from 'uuid';
-import { ImgurService } from '../../../../services/imgur.service';
+import { ImgbbService } from '../../../../services/imgbb.service';
+import { Image } from '../../../../models/basic-object.interface';
 
-const DEFAULT_IMAGE = environment.defaultImage;
+const DEFAULT_IMAGE_FULL = environment.defaultImageFull;
+const DEFAULT_IMAGE_SMALL = environment.defaultImageSmall;
 
 @Component({
   selector: 'app-car-form',
   standalone: true,
-  imports: [ReactiveFormsModule, MaterialModule, AsyncPipe],
+  imports: [ReactiveFormsModule, MaterialModule, AsyncPipe, NgFor],
   templateUrl: './car-form.component.html',
   styleUrl: './car-form.component.scss',
 })
 export class CarFormComponent implements OnInit {
   private readonly _fb = inject(FormBuilder);
-  private readonly _imgurService = inject(ImgurService);
+  private readonly _imgbbService = inject(ImgbbService);
 
   filteredCarBrand$!: Observable<string[] | undefined> | undefined;
   filteredCarModel$!: Observable<string[] | undefined> | undefined;
   isDragging: boolean = false;
+  isSubmitting: boolean = false;
   carsForm!: FormGroup;
   previewUrl: string | ArrayBuffer | null = null;
   images: string[] = [];
@@ -139,42 +142,60 @@ export class CarFormComponent implements OnInit {
 
   onFileSelect(event: any) {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files?.length) {
-      this.selectedFiles = Array.from(input.files);
+    if (input.files && input.files.length) {
+      const selectedFiles = Array.from(input.files);
 
-      this.selectedFiles.forEach((file) => {
+      selectedFiles.forEach((file) => {
         const reader = new FileReader();
         reader.onload = () => {
-          this.images.push(reader.result as string);
+          const imageDataUrl = reader.result as string;
+
+          if (!this.images.includes(imageDataUrl)) {
+            this.images.push(imageDataUrl);
+          }
         };
         reader.readAsDataURL(file);
       });
-      this.selectedFiles = [];
     }
   }
 
   onSubmit() {
-    if (this.carsForm.valid) {
-      this.carsForm.value.id = uuid.v4();
-      console.log(this.images)
-      if (this.images.length > 0) {
-        const uploadObservables = this.images.map(image =>
-          this._imgurService.uploadXhr(image)
-        );
-  
-        forkJoin(uploadObservables).subscribe({
-          next: (urls) => {
-            this.carsForm.value.image = urls.length ? urls : [DEFAULT_IMAGE];
-            console.log('Form Submitted:', this.carsForm.value);
-          },
-          error: (err) => {
-            console.error('Upload Error:', err);
-          }
-        });
-      } else {
-        this.carsForm.value.image = [DEFAULT_IMAGE];
-        console.log('Form Submitted:', this.carsForm.value);
-      }
+    if (!this.carsForm.valid) return;
+    this.isSubmitting = true;
+    this.carsForm.value.id = uuid.v4();
+
+    if (this.images.length > 0) {
+      const uploadObservables = this.images.map((image) =>
+        this._imgbbService.uploadToImgbb(image)
+      );
+
+      forkJoin(uploadObservables).subscribe({
+        next: (responses) => {
+          this.carsForm.value.image = responses.map((response) => {
+            return {
+              id: response.data.id,
+              full: response.data.image.url,
+              small: response.data.thumb.url,
+            } as Image;
+          });
+        },
+        error: (err) => {
+          console.error('Upload Error:', err);
+          this.isSubmitting = false;
+        },
+        complete: () => {
+          this.isSubmitting = false;
+        },
+      });
+    } else {
+      this.carsForm.value.image = [
+        {
+          id: uuid.v4(),
+          full: DEFAULT_IMAGE_FULL,
+          small: DEFAULT_IMAGE_SMALL,
+        } as Image,
+      ];
+      this.isSubmitting = false;
     }
-  }  
+  }
 }

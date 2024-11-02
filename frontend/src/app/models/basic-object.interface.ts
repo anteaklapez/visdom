@@ -3,5 +3,11 @@ export interface BasicObject {
     subject: string;
     price: number;
     description: string;
-    image: string[];
+    image: Image[];
+}
+
+export interface Image {
+    id: string;
+    full: string;
+    small: string;
 }

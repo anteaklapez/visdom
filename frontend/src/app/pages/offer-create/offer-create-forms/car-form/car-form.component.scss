@@ -4,6 +4,12 @@
 @use '../../../../../theme/material/mat-button.scss';
 @use '../../../../../theme/colors.scss' as color;
 
+mat-progress-bar {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
 form {
     display: flex;
     flex-direction: column;
