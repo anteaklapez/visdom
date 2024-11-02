@@ -1,1 +1,163 @@
-<p>building-form works!</p>
+@if (isSubmitting) { 
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
+
+<form [formGroup]="buildingForm" (ngSubmit)="onSubmit()">
+    <div class="info-container">
+        <h2>Obavezne informacije</h2>
+
+        <div class="group-container">
+            <!-- NASLOV -->
+            <mat-form-field>
+                <mat-label>Naslov</mat-label>
+                <input matInput type="text" formControlName="title" />
+            </mat-form-field>
+
+            <!-- CIJENA -->
+            <mat-form-field>
+                <mat-label>Cijena (€)</mat-label>
+                <input matInput type="number" formControlName="price" />
+            </mat-form-field>
+        </div>
+
+        <!-- LOKACIJA -->
+        <div class="group-container">
+            <mat-form-field>
+                <mat-label>Lokacija</mat-label>
+                <input matInput type="text" formControlName="location" />
+            </mat-form-field>
+        </div>
+
+        <h2>Ostale informacije</h2>
+
+        <!-- SLIKE -->
+        <mat-label class="label-style">Slike</mat-label>
+        <div class="file-button-container">
+            <input
+                type="file"
+                #fileInput
+                (change)="onFileSelect($event)"
+                hidden
+                multiple
+                accept="image/*"
+            />
+            <button
+                type="button"
+                class="add-image-button"
+                mat-raised-button
+                (click)="fileInput.click()"
+                [disableRipple]="true"
+            >
+                <span class="plus-icon">+</span>
+            </button>
+            @if (images.length > 0) {
+                <button mat-button (click)="onClearImages()">Obrišite sve slike</button>
+            }
+        </div>
+
+        @if (images.length > 0) {
+            <div
+                cdkDropList
+                cdkDropListOrientation="mixed"
+                class="image-list"
+                (cdkDropListDropped)="onImageDrop($event)"
+            >
+                @for (image of images; track image) {
+                    <div class="image-icon-container">
+                        @if(!isDragging) {
+                            <mat-icon (click)="onDeleteImage(image)">remove</mat-icon>
+                        }
+                        <img
+                            [src]="image"
+                            alt="Image Preview"
+                            class="image-box"
+                            cdkDrag
+                            (cdkDragStarted)="onDragStarted()"
+                            (cdkDragEnded)="onDragEnded()"
+                        />
+                    </div>
+                }
+            </div>
+        }
+
+        <!-- POVRŠINA -->
+        <mat-label class="label-style">Površina (m²)</mat-label> 
+        <div class="group-container">
+            <mat-form-field>
+                <mat-label>Objekta</mat-label>
+                <input matInput type="number" formControlName="buildingArea" />
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Okućnice</mat-label>
+                <input matInput type="number" formControlName="gardenArea" />
+            </mat-form-field>
+        </div>
+
+        <!-- TIP GRAĐEVINE -->
+        <div class="group-container">
+            <mat-form-field>
+                <mat-label>Tip građevine</mat-label>
+                <input
+                    type="text"
+                    aria-label="Tip građevine"
+                    matInput
+                    formControlName="buildingType"
+                    [matAutocomplete]="auto"
+                />
+                <mat-autocomplete #auto="matAutocomplete">
+                    @for (type of filteredBuildingType$ | async; track type) {
+                        <mat-option [value]="type">{{ type }}</mat-option>
+                    }
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Broj soba</mat-label>
+                <input matInput type="number" formControlName="roomNumber" />
+            </mat-form-field>
+        </div>
+
+        <!-- GODINA PROIZVODNJE -->
+        <div class="group-container">
+            <mat-form-field>
+                <mat-label>Godina proizvodnje</mat-label>
+                <input
+                    matInput
+                    formControlName="buildYear"
+                    [matDatepicker]="pickerBuildYear"
+                />
+                <mat-datepicker-toggle matIconSuffix [for]="pickerBuildYear"></mat-datepicker-toggle>
+                <mat-datepicker
+                    #pickerBuildYear
+                    startView="multi-year"
+                    disabled="false"
+                    (yearSelected)="onBuildYearSelected($event, pickerBuildYear)"
+                ></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <!-- OPIS -->
+        <div class="group-container">
+            <mat-form-field class="text-area-field">
+                <mat-label>Opis</mat-label>
+                <textarea
+                    matInput
+                    formControlName="description"
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="1"
+                    cdkAutosizeMaxRows="10"
+                ></textarea>
+            </mat-form-field>
+        </div>
+
+        <button
+            mat-raised-button
+            type="submit"
+            [disabled]="buildingForm.invalid || isSubmitting"
+        >
+            Spremi
+        </button>
+    </div>
+</form>

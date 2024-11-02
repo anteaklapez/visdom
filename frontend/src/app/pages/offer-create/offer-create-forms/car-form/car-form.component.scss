@@ -151,3 +151,26 @@ form {
 .cdk-drag-animating {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+
+@media screen and (max-width: 549px) {
+    form {
+        width: 90vw;
+    }
+
+    .image-list {
+        width: 80vw;
+        margin: 0 auto;
+        margin-bottom: 1rem;
+    }
+
+    mat-button-toggle-group {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .mat-button-toggle {
+        border: none !important;
+        border-radius: 4px;
+    }
+}

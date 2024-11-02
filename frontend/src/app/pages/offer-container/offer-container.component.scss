@@ -219,6 +219,10 @@ mat-list-item {
 }
 
 @media screen and (max-width: 599px) {
+    .fab {
+        right: 20px;
+    }
+
     mat-list {
         width: 90vw;
     }

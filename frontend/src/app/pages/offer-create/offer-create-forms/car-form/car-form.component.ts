@@ -8,15 +8,15 @@ import {
 } from '@angular/forms';
 import { MaterialModule } from '../../../../shared/modules/material.module';
 import { forkJoin, map, Observable, startWith } from 'rxjs';
-import { AsyncPipe, NgFor } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { CarMake } from '../../../../models/car-make.enum';
 import { getCarModels } from '../../../../models/car-model.enum';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { environment } from '../../../../../environments/environment';
-import * as uuid from 'uuid';
 import { ImgbbService } from '../../../../services/imgbb.service';
 import { Image } from '../../../../models/basic-object.interface';
+import * as uuid from 'uuid';
 
 const DEFAULT_IMAGE_FULL = environment.defaultImageFull;
 const DEFAULT_IMAGE_SMALL = environment.defaultImageSmall;
@@ -24,7 +24,7 @@ const DEFAULT_IMAGE_SMALL = environment.defaultImageSmall;
 @Component({
   selector: 'app-car-form',
   standalone: true,
-  imports: [ReactiveFormsModule, MaterialModule, AsyncPipe, NgFor],
+  imports: [ReactiveFormsModule, MaterialModule, AsyncPipe],
   templateUrl: './car-form.component.html',
   styleUrl: './car-form.component.scss',
 })

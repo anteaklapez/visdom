@@ -1,6 +1,7 @@
 @if (isSubmitting) {
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 }
+
 <form [formGroup]="carsForm" (ngSubmit)="onSubmit()">
   <div class="info-container">
     <h2>Obavezne informacije</h2>
@@ -35,7 +36,7 @@
           (optionSelected)="onCarMakeSelected()"
         >
           @for (make of filteredCarBrand$ | async; track make) {
-          <mat-option [value]="make">{{ make }}</mat-option>
+            <mat-option [value]="make">{{ make }}</mat-option>
           }
         </mat-autocomplete>
       </mat-form-field>
@@ -52,7 +53,7 @@
         />
         <mat-autocomplete #autoModel="matAutocomplete">
           @for (model of filteredCarModel$ | async; track model) {
-          <mat-option [value]="model">{{ model }}</mat-option>
+            <mat-option [value]="model">{{ model }}</mat-option>
           }
         </mat-autocomplete>
       </mat-form-field>
@@ -82,33 +83,33 @@
           <span class="plus-icon">+</span>
         </button>
         @if (images.length > 0) {
-        <button mat-button (click)="onClearImages()">Obrišite sve slike</button>
+          <button mat-button (click)="onClearImages()">Obrišite sve slike</button>
         }
       </div>
 
       @if (images.length > 0) {
-      <div
-        cdkDropList
-        cdkDropListOrientation="mixed"
-        class="image-list"
-        (cdkDropListDropped)="onImageDrop($event)"
-      >
-        @for (image of images; track image) {
-        <div class="image-icon-container">
-          @if(!isDragging) {
-          <mat-icon (click)="onDeleteImage(image)">remove</mat-icon>
+        <div
+          cdkDropList
+          cdkDropListOrientation="mixed"
+          class="image-list"
+          (cdkDropListDropped)="onImageDrop($event)"
+        >
+          @for (image of images; track image) {
+            <div class="image-icon-container">
+              @if(!isDragging) {
+                <mat-icon (click)="onDeleteImage(image)">remove</mat-icon>
+              }
+              <img
+                [src]="image"
+                alt="Image Preview"
+                class="image-box"
+                cdkDrag
+                (cdkDragStarted)="onDragStarted()"
+                (cdkDragEnded)="onDragEnded()"
+              />
+            </div>
           }
-          <img
-            [src]="image"
-            alt="Image Preview"
-            class="image-box"
-            cdkDrag
-            (cdkDragStarted)="onDragStarted()"
-            (cdkDragEnded)="onDragEnded()"
-          />
         </div>
-        }
-      </div>
       }
     </div>
 
@@ -153,10 +154,11 @@
       </mat-button-toggle-group>
     </div>
 
+    <mat-label class="label-style">Godina</mat-label> 
     <div class="group-container">
       <!-- GODINA MODELA -->
       <mat-form-field>
-        <mat-label>Godina modela</mat-label>
+        <mat-label>Modela</mat-label>
         <input
           matInput
           formControlName="modelYear"
@@ -176,7 +178,7 @@
 
       <!-- GODINA PROIZVODNJE -->
       <mat-form-field>
-        <mat-label>Godina proizvodnje</mat-label>
+        <mat-label>Proizvodnje</mat-label>
         <input
           matInput
           formControlName="productionYear"
@@ -190,9 +192,7 @@
           #pickerProductionYear
           startView="multi-year"
           disabled="false"
-          (yearSelected)="
-            onProductionYearSelected($event, pickerProductionYear)
-          "
+          (yearSelected)="onProductionYearSelected($event, pickerProductionYear)"
         ></mat-datepicker>
       </mat-form-field>
     </div>
