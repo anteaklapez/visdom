@@ -1,6 +1,5 @@
 from typing import Annotated
 from datetime import timedelta, datetime, timezone
-import fake_db
 
 from fastapi import Depends, APIRouter, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
