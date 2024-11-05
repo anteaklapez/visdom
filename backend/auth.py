@@ -1,3 +1,4 @@
+import uuid
 from typing import Annotated
 from datetime import timedelta, datetime, timezone
 
@@ -9,6 +10,11 @@ import jwt
 from jwt.exceptions import InvalidTokenError
 import os
 from dotenv import load_dotenv
+from sqlalchemy.testing.suite.test_reflection import users
+
+from database import get_db, Base
+from sqlalchemy.orm import Session
+from sqlalchemy import Column, String, UUID
 
 
 load_dotenv()
@@ -27,27 +33,31 @@ class TokenData(BaseModel):
 
 router = APIRouter()
 
-
-
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 pwd_context = CryptContext(schemes=["bcrypt"])
 
 
 class User(BaseModel):
     username: str
-    email: str | None = None
-    full_name: str | None = None
-    disabled: bool | None = None
+    email: str
 
 
-class UserInDB(User):
+class UserOUT(User):
     hashed_password: str
 
+class UserDB(Base):
+    __tablename__ = "users"
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    username = Column(String, primary_key=False, nullable=False)
+    email = Column(String, unique=True, nullable=False)
+    hashed_password = Column(String, nullable=False)
 
-def get_user(db, username: str):
-    if username in db:
-        user_dict = db[username]
-        return UserInDB(**user_dict)
+
+def get_user(db: Annotated[Session, Depends(get_db())], username: str):
+    user = db.query(UserDB).filter(UserDB.username == username).first()
+    if not user:
+        return False
+    return user
     
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
@@ -55,8 +65,8 @@ def verify_password(plain_password, hashed_password):
 def get_password_hashed(password):
     return pwd_context.hash(password)
 
-def authenticate_user(fake_db, username: str, password: str):
-    user = get_user(fake_db, username)
+def authenticate_user(db: Annotated[Session, Depends(get_db())], username: str, password: str):
+    user = get_user(db, username)
     if not user:
         return False
     if not verify_password(password, user.hashed_password):
@@ -76,7 +86,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
 
 
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Annotated[Session, Depends(get_db())]):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -91,7 +101,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     except InvalidTokenError:
         raise credentials_exception
     
-    user = get_user(fake_db, username=token_data.username)
+    user = get_user(db, username=token_data.username)
     if user is None:
         raise credentials_exception
     return user
@@ -106,8 +116,8 @@ async def get_current_active_user(
 
 
 @router.post("/token")
-async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Token:
-    user = authenticate_user(fake_db, form_data.username, form_data.password)
+async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Annotated[Session, Depends(get_db())]) -> Token:
+    user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
