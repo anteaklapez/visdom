@@ -1,20 +1,17 @@
-import uuid
 from typing import Annotated
 from datetime import timedelta, datetime, timezone
 
 from fastapi import Depends, APIRouter, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from pydantic import BaseModel
 from passlib.context import CryptContext
 import jwt
 from jwt.exceptions import InvalidTokenError
 import os
 from dotenv import load_dotenv
-from sqlalchemy.testing.suite.test_reflection import users
 
-from database import get_db, Base
+from backend.models import Token, TokenData, User, UserDB
+from database import get_db
 from sqlalchemy.orm import Session
-from sqlalchemy import Column, String, UUID
 
 
 load_dotenv()
@@ -23,34 +20,10 @@ SECRET_KEY = os.getenv('JWT_SECRET')
 ALGORITHM = os.getenv('ALGORITHM')
 ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv("JWT_EXPIRY")
 
-
-class Token(BaseModel):
-    access_token: str
-    token_type: str
-
-class TokenData(BaseModel):
-    username: str | None = None
-
 router = APIRouter()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 pwd_context = CryptContext(schemes=["bcrypt"])
-
-
-class User(BaseModel):
-    username: str
-    email: str
-
-
-class UserOUT(User):
-    hashed_password: str
-
-class UserDB(Base):
-    __tablename__ = "users"
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    username = Column(String, primary_key=False, nullable=False)
-    email = Column(String, unique=True, nullable=False)
-    hashed_password = Column(String, nullable=False)
 
 
 def get_user(db: Annotated[Session, Depends(get_db())], username: str):
@@ -124,7 +97,7 @@ async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: 
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(minutes=int(ACCESS_TOKEN_EXPIRE_MINUTES))
     access_token = create_access_token(data = {"sub": user.username}, expires_delta=access_token_expires) 
     return Token(access_token=access_token, token_type="bearer")
 
