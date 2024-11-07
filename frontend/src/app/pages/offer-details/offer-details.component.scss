@@ -1,0 +1,105 @@
+@use '../../../theme/colors.scss' as color;
+@use '../../../theme/material/mat-button.scss';
+@use '../../../theme/carousel.scss';
+
+.carousel-section {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+    background-color: color.$background;
+
+    .carousel-container {
+        width: 1000px;
+
+        .f-carousel__slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image {
+            width: 100%;
+            height: 480px;
+            object-fit: contain;
+        }
+    }
+
+    .offer-title-container {
+        width: 600px;
+        text-align: start;
+        padding: 0 1rem;
+
+        .offer-title {
+            color: color.$text;
+
+            h1 {
+                font-weight: 600;
+                margin-bottom: 0;
+            }
+
+            span {
+                font-size: medium;
+                font-style: italic;
+                font-weight: 500;
+            }
+        }
+
+        .offer-icons {
+            display: flex;
+            justify-content: space-evenly;
+            margin: 2rem 0;
+
+            .icon-design {
+                display: flex;
+                align-items: center;
+                gap: 0.25rem;
+                font-weight: 600;
+                padding: 0.25rem 1rem;
+                border-radius: 100px;
+                font-size: small;
+                background-color: color.$background-dark;
+            }
+        }
+
+        .offer-price {
+            display: flex;
+            margin: 1.5rem 0;
+            justify-content: flex-end;
+
+            &>div {
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+                gap: 0.5rem;
+                background-color: #FAF8F3;
+                box-shadow: color.$box-shadow;
+                border-radius: 4px;
+                padding: 1rem;
+                padding-top: 0.5rem;
+
+                span {
+                    font-size: xx-large;
+                    font-weight: bolder;
+                    color: #F75B39;
+                }
+
+                small {
+                    font-style: italic;
+                    font-weight: 500;
+                }
+            }
+        }
+
+        .offer-title-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .offer-title-buttons>button {
+            font-size: large;
+            font-style: italic;
+        }
+    }
+
+}

@@ -11,6 +11,39 @@ export class ItemService {
   private _itemSubject$: BehaviorSubject<(Car | Building | BasicObject)[]> =
     new BehaviorSubject<(Car | Building | BasicObject)[]>([
       {
+        name: 'Pravo dobri vw',
+        brand: 'VW',
+        model: 'Golf 8',
+        image: [
+            {
+                id: 'q1VkBFq',
+                full: 'https://i.ibb.co/zfDGsH9/ea9cec680629.png',
+                small: 'https://i.ibb.co/q1VkBFq/ea9cec680629.png'
+            },
+            {
+                id: 'C1fm9fC',
+                full: 'https://i.ibb.co/3rn4Fn6/6699cf055172.png',
+                small: 'https://i.ibb.co/C1fm9fC/6699cf055172.png'
+            },
+            {
+                id: 'F8pqwzM',
+                full: 'https://i.ibb.co/9yP3TWL/fae007a4ac10.png',
+                small: 'https://i.ibb.co/F8pqwzM/fae007a4ac10.png'
+            }
+        ],
+        price: 30000,
+        mileage: 178500,
+        engineSize: 2,
+        location: 'Zagreb',
+        productionYear: '2016',
+        modelYear: '2016',
+        description: 'Pravo dobar auto\nBato ima ga se',
+        power: 100,
+        engine: Engine.DIESEL,
+        transmission: Transmission.AUTOMATIC,
+        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3'
+    },
+      {
         id: 'sauce',
         location: 'Dubrovnik',
         title: 'Luxury Villa with Sea View',

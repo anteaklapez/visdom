@@ -10,7 +10,7 @@
       <div class="card-details">
         <div class="detail-item">
           <mat-icon>crop</mat-icon>
-          <span>{{ building.buildingArea | number }} m²</span>
+          <span>{{ building.buildingArea | number : "1.0-0" }} m²</span>
         </div>
         <div class="detail-item">
           <mat-icon>edit_calendar</mat-icon>
@@ -18,7 +18,7 @@
         </div>
         <div class="detail-item">
           <mat-icon>settings</mat-icon>
-          <span>{{ building.gardenArea | number }}</span>
+          <span>{{ building.gardenArea | number : "1.0-0" }}</span>
         </div>
       </div>
       <div class="card-footer">

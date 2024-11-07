@@ -31,7 +31,10 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/theme/visdom-theme.scss"
+              "src/theme/visdom-theme.scss",
+              "@fancyapps/ui/dist/fancybox/fancybox.css",
+              "@fancyapps/ui/dist/carousel/carousel.css",
+              "@fancyapps/ui/dist/carousel/carousel.thumbs.css"
             ],
             "scripts": [],
             "server": "src/main.server.ts",

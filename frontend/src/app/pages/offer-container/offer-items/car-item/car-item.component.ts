@@ -1,9 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { MaterialModule } from '../../../../shared/modules/material.module';
 import { CommonModule } from '@angular/common';
 import { Car, Engine } from '../../../../models/car.interface';
 import { IconsModule } from '../../../../shared/modules/icons.module';
 import { RouterLink } from '@angular/router';
+import { map, Observable } from 'rxjs';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-car',
@@ -16,11 +18,19 @@ import { RouterLink } from '@angular/router';
   ],
 })
 export class CarItemComponent implements OnInit {
+  private readonly _breakpointObserver = inject(BreakpointObserver);
+
   @Input() car!: Car;
+
   fuelIcon!: string;
+  isSmallScreen$!: Observable<boolean>;
 
   ngOnInit(): void {
     this._getCarFuelTypeIcon();
+
+    this.isSmallScreen$ = this._breakpointObserver
+      .observe('(max-width: 599px)')
+      .pipe(map((result) => result.matches));
   }
 
   private _getCarFuelTypeIcon() {

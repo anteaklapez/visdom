@@ -59,6 +59,7 @@ export class CarFormComponent implements OnInit {
       engineSize: ['', [Validators.min(0), Validators.max(10000000)]],
       location: [''],
       description: [''],
+      mileage: ['', [Validators.min(0), Validators.max(10000000)]],
       power: ['', [Validators.min(0), Validators.max(10000000)]],
       engine: [''],
       transmission: [''],
@@ -184,6 +185,7 @@ export class CarFormComponent implements OnInit {
           this.isSubmitting = false;
         },
         complete: () => {
+          console.log('Uploaded form value:', this.carsForm.value);
           this.isSubmitting = false;
         },
       });

@@ -37,6 +37,17 @@
     }
 }
 
+/* OUTLINED BUTTON */
+::ng-deep {
+    .mat-mdc-outlined-button:not(:disabled) {
+        font-weight: 600;
+        color: color.$primary;
+        border-radius: 4px;
+        border-color: color.$primary;
+        border-width: 2px;
+    }
+}
+
 /* BASIC BUTTON */
 ::ng-deep {
     .mat-mdc-button:not(:disabled) {

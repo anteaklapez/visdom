@@ -213,11 +213,19 @@
       </mat-form-field>
     </div>
 
-    <!-- LOKACIJA -->
-    <mat-form-field>
-      <mat-label>Lokacija</mat-label>
-      <input matInput type="text" formControlName="location" />
-    </mat-form-field>
+    <div class="group-container">
+      <!-- KILOMETRAŽA -->
+      <mat-form-field>
+        <mat-label>Kilometraža</mat-label>
+        <input matInput type="number" formControlName="mileage" />
+      </mat-form-field>
+
+      <!-- LOKACIJA -->
+      <mat-form-field>
+        <mat-label>Lokacija</mat-label>
+        <input matInput type="text" formControlName="location" />
+      </mat-form-field>
+    </div>
 
     <!-- OPIS -->
     <mat-form-field class="text-area-field">
