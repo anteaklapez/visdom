@@ -109,4 +109,16 @@ export class ItemService {
       )
     );
   }
+
+  getItemById(id: string): Observable<(Car | Building | BasicObject) | undefined> {
+    return this._itemSubject$.pipe(
+      map((items: (Car | Building | BasicObject)[]): (Car | Building | BasicObject) | undefined =>
+        items.find((item) => item.id === id)
+      )
+    );
+  }
+
+  doesItemExist(id: string): boolean {
+    return this._itemSubject$.value.some((item) => item.id === id);
+  }
 }

@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card routerLink="{{ car.id }}" matRipple>
   <mat-card-content class="card-content">
     <img [src]="car.image[0].small" alt="{{ car.name }} image" class="card-image" />
     <div class="card-data">

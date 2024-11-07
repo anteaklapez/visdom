@@ -3,11 +3,12 @@ import { MaterialModule } from '../../../../shared/modules/material.module';
 import { CommonModule } from '@angular/common';
 import { Car, Engine } from '../../../../models/car.interface';
 import { IconsModule } from '../../../../shared/modules/icons.module';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-car',
   standalone: true,
-  imports: [MaterialModule, IconsModule, CommonModule],
+  imports: [MaterialModule, IconsModule, CommonModule, RouterLink],
   templateUrl: './car-item.component.html',
   styleUrls: [
     './car-item.component.scss',
