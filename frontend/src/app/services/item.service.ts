@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { BasicObject } from '../models/basic-object.interface';
-import { Building, BuildingType } from '../models/building.interface';
-import { Car, Engine, Transmission } from '../models/car.interface';
+import { Building, BuildingType, Floors } from '../models/building.interface';
+import { BodyShape, Car, DriveType, EmissionClass, Engine, Interior, Transmission } from '../models/car.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -36,13 +36,26 @@ export class ItemService {
         engineSize: 2,
         location: 'Zagreb',
         productionYear: '2016',
+        type: 'TSI DSG',
         modelYear: '2016',
         description: 'Pravo dobar auto\nBato ima ga se',
         power: 100,
         engine: Engine.DIESEL,
         transmission: Transmission.AUTOMATIC,
+        driveType: DriveType.FRONT_WHEEL_DRIVE,
+        doorNumber: 5,
+        seatNumber: 5,
+        bodyShape: BodyShape.HATCHBACK,
+        registration: '04/2025',
+        consumption: 6.5,
+        bodyColor: 'plava',
+        interiorColor: 'crna',
+        interiorMaterial: Interior.LEATHER,
+        vin: 'WVWZZZ1KZDP123456',
+        emission: 120,
+        emissionsClass: EmissionClass.EURO_6,
         id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3'
-    },
+      },
       {
         id: 'sauce',
         location: 'Dubrovnik',
@@ -62,10 +75,12 @@ export class ItemService {
         buildingType: BuildingType.LUXURY_VILLA,
         description:
           'A stunning luxury villa with a breathtaking view of the Adriatic Sea. Includes a private pool, spacious garden, and modern amenities.',
+        floors: Floors.TWO_FLOOR,
+        bathroomNumber: 4
       },
       {
         id: 'a',
-        name: 'Volkswagen T-Roc 1.5 Roc 1.5 Roc 1.5 Roc 1.5 Roc 1.5 Roc 1.5 Roc 1.5 Roc 1.5',
+        name: 'Volkswagen T-Roc 1.5',
         model: '1.5 TSI DSG',
         brand: 'Volkswagen',
         image: [
@@ -82,17 +97,31 @@ export class ItemService {
         modelYear: '2021',
         engineSize: 1.5,
         location: 'Zagreb',
+        type: 'TSI DSG',
         description:
           'A well-maintained SUV with a powerful engine and automatic transmission, ideal for city and highway driving.',
         power: 110,
         engine: Engine.DIESEL,
         transmission: Transmission.AUTOMATIC,
+        driveType: DriveType.FOUR_WHEEL_DRIVE,
+        doorNumber: 5,
+        seatNumber: 5,
+        bodyShape: BodyShape.SUV,
+        registration: '10/2024',
+        consumption: 7.0,
+        bodyColor: 'bijela',
+        interiorColor: 'siva',
+        interiorMaterial: Interior.LEATHER_AND_LENIN,
+        vin: 'WVWZZZ1KZDP654321',
+        emission: 105,
+        emissionsClass: EmissionClass.EURO_6,
       },
       {
         id: 'aff',
-        name: 'Volkswagen T-Roc 1.5 Roc 1.5 Roc 1.5 Roc 1.5 Roc 1.5 Roc 1.5 Roc 1.5 Roc 1.5',
+        name: 'Volkswagen T-Roc 1.5',
         model: '1.5 TSI DSG',
         brand: 'Volkswagen',
+        type: 'TSI DSG',
         image: [
           {
             id: 'asdasd',
@@ -112,6 +141,18 @@ export class ItemService {
         power: 110,
         engine: Engine.HYBRID,
         transmission: Transmission.AUTOMATIC,
+        driveType: DriveType.REAR_WHEEL_DRIVE,
+        doorNumber: 5,
+        seatNumber: 5,
+        bodyShape: BodyShape.SUV,
+        registration: '11/2022',
+        consumption: 6.8,
+        bodyColor: 'crvena',
+        interiorColor: 'crna',
+        interiorMaterial: Interior.LEATHER,
+        vin: 'WVWZZZ1KZDP987654',
+        emission: 115,
+        emissionsClass: EmissionClass.EURO_5,
       },
     ]);
 

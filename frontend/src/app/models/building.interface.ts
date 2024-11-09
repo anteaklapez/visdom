@@ -12,6 +12,16 @@ export interface Building {
   buildYear?: string;
   buildingType?: BuildingType;
   description?: string;
+  floors?: Floors;
+  bathroomNumber?: number;
+}
+
+export enum Floors {
+  BASE_FLOOR = 'prizemnica',
+  HIGH_FLOOR = 'visoka prizemnica',
+  ONE_FLOOR = 'katnica',
+  TWO_FLOOR = 'dvokatnica',
+  MULTY_FLOOR = 'višekatnica'
 }
 
 export enum BuildingType {

@@ -57,10 +57,8 @@ export class BuildingFormComponent implements OnInit {
   }
 
   onBuildYearSelected(date: Date, datepicker: MatDatepicker<Date>) {
-    const normalizedYear = date.getFullYear();
-    this.buildingForm.controls['buildYear'].setValue(
-      new Date(normalizedYear, 12, 0)
-    );
+    const normalizedYear = date.getFullYear().toString();
+    this.buildingForm.controls['buildYear'].setValue(normalizedYear);
     datepicker.close();
   }
 

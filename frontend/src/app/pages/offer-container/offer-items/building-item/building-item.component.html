@@ -9,21 +9,21 @@
       <mat-card-title class="card-title">{{ building.title }}</mat-card-title>
       <div class="card-details">
         <div class="detail-item">
-          <mat-icon>crop</mat-icon>
+          <mat-icon class="material-icon">crop</mat-icon>
           <span>{{ building.buildingArea | number : "1.0-0" }} m²</span>
         </div>
         <div class="detail-item">
-          <mat-icon>edit_calendar</mat-icon>
+          <mat-icon class="material-icon">edit_calendar</mat-icon>
           <span>{{ building.buildYear }}</span>
         </div>
         <div class="detail-item">
-          <mat-icon>settings</mat-icon>
+          <mat-icon class="material-icon">settings</mat-icon>
           <span>{{ building.gardenArea | number : "1.0-0" }}</span>
         </div>
       </div>
       <div class="card-footer">
         <span class="location">
-          <mat-icon svgIcon="location-pin"></mat-icon>
+          <mat-icon class="material-icon" svgIcon="location-pin"></mat-icon>
           <span class="location-text">{{ building.location }}</span>
         </span>
         <span class="price">€{{ building.price | number }}</span>

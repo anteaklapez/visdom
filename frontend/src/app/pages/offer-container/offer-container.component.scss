@@ -6,7 +6,7 @@ mat-list {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    width: 1400px;
+    width: 1300px;
     margin: 0 auto;
 }
 
@@ -88,6 +88,7 @@ mat-list-item {
     display: flex;
     gap: 0.25rem;
     font-weight: 600;
+    align-items: center;
 
     span {
         font-size: small;
@@ -126,6 +127,12 @@ mat-list-item {
     color: color.$primary;
 }
 
+.material-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+
 @media screen and (max-width: 1449px) {
     mat-list {
         width: 1200px;
@@ -147,10 +154,6 @@ mat-list-item {
 
     .price {
         font-size: x-large;
-    }
-
-    .material-icons {
-        font-size: 20px;
     }
 
     .location {
@@ -185,10 +188,6 @@ mat-list-item {
         span {
             font-size: x-small;
         }
-    }
-
-    .material-icons {
-        font-size: 18px;
     }
 
     .location {

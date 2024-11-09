@@ -10,6 +10,8 @@ mat-form-field {
     @include smallBold();
     height: 50px;
     margin-bottom: 20px;
+    box-shadow: color.$form-field-shadow;
+    border-radius: 4px;
 
     mat-label {
         @include smallBold();
@@ -22,6 +24,10 @@ mat-form-field {
 }
 
 ::ng-deep {
+    .mat-mdc-form-field-subscript-wrapper {
+        display: none;
+    }
+
     .mat-mdc-option {
         @include smallBold();
     }

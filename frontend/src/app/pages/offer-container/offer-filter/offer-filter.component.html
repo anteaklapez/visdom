@@ -1,4 +1,41 @@
 <form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+
+  @if (selectedCategory === Offer.CARS) {
+  <!-- MARKA -->
+  <div class="form-container">
+    <h2>Marka</h2>
+    <div class="field-container">
+      <mat-form-field>
+        <mat-label>Marka</mat-label>
+        <input type="text" aria-label="Marka" matInput formControlName="brand" [matAutocomplete]="auto" />
+        <mat-autocomplete #auto="matAutocomplete">
+          @for (make of filteredCarBrand$ | async; track make) {
+          <mat-option [value]="make">{{ make }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+  </div>
+  }
+
+  @if (selectedCategory === Offer.BUILDINGS) {
+  <!-- POVRŠINA -->
+  <div class="form-container">
+    <h2>Površina (m²)</h2>
+    <div class="field-container">
+      <mat-form-field>
+        <mat-label>Od</mat-label>
+        <input matInput type="number" formControlName="buildingAreaFrom" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Do</mat-label>
+        <input matInput type="number" formControlName="buildingAreaTo" />
+      </mat-form-field>
+    </div>
+  </div>
+  }
+
   <!-- CIJENA -->
   <div class="form-container">
     <h2>Cijena (€)</h2>
@@ -33,43 +70,27 @@
   </div>
   }
 
+  @if (selectedCategory !== Offer.ELSE) {
   <!-- GODINA -->
   <div class="form-container">
     <h2>Godina proizvodnje</h2>
     <div class="field-container">
       <mat-form-field>
         <mat-label>Od</mat-label>
-        <input
-          matInput
-          formControlName="yearFrom"
-          [matDatepicker]="pickerFrom"
-        />
-        <mat-datepicker-toggle
-          matIconSuffix
-          [for]="pickerFrom"
-        ></mat-datepicker-toggle>
-        <mat-datepicker
-          #pickerFrom
-          startView="multi-year"
-          disabled="false"
-          (yearSelected)="onYearFromSelected($event, pickerFrom)"
-        ></mat-datepicker>
+        <input matInput formControlName="yearFrom" [matDatepicker]="pickerFrom" />
+        <mat-datepicker-toggle matIconSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+        <mat-datepicker #pickerFrom startView="multi-year" disabled="false"
+          (yearSelected)="onYearFromSelected($event, pickerFrom)"></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Do</mat-label>
         <input matInput formControlName="yearTo" [matDatepicker]="pickerTo" />
-        <mat-datepicker-toggle
-          matIconSuffix
-          [for]="pickerTo"
-        ></mat-datepicker-toggle>
-        <mat-datepicker
-          #pickerTo
-          startView="multi-year"
-          disabled="false"
-          (yearSelected)="onYearToSelected($event, pickerTo)"
-        ></mat-datepicker>
+        <mat-datepicker-toggle matIconSuffix [for]="pickerTo"></mat-datepicker-toggle>
+        <mat-datepicker #pickerTo startView="multi-year" disabled="false"
+          (yearSelected)="onYearToSelected($event, pickerTo)"></mat-datepicker>
       </mat-form-field>
     </div>
   </div>
+  }
 </form>

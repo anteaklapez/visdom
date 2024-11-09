@@ -82,18 +82,14 @@ export class CarFormComponent implements OnInit {
   }
 
   onModelYearSelected(date: Date, datepicker: MatDatepicker<Date>) {
-    const normalizedYear = date.getFullYear();
-    this.carsForm.controls['modelYear'].setValue(
-      new Date(normalizedYear, 12, 0)
-    );
+    const normalizedYear = date.getFullYear().toString();
+    this.carsForm.controls['modelYear'].setValue(normalizedYear);
     datepicker.close();
   }
 
   onProductionYearSelected(date: Date, datepicker: MatDatepicker<Date>) {
-    const normalizedYear = date.getFullYear();
-    this.carsForm.controls['productionYear'].setValue(
-      new Date(normalizedYear, 12, 0)
-    );
+    const normalizedYear = date.getFullYear().toString();
+    this.carsForm.controls['productionYear'].setValue(normalizedYear);
     datepicker.close();
   }
 
@@ -185,7 +181,7 @@ export class CarFormComponent implements OnInit {
           this.isSubmitting = false;
         },
         complete: () => {
-          console.log('Uploaded form value:', this.carsForm.value);
+          console.log('Uploaded form value:', this.carsForm.getRawValue());
           this.isSubmitting = false;
         },
       });

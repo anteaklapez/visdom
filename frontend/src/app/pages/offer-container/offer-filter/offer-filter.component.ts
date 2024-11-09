@@ -10,11 +10,14 @@ import { ActivatedRoute } from '@angular/router';
 import { Offer } from '../../../models/offer.enum';
 import { ItemService } from '../../../services/item.service';
 import { MaterialModule } from '../../../shared/modules/material.module';
+import { map, Observable, startWith } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
+import { CarMake } from '../../../models/car-make.enum';
 
 @Component({
   selector: 'app-offer-filter',
   standalone: true,
-  imports: [MaterialModule, ReactiveFormsModule],
+  imports: [MaterialModule, ReactiveFormsModule, AsyncPipe],
   templateUrl: './offer-filter.component.html',
   styleUrl: './offer-filter.component.scss',
 })
@@ -23,18 +26,27 @@ export class OfferFilterComponent implements OnInit {
   private readonly _route = inject(ActivatedRoute);
   private readonly _itemService = inject(ItemService);
 
+  filteredCarBrand$!: Observable<string[] | undefined> | undefined;
   selectedCategory: Offer = Offer.CARS;
   filterForm!: FormGroup;
 
   ngOnInit(): void {
     this.filterForm = this._fb.group({
+      brand: [''],
       priceFrom: ['', [Validators.min(0), Validators.max(10000000)]],
       priceTo: ['', [Validators.min(0), Validators.max(10000000)]],
+      buildingAreaFrom: ['', [Validators.min(0), Validators.max(10000000)]],
+      buildingAreaTo: ['', [Validators.min(0), Validators.max(10000000)]],
       mileageFrom: ['', [Validators.min(0), Validators.max(10000000)]],
       mileageTo: ['', [Validators.min(0), Validators.max(10000000)]],
       yearFrom: [{ value: '', disabled: true }],
       yearTo: [{ value: '', disabled: true }],
     });
+
+    this.filteredCarBrand$ = this.filterForm.get('brand')?.valueChanges.pipe(
+      startWith(''),
+      map((brand) => this._filterCarBrand(brand || ''))
+    );
 
     this._selectCategory();
   }
@@ -57,8 +69,19 @@ export class OfferFilterComponent implements OnInit {
 
   onSubmit() {
     if (this.filterForm.valid) {
-      console.log('Form Submitted:', this.filterForm.value);
+      console.log('Form Submitted:', this.filterForm.getRawValue());
     }
+  }
+
+  private _filterCarBrand(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this._getCarBrandList().filter((brand) =>
+      brand.toLowerCase().includes(filterValue)
+    );
+  }
+
+  private _getCarBrandList(): string[] {
+    return Object.values(CarMake);
   }
 
   private _selectCategory() {
