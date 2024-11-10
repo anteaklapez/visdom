@@ -1,0 +1,8 @@
+@use '../colors.scss' as color;
+
+::ng-deep {
+    .mdc-tab__text-label {
+        font-weight: 600;
+        color: color.$text !important;
+    }
+}

@@ -1,15 +1,32 @@
 @use '../../../theme/colors.scss' as color;
 @use '../../../theme/material/mat-button.scss';
 @use '../../../theme/carousel.scss';
+@use '../../../theme/material/mat-tab-group.scss';
+
+section {
+    color: color.$text !important;
+}
+
+.remove-bottom-margin {
+    margin-bottom: 0 !important;
+}
+
+.font-weight {
+    font-weight: 600 !important;	
+}
+
+.button-color {
+    background-color: color.$background !important;
+}
 
 .carousel-section {
     display: flex;
     justify-content: center;
-    margin: 1rem 0;
-    background-color: color.$background;
+    padding: 1rem 0;
+    box-shadow: color.$bottom-shadow;
 
     .carousel-container {
-        width: 1000px;
+        width: 800px;
 
         .f-carousel__slide {
             display: flex;
@@ -32,11 +49,6 @@
         .offer-title {
             color: color.$text;
 
-            h1 {
-                font-weight: 600;
-                margin-bottom: 0;
-            }
-
             span {
                 font-size: medium;
                 font-style: italic;
@@ -54,8 +66,9 @@
                 align-items: center;
                 gap: 0.25rem;
                 font-weight: 600;
-                padding: 0.25rem 1rem;
-                border-radius: 100px;
+                padding: 0.35rem 1rem;
+                border-radius: 4px;
+                box-shadow: color.$chip-shadow;
                 font-size: small;
                 background-color: color.$background-dark;
             }
@@ -63,7 +76,6 @@
 
         .offer-price {
             display: flex;
-            margin: 1.5rem 0;
             justify-content: flex-end;
 
             &>div {
@@ -71,8 +83,6 @@
                 flex-direction: column;
                 align-items: start;
                 gap: 0.5rem;
-                background-color: #FAF8F3;
-                box-shadow: color.$box-shadow;
                 border-radius: 4px;
                 padding: 1rem;
                 padding-top: 0.5rem;
@@ -92,8 +102,15 @@
 
         .offer-title-buttons {
             display: flex;
+            position: sticky;
+            top: 1rem;
+            border-radius: 4px;
             flex-direction: column;
             gap: 0.5rem;
+            flex-wrap: wrap;
+            padding: 1rem;
+            width: fit-content;
+            margin-left: auto;
         }
 
         .offer-title-buttons>button {
@@ -101,5 +118,71 @@
             font-style: italic;
         }
     }
+}
 
+.tab-section {
+    background-color: color.$background-dark;
+
+    .description {
+        padding: 1rem;
+    }
+
+    mat-tab-group {
+        padding: 2rem 0;
+        width: 1000px;
+        margin: 0 auto;
+    }
+
+    .details-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .details-item {
+        width: calc(33% - 3rem);
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        gap: 1rem 1.5rem;
+        border-radius: 4px;
+        box-shadow: color.$chip-shadow;
+        background-color: color.$background;
+        border: solid 1px color.$scrollbar-track;
+
+        mat-icon {
+            font-size: 36px;
+            width: 36px;
+            height: 36px;
+        }
+
+        div {
+            display: flex;
+            flex-direction: column;
+            font-weight: 600;
+
+            .details-item-title {
+                font-size: smaller;
+            }
+
+            .details-item-value {
+                font-size: medium;
+            }
+        }
+    }
+
+    .basic-info-container {
+        padding: 1rem;
+
+        mat-list {
+            display: flex;
+            flex-wrap: wrap;
+            
+            mat-list-item {
+                color: #3C2E23 !important;
+                width: calc(33% - 3rem);
+            }
+        }
+    }
 }

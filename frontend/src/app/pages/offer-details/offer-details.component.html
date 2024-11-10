@@ -4,19 +4,9 @@
     <div #myCarousel>
       @for (image of objectData.image; track image.id) {
       <ng-container>
-        <div
-          class="f-carousel__slide"
-          data-fancybox="gallery"
-          [attr.data-thumb-src]="image.small"
-          [attr.data-src]="image.full"
-        >
-          <img
-            [src]="image.full"
-            class="image"
-            width="640"
-            height="480"
-            alt="Carousel image"
-          />
+        <div class="f-carousel__slide" data-fancybox="gallery" [attr.data-thumb-src]="image.small"
+          [attr.data-src]="image.full">
+          <img [src]="image.full" class="image" width="640" height="480" alt="Carousel image" />
         </div>
       </ng-container>
       }
@@ -26,46 +16,83 @@
   @if (selectedCategory === Offer.CARS) {
   <div class="offer-title-container">
     <div class="offer-title">
-      <h1>{{ objectData.name }}</h1>
-      <span>{{ objectData.model }}</span>
+      <h1 class="font-weight remove-bottom-margin">{{ objectData.name }}</h1>
+      <span>{{ objectData.model }} {{objectData.type}}</span> <br>
+      <span>{{ objectData.vin }}</span>
     </div>
     <div class="offer-icons">
+      <div class="icon-design">
+        <mat-icon>edit_calendar</mat-icon> {{ objectData.productionYear }}
+      </div>
       <div class="icon-design">
         <mat-icon svgIcon="road"></mat-icon>
         {{ objectData.mileage | number : "1.0-0" }} km
       </div>
       <div class="icon-design">
-        <mat-icon>edit_calendar</mat-icon> {{ objectData.productionYear }}
+        <mat-icon svgIcon="engine"></mat-icon> {{ objectData.power }} kW
       </div>
       <div class="icon-design">
         <mat-icon [svgIcon]="fuelIcon"></mat-icon> {{ objectData.engine }}
       </div>
+      <div class="icon-design">
+        <mat-icon [svgIcon]="transmissionIcon"></mat-icon> {{ objectData.transmission }}
+      </div>
     </div>
     <div class="offer-title-buttons">
-      <ng-container *ngTemplateOutlet="ctaButtons"></ng-container>
-    </div>
-    <div class="offer-price">
+      <button mat-stroked-button class="button-color">info&commat;visdom.eu</button>
+      <button mat-stroked-button class="button-color">099 7790 857</button>
+      <div class="offer-price">
         <div>
           <small>Cijena vozila</small>
           <span>{{
-              objectData.price | currency : "EUR" : "symbol" : "1.0-0"
+            '30000' | currency : "EUR" : "symbol" : "1.0-0"
           }}</span>
         </div>
       </div>
+      <button mat-raised-button>NAPRAVITE SVOJU PONUDU</button>
+    </div>
   </div>
   } @if (selectedCategory === Offer.BUILDINGS) {
   <div class="offer-title-container">
     <h1>{{ objectData.title }}</h1>
     <div class="offer-title-buttons">
-      <ng-container *ngTemplateOutlet="ctaButtons"></ng-container>
+      <p>cijena</p>
     </div>
   </div>
   }
 </section>
-}
 
-<ng-template #ctaButtons>
-  <button mat-stroked-button>info&commat;visdom.eu</button>
-  <button mat-stroked-button>099 7790 857</button>
-  <button mat-raised-button>NAPRAVITE SVOJU PONUDU</button>
-</ng-template>
+<section class="tab-section">
+  <mat-tab-group animationDuration="300ms">
+    <mat-tab label="OSNOVNO">
+      <div class="details-grid">
+        @if (selectedCategory === Offer.CARS) {
+          @for (item of carDetailsItems; track $index) {
+          <div class="details-item" *ngIf="item.value">
+            <mat-icon svgIcon="{{ item.icon }}"></mat-icon>
+            <div>
+              <span class="details-item-title">{{ item.title }}</span>
+              <span class="details-item-value">{{ item.value }}</span>
+            </div>
+          </div>
+          }
+        }
+      </div>
+      <div class="basic-info-container">
+        <h3 class="font-weight remove-bottom-margin">OSTALE INFORMACIJE</h3>
+        <mat-list>
+          @for (item of carOtherDetailsItems; track $index) {
+            <mat-list-item>
+              <span matListItemLine class="font-weight">{{ item.value }}</span>
+              <span matListItemTitle>{{ item.title }}</span>
+            </mat-list-item>
+          }
+        </mat-list>
+      </div>
+    </mat-tab>
+    <mat-tab label="DETALJI">
+      <p class="description">{{ objectData.description }}</p>
+    </mat-tab>
+  </mat-tab-group>
+</section>
+}

@@ -54,7 +54,6 @@ export enum BodyShape {
   HATCHBACK = 'hatchback',
   CABRIO = 'kabriolet',
   COUPE = 'coupe',
-  CONVERTIBLE = 'convertible',
   SUV = 'terensko vozilo / SUV',
   COMBI = 'kombibus',
 }
