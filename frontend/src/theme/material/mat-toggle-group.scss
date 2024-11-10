@@ -2,6 +2,10 @@
 
 
 ::ng-deep {
+    mat-button-toggle-group {
+        box-shadow: color.$form-field-shadow !important;
+    }
+
     .mat-button-toggle .mat-pseudo-checkbox {
         display: none !important;
     }

@@ -2,6 +2,7 @@
 @use '../../../../../theme/material/mat-datepicker.scss';
 @use '../../../../../theme/material/mat-toggle-group.scss';
 @use '../../../../../theme/material/mat-button.scss';
+@use '../../../../../theme/material/mat-select.scss';
 @use '../../../../../theme/colors.scss' as color;
 
 mat-progress-bar {
@@ -66,7 +67,7 @@ form {
 .label-style {
     color: color.$text;
     font-size: small;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 0.5rem;
 }
 

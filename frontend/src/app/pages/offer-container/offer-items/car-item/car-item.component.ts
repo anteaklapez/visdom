@@ -1,7 +1,7 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { MaterialModule } from '../../../../shared/modules/material.module';
 import { CommonModule } from '@angular/common';
-import { Car, Engine } from '../../../../models/car.interface';
+import { Car, Engine, Transmission } from '../../../../models/car.interface';
 import { IconsModule } from '../../../../shared/modules/icons.module';
 import { RouterLink } from '@angular/router';
 import { map, Observable } from 'rxjs';
@@ -23,10 +23,12 @@ export class CarItemComponent implements OnInit {
   @Input() car!: Car;
 
   fuelIcon!: string;
+  transmissionIcon!: string;
   isSmallScreen$!: Observable<boolean>;
 
   ngOnInit(): void {
     this._getCarFuelTypeIcon();
+    this._getCarTransmissionTypeIcon();
 
     this.isSmallScreen$ = this._breakpointObserver
       .observe('(max-width: 599px)')
@@ -49,6 +51,20 @@ export class CarItemComponent implements OnInit {
         break;
       default:
         this.fuelIcon = 'fuel';
+        break;
+    }
+  }
+
+  private _getCarTransmissionTypeIcon() {
+    switch (this.car.transmission) {
+      case Transmission.MANUAL:
+        this.transmissionIcon = 'manual';
+        break;
+      case Transmission.AUTOMATIC:
+        this.transmissionIcon = 'automatic';
+        break;
+      default:
+        this.transmissionIcon = 'manual';
         break;
     }
   }

@@ -10,13 +10,17 @@ export class IconsModule {
   private readonly _domSanitizer = inject(DomSanitizer);
 
   readonly iconMap = new Map<string, string>([
+    ['all-drive', '../../assets/icons/all-drive.svg'],
+    ['back-drive', '../../assets/icons/back-drive.svg'],
+    ['front-drive', '../../assets/icons/front-drive.svg'],
     ['engine', '../../assets/icons/engine.svg'],
     ['calendar', '../../assets/icons/calendar.svg'],
     ['electricity', '../../assets/icons/electricity.svg'],
     ['fuel', '../../assets/icons/fuel.svg'],
     ['hybrid', '../../assets/icons/hybrid.svg'],
     ['road', '../../assets/icons/road.svg'],
-    ['transmission', '../../assets/icons/transmission.svg'],
+    ['manual', '../../assets/icons/manual.svg'],
+    ['automatic', '../../assets/icons/automatic.svg'],
     ['location-pin', '../../assets/icons/location-pin.svg'],
   ]);
 

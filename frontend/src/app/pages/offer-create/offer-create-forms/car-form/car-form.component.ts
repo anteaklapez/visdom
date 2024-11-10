@@ -17,6 +17,8 @@ import { environment } from '../../../../../environments/environment';
 import { ImgbbService } from '../../../../services/imgbb.service';
 import { Image } from '../../../../models/basic-object.interface';
 import * as uuid from 'uuid';
+import { IconsModule } from '../../../../shared/modules/icons.module';
+import { BodyShape, EmissionClass, Interior } from '../../../../models/car.interface';
 
 const DEFAULT_IMAGE_FULL = environment.defaultImageFull;
 const DEFAULT_IMAGE_SMALL = environment.defaultImageSmall;
@@ -24,7 +26,7 @@ const DEFAULT_IMAGE_SMALL = environment.defaultImageSmall;
 @Component({
   selector: 'app-car-form',
   standalone: true,
-  imports: [ReactiveFormsModule, MaterialModule, AsyncPipe],
+  imports: [ReactiveFormsModule, MaterialModule, IconsModule, AsyncPipe],
   templateUrl: './car-form.component.html',
   styleUrl: './car-form.component.scss',
 })
@@ -40,11 +42,13 @@ export class CarFormComponent implements OnInit {
   previewUrl: string | ArrayBuffer | null = null;
   images: string[] = [];
   selectedFiles: File[] = [];
+  registrationOptions: string[] = [];
 
   ngOnInit(): void {
     this.carsForm = this._fb.group({
       name: ['', Validators.required],
       brand: new FormControl('', Validators.required),
+      type: new FormControl('', Validators.required),
       model: new FormControl(
         { value: '', disabled: true },
         Validators.required
@@ -54,8 +58,9 @@ export class CarFormComponent implements OnInit {
         '',
         [Validators.min(0), Validators.max(10000000), Validators.required],
       ],
-      modelYear: [{ value: '', disabled: true }],
-      productionYear: [{ value: '', disabled: true }],
+      modelYear: [{ value: '', disabled: false }],
+      productionYear: [{ value: '', disabled: false }],
+      registration: [''],
       engineSize: ['', [Validators.min(0), Validators.max(10000000)]],
       location: [''],
       description: [''],
@@ -63,6 +68,17 @@ export class CarFormComponent implements OnInit {
       power: ['', [Validators.min(0), Validators.max(10000000)]],
       engine: [''],
       transmission: [''],
+      seatNumber: [''],
+      doorNumber: [''],
+      bodyShape: [''],
+      consumption: [''],
+      driveType: [''],
+      interiorMaterial: [''],
+      bodyColor: [''],
+      vin: [''],
+      emission: [''],
+      emissionsClass: [''],
+      interiorColor: [''],
     });
 
     this.filteredCarBrand$ = this.carsForm.get('brand')?.valueChanges.pipe(
@@ -74,6 +90,8 @@ export class CarFormComponent implements OnInit {
       startWith(''),
       map((model) => this._filterMarModel(model || ''))
     );
+
+    this._generateRegistrationOptions();
   }
 
   onCarMakeSelected(): void {
@@ -82,14 +100,12 @@ export class CarFormComponent implements OnInit {
   }
 
   onModelYearSelected(date: Date, datepicker: MatDatepicker<Date>) {
-    const normalizedYear = date.getFullYear().toString();
-    this.carsForm.controls['modelYear'].setValue(normalizedYear);
+    this.carsForm.controls['modelYear'].setValue(date);
     datepicker.close();
   }
 
   onProductionYearSelected(date: Date, datepicker: MatDatepicker<Date>) {
-    const normalizedYear = date.getFullYear().toString();
-    this.carsForm.controls['productionYear'].setValue(normalizedYear);
+    this.carsForm.controls['productionYear'].setValue(date);
     datepicker.close();
   }
 
@@ -107,8 +123,35 @@ export class CarFormComponent implements OnInit {
     );
   }
 
+  private _generateRegistrationOptions(): void {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth(); 
+    const currentYear = currentDate.getFullYear();
+
+    for (let i = 0; i < 13; i++) {
+      const nextMonth = (currentMonth + i) % 12;
+      const nextYear = currentYear + Math.floor((currentMonth + i) / 12);
+      const formattedMonth = String(nextMonth + 1).padStart(2, '0');
+      const formattedYear = nextYear.toString();
+
+      this.registrationOptions.push(`${formattedMonth}/${formattedYear}`);
+    }
+  }
+
   private _getCarBrandList(): string[] {
     return Object.values(CarMake);
+  }
+
+  get emissionClassOptions() {
+    return Object.entries(EmissionClass).map(([key, value]) => ({ key, value }));
+  }
+
+  get interiorMaterialOptions() {
+    return Object.entries(Interior).map(([key, value]) => ({ key, value }));
+  }
+ 
+  get bodyShapeOptions() {
+    return Object.entries(BodyShape).map(([key, value]) => ({ key, value }));
   }
 
   private _getCarModelList(): string[] {
@@ -156,10 +199,20 @@ export class CarFormComponent implements OnInit {
     }
   }
 
+  private _convertDateSelectionToString() {
+    this.carsForm.get('modelYear')?.setValue(
+      this.carsForm.get('modelYear')?.value.getFullYear().toString()
+    )
+    this.carsForm.get('productionYear')?.setValue(
+      this.carsForm.get('productionYear')?.value.getFullYear().toString()
+    )
+  }
+
   onSubmit() {
     if (!this.carsForm.valid) return;
     this.isSubmitting = true;
-    this.carsForm.value.id = uuid.v4();
+    this._convertDateSelectionToString();
+    console.log(this.carsForm.getRawValue());
 
     if (this.images.length > 0) {
       const uploadObservables = this.images.map((image) =>

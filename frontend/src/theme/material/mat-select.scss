@@ -1,0 +1,37 @@
+@use '../colors.scss' as color;
+
+@mixin smallBold {
+    color: color.$text !important;
+    font-size: small !important;
+    font-weight: 600 !important;
+}
+
+mat-select {
+    @include smallBold();
+}
+
+::ng-deep {
+    .mat-mdc-select-panel {
+        background-color: color.$white !important;
+    }
+
+    .mat-mdc-option:focus.mdc-list-item, .mat-mdc-option.mat-mdc-option-active.mdc-list-item {
+        background-color: transparent !important;
+    }
+    
+    .mat-mdc-option:not([disabled]):hover {
+        background-color: color.$hover !important;
+    }
+
+    .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(.mat-mdc-option-multiple) {
+        background-color: color.$primary !important;
+        
+        span {
+            color: color.$white !important;
+        }
+
+        mat-pseudo-checkbox {
+            --mat-minimal-pseudo-checkbox-selected-checkmark-color: white !important;
+        }
+    }
+}
