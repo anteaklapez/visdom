@@ -16,12 +16,25 @@ async def create_vehicle(car_data: Car, db: Annotated[Session, Depends(get_db())
         mileage=car_data.mileage,
         productionYear=car_data.productionYear,
         modelYear=car_data.modelYear,
+        type=car_data.type,
+        driveType=car_data.driveType,
+        doorNumber=car_data.doorNumber,
+        seatNumber=car_data.seatNumber,
+        bodyShape=car_data.bodyShape,
+        registration=car_data.registration,
         engineSize=car_data.engineSize,
         location=car_data.location,
         description=car_data.description,
         power=car_data.power,
         engine=car_data.engine,
         transmission=car_data.transmission,
+        consumption=car_data.consumption,
+        bodyColor=car_data.bodyColor,
+        interiorColor=car_data.interiorColor,
+        interiorMaterial=car_data.interiorMaterial,
+        emissionClass=car_data.emissionClass,
+        emission=car_data.emission,
+        vin=car_data.vin
     )
 
     db.add(new_car)
@@ -43,6 +56,8 @@ async def create_building(building_data: Building, db: Annotated[Session, Depend
         gardenArea=building_data.gardenArea,
         buildYear=building_data.buildYear,
         buildingType=building_data.buildingType,
+        floors=building_data.floors,
+        bathroomNumber=building_data.bathroomNumber,
         description=building_data.description,
     )
 
