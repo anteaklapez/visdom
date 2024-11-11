@@ -32,13 +32,13 @@ class Image(BaseModel):
 
 class ImageDB(Base):
     __tablename__ = "images"
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(String, primary_key=True)
     full = Column(String, nullable=False)
     small = Column(String, nullable=False)
 
-    basic_object_id = Column(UUID(as_uuid=True), ForeignKey("basic_object.id"), nullable=False)
-    building_id = Column(UUID(as_uuid=True), ForeignKey("building.id"), nullable=False)
-    car_id = Column(UUID(as_uuid=True), ForeignKey("car.id"), nullable=False)
+    basic_object_id = Column(UUID(as_uuid=True), ForeignKey("basic-objects.id"), nullable=False)
+    building_id = Column(UUID(as_uuid=True), ForeignKey("buildings.id"), nullable=False)
+    car_id = Column(UUID(as_uuid=True), ForeignKey("cars.id"), nullable=False)
 
 
 class BasicObject(BaseModel):
@@ -50,7 +50,7 @@ class BasicObject(BaseModel):
 
 
 class BasicObjectDB(Base):
-    __tablename__ = "basic_object"
+    __tablename__ = "basic-objects"
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     subject = Column(String, nullable=False)
     price = Column(Float, nullable=False)
@@ -67,7 +67,9 @@ class Building(BaseModel):
     buildingArea: int | None
     gardenArea: int | None
     buildYear: int | None
-    buildingType: str | None
+    buildingType: str
+    floors: str
+    bathroomNumber: int | None
     description: str | None
 
 class BuildingDB(Base):
@@ -83,7 +85,7 @@ class BuildingDB(Base):
     buildingType = Column(String, nullable=True)
     description = Column(String, nullable=True)
 
-    image = relationship("ImageDB", back_populates="images")
+    images = relationship("ImageDB", back_populates="images")
 
 class Car(BaseModel):
     id: str
@@ -119,10 +121,13 @@ class CarDB(Base):
     engine = Column(String, nullable=True)
     transmission = Column(String, nullable=True)
 
-    image = relationship("ImageDB", back_populates="images")
+    images = relationship("ImageDB", back_populates="images")
 
 
-
+class AllTablesResponse(BaseModel):
+    cars: list[CarDB]
+    buildings: list[BuildingDB]
+    other: list[BasicObjectDB]
 
 
 
