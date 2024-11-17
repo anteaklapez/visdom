@@ -28,8 +28,14 @@ input::placeholder {
 }
 
 ::ng-deep {
-    .mat-mdc-form-field-subscript-wrapper {
-        display: none;
+    .mat-mdc-form-field-error {
+        font-weight: 500;
+    }
+
+    .text-area-field {
+        .mat-mdc-form-field-subscript-wrapper {
+            display: none;
+        }
     }
 
     .mat-mdc-option {
@@ -70,7 +76,8 @@ input::placeholder {
         padding-bottom: 0.3rem;
     }
 
-    .mat-mdc-icon-button img, .mat-mdc-icon-button svg {
+    .mat-mdc-icon-button img,
+    .mat-mdc-icon-button svg {
         width: 20px !important;
         height: 20px !important;
     }
@@ -79,8 +86,9 @@ input::placeholder {
         mat-form-field {
             font-size: 4vw;
         }
-        
-        .mat-mdc-icon-button img, .mat-mdc-icon-button svg {
+
+        .mat-mdc-icon-button img,
+        .mat-mdc-icon-button svg {
             width: 8vw !important;
             height: 8vw !important;
         }

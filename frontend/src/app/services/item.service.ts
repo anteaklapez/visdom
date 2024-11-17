@@ -2,7 +2,16 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { BasicObject } from '../models/basic-object.interface';
 import { Building, BuildingType, Floors } from '../models/building.interface';
-import { BodyShape, Car, DriveType, EmissionClass, Engine, Interior, Transmission } from '../models/car.interface';
+import {
+  BodyShape,
+  Car,
+  DriveType,
+  EmissionClass,
+  Engine,
+  Interior,
+  Transmission,
+} from '../models/car.interface';
+import { UserOffer } from '../models/user-offer.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -15,21 +24,21 @@ export class ItemService {
         brand: 'VW',
         model: 'Golf 8',
         image: [
-            {
-                id: 'q1VkBFq',
-                full: 'https://i.ibb.co/zfDGsH9/ea9cec680629.png',
-                small: 'https://i.ibb.co/q1VkBFq/ea9cec680629.png'
-            },
-            {
-                id: 'C1fm9fC',
-                full: 'https://i.ibb.co/3rn4Fn6/6699cf055172.png',
-                small: 'https://i.ibb.co/C1fm9fC/6699cf055172.png'
-            },
-            {
-                id: 'F8pqwzM',
-                full: 'https://i.ibb.co/9yP3TWL/fae007a4ac10.png',
-                small: 'https://i.ibb.co/F8pqwzM/fae007a4ac10.png'
-            }
+          {
+            id: 'q1VkBFq',
+            full: 'https://i.ibb.co/zfDGsH9/ea9cec680629.png',
+            small: 'https://i.ibb.co/q1VkBFq/ea9cec680629.png',
+          },
+          {
+            id: 'C1fm9fC',
+            full: 'https://i.ibb.co/3rn4Fn6/6699cf055172.png',
+            small: 'https://i.ibb.co/C1fm9fC/6699cf055172.png',
+          },
+          {
+            id: 'F8pqwzM',
+            full: 'https://i.ibb.co/9yP3TWL/fae007a4ac10.png',
+            small: 'https://i.ibb.co/F8pqwzM/fae007a4ac10.png',
+          },
         ],
         price: 30000,
         mileage: 178500,
@@ -54,7 +63,7 @@ export class ItemService {
         vin: 'WVWZZZ1KZDP123456',
         emission: 120,
         emissionsClass: EmissionClass.EURO_6,
-        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3'
+        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
       },
       {
         id: 'sauce',
@@ -65,7 +74,8 @@ export class ItemService {
           {
             id: 'asdasd',
             full: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/473296975.jpg?k=d66796d0c65d527bfc9b69bd22ca75728ff4ea96bf319667f059f1c709f14adb&o=&hp=1',
-            small: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/473296975.jpg?k=d66796d0c65d527bfc9b69bd22ca75728ff4ea96bf319667f059f1c709f14adb&o=&hp=1',
+            small:
+              'https://cf.bstatic.com/xdata/images/hotel/max1024x768/473296975.jpg?k=d66796d0c65d527bfc9b69bd22ca75728ff4ea96bf319667f059f1c709f14adb&o=&hp=1',
           },
         ],
         roomNumber: 6,
@@ -76,7 +86,7 @@ export class ItemService {
         description:
           'A stunning luxury villa with a breathtaking view of the Adriatic Sea. Includes a private pool, spacious garden, and modern amenities.',
         floors: Floors.TWO_FLOOR,
-        bathroomNumber: 4
+        bathroomNumber: 4,
       },
       {
         id: 'a',
@@ -156,6 +166,228 @@ export class ItemService {
       },
     ]);
 
+  private _userOfferSubject$: BehaviorSubject<UserOffer[]> =
+    new BehaviorSubject<UserOffer[]>([
+      {
+        id: 'sauce',
+        offerId: 'c3bd93b2',
+        name: 'nekretnina filip',
+        email: 'a@g.c',
+        phone: '055796432',
+        location: 'Samobor',
+        description: 'Opis nekretnine pravo dobar',
+        image: [
+          {
+            id: 'sauce',
+            full: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiQc9dZn33Wnk-j0sXZ19f8NiMZpJys7nTlA&s',
+            small:
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiQc9dZn33Wnk-j0sXZ19f8NiMZpJys7nTlA&s',
+          },
+        ],
+      },
+      {
+        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        offerId: 'c3bd93b21',
+        name: 'dsa',
+        email: 'a@g.c',
+        phone: '123',
+        location: 'Zagreb',
+        description: 'Opise neki',
+        image: [],
+      },
+      {
+        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        offerId: 'c3bd93b12',
+        name: 'dsa',
+        email: 'a@g.c',
+        phone: '123',
+        location: 'Zagreb',
+        description: 'Opise neki',
+        image: [],
+      },
+      {
+        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        offerId: 'c3bd9311b2',
+        name: 'dsa',
+        email: 'a@g.c',
+        phone: '123',
+        location: 'Zagreb',
+        description: 'Opise neki',
+        image: [],
+      },
+      {
+        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        offerId: 'c31bd93b2',
+        name: 'dsa',
+        email: 'a@g.c',
+        phone: '123',
+        location: 'Zagreb',
+        description: 'Opise neki',
+        image: [],
+      },
+      {
+        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        offerId: 'c3b11112d93b2',
+        name: 'dsa',
+        email: 'a@g.c',
+        phone: '123',
+        location: 'Zagreb',
+        description: 'Opise neki',
+        image: [],
+      },
+      {
+        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        offerId: '12c3bd93b2',
+        name: 'dsa',
+        email: 'a@g.c',
+        phone: '123',
+        location: 'Zagreb',
+        description: 'Opise neki',
+        image: [],
+      },
+      {
+        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        offerId: 'c43bd93b2',
+        name: 'dsa',
+        email: 'a@g.c',
+        phone: '123',
+        location: 'Zagreb',
+        description: 'Opise neki',
+        image: [],
+      },
+      {
+        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        offerId: 'c3bd934b2',
+        name: 'dsa',
+        email: 'a@g.c',
+        phone: '123',
+        location: 'Zagreb',
+        description: 'Opise neki',
+        image: [],
+      },
+      {
+        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        offerId: '7c3bd93b2',
+        name: 'dsa',
+        email: 'a@g.c',
+        phone: '123',
+        location: 'Zagreb',
+        description: 'Opise neki',
+        image: [],
+      },
+      {
+        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        offerId: 'c3b7d93b2',
+        name: 'dsa',
+        email: 'a@g.c',
+        phone: '123',
+        location: 'Zagreb',
+        description: 'Opise neki',
+        image: [],
+      },
+      {
+        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        offerId: 'c3bd9377b2',
+        name: 'dsa',
+        email: 'a@g.c',
+        phone: '123',
+        location: 'Zagreb',
+        description: 'Opise neki',
+        image: [],
+      },
+      {
+        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        offerId: 'c3bd893b2',
+        name: 'mirko',
+        email: 'markjo@g.c',
+        phone: '+3859977903543',
+        location: 'Rijeka',
+        description: 'Mnoge stvari barem puno vrijedne',
+        image: [
+          {
+            id: 'FBxQy8k',
+            full: 'https://i.ibb.co/9q8x1ym/3c588d61fedf.png',
+            small: 'https://i.ibb.co/FBxQy8k/3c588d61fedf.png',
+          },
+          {
+            id: 'PY8G6RB',
+            full: 'https://i.ibb.co/RSWTD1L/3fea936a9927.png',
+            small: 'https://i.ibb.co/PY8G6RB/3fea936a9927.png',
+          },
+          {
+            id: '4M6FqZ37',
+            full: 'https://i.ibb.co/Dkx1JDT/85848b297f61.png',
+            small: 'https://i.ibb.co/4M6FqZ3/85848b297f61.png',
+          },
+          {
+            id: '4M6FqZ36',
+            full: 'https://i.ibb.co/Dkx1JDT/85848b297f61.png',
+            small: 'https://i.ibb.co/4M6FqZ3/85848b297f61.png',
+          },
+          {
+            id: '4M6FqZ35',
+            full: 'https://i.ibb.co/Dkx1JDT/85848b297f61.png',
+            small: 'https://i.ibb.co/4M6FqZ3/85848b297f61.png',
+          },
+          {
+            id: '4M6FqZ34',
+            full: 'https://i.ibb.co/Dkx1JDT/85848b297f61.png',
+            small: 'https://i.ibb.co/4M6FqZ3/85848b297f61.png',
+          },
+          {
+            id: '4M6FqZ33',
+            full: 'https://i.ibb.co/Dkx1JDT/85848b297f61.png',
+            small: 'https://i.ibb.co/4M6FqZ3/85848b297f61.png',
+          },
+          {
+            id: '4M6FqZ32',
+            full: 'https://i.ibb.co/Dkx1JDT/85848b297f61.png',
+            small: 'https://i.ibb.co/4M6FqZ3/85848b297f61.png',
+          },
+          {
+            id: '4M6FqZ31',
+            full: 'https://i.ibb.co/Dkx1JDT/85848b297f61.png',
+            small: 'https://i.ibb.co/4M6FqZ3/85848b297f61.png',
+          },
+          {
+            id: '4M6FqZ3100000',
+            full: 'https://i.ibb.co/Dkx1JDT/85848b297f61.png',
+            small: 'https://i.ibb.co/4M6FqZ3/85848b297f61.png',
+          },
+          {
+            id: '4M6FqZ31',
+            full: 'https://i.ibb.co/Dkx1JDT/85848b297f61.png',
+            small: 'https://i.ibb.co/4M6FqZ3/85848b297f61.png',
+          },
+          {
+            id: '4M6FqZ31',
+            full: 'https://i.ibb.co/Dkx1JDT/85848b297f61.png',
+            small: 'https://i.ibb.co/4M6FqZ3/85848b297f61.png',
+          },
+          {
+            id: '4M6FqZ31',
+            full: 'https://i.ibb.co/Dkx1JDT/85848b297f61.png',
+            small: 'https://i.ibb.co/4M6FqZ3/85848b297f61.png',
+          },
+          {
+            id: '4M6FqZ31',
+            full: 'https://i.ibb.co/Dkx1JDT/85848b297f61.png',
+            small: 'https://i.ibb.co/4M6FqZ3/85848b297f61.png',
+          },
+          {
+            id: '4M6FqZ31',
+            full: 'https://i.ibb.co/Dkx1JDT/85848b297f61.png',
+            small: 'https://i.ibb.co/4M6FqZ3/85848b297f61.png',
+          },
+          {
+            id: '4M6FqZ31',
+            full: 'https://i.ibb.co/Dkx1JDT/85848b297f61.png',
+            small: 'https://i.ibb.co/4M6FqZ3/85848b297f61.png',
+          },
+        ],
+      },
+    ]);
+
   get allItems$(): Observable<(Car | Building | BasicObject)[]> {
     return this._itemSubject$.asObservable();
   }
@@ -184,10 +416,31 @@ export class ItemService {
     );
   }
 
-  getItemById(id: string): Observable<(Car | Building | BasicObject) | undefined> {
+  getUserOffersById(id: string): Observable<UserOffer[]> {
+    return this._userOfferSubject$.pipe(
+      map((items: UserOffer[]): UserOffer[] =>
+        items.filter((item) => item.id === id)
+      )
+    );
+  }
+
+  deleteUserOfferByEmail(offer: UserOffer): Observable<UserOffer[]> {
+    return this.getUserOffersById(offer.id).pipe(
+      map((items: UserOffer[]): UserOffer[] =>
+        items.filter((item) => item.offerId !== offer.offerId)
+      )
+    );
+  }
+
+  getItemById(
+    id: string
+  ): Observable<(Car | Building | BasicObject) | undefined> {
     return this._itemSubject$.pipe(
-      map((items: (Car | Building | BasicObject)[]): (Car | Building | BasicObject) | undefined =>
-        items.find((item) => item.id === id)
+      map(
+        (
+          items: (Car | Building | BasicObject)[]
+        ): (Car | Building | BasicObject) | undefined =>
+          items.find((item) => item.id === id)
       )
     );
   }

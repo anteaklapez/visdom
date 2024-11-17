@@ -53,5 +53,6 @@
     .mat-mdc-button:not(:disabled) {
         font-weight: 600;
         color: color.$text;
+        border-radius: 4px;
     }
 }

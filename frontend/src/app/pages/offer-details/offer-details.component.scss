@@ -1,9 +1,27 @@
 @use '../../../theme/colors.scss' as color;
-@use '../../../theme/material/mat-button.scss';
 @use '../../../theme/carousel.scss';
+@use '../../../theme/material/mat-card.scss';
 @use '../../../theme/material/mat-tab-group.scss';
 
 section {
+    color: color.$text !important;
+}
+
+.title {
+    color: color.$primary !important;
+    font-weight: 700 !important;
+    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    font-style: normal;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.remove-user-offer {
+    font-size: smaller;
+}
+
+.regular-text {
     color: color.$text !important;
 }
 
@@ -12,7 +30,7 @@ section {
 }
 
 .font-weight {
-    font-weight: 600 !important;	
+    font-weight: 600 !important;
 }
 
 .button-color {
@@ -59,7 +77,9 @@ section {
         .offer-icons {
             display: flex;
             justify-content: space-evenly;
+            flex-wrap: wrap;
             margin: 2rem 0;
+            gap: 0.5rem 0.25rem;
 
             .icon-design {
                 display: flex;
@@ -152,7 +172,6 @@ section {
         border: solid 1px color.$scrollbar-track;
 
         mat-icon {
-            font-size: 36px;
             width: 36px;
             height: 36px;
         }
@@ -178,11 +197,144 @@ section {
         mat-list {
             display: flex;
             flex-wrap: wrap;
-            
+
             mat-list-item {
                 color: #3C2E23 !important;
-                width: calc(33% - 3rem);
+                width: calc(33%);
+                height: auto;
+
+                span {
+                    white-space: normal;
+                }
             }
+        }
+    }
+}
+
+.user-offers-section {
+    width: 500px;
+    max-height: 700px;
+    overflow: auto;
+    margin: 0 auto;
+
+    mat-card {
+        margin: 1rem;
+
+        mat-card-footer {
+            display: flex;
+            justify-content: end;
+        }
+
+        mat-card-title,
+        mat-card-subtitle {
+            color: color.$text !important;
+            font-weight: 600 !important;
+        }
+
+        mat-card-title {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            max-height: 300px;
+            overflow: auto;
+
+            .offer-image {
+                border-radius: 4px;
+                object-fit: cover;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.delete-button {
+    text-align: end;
+    margin: 1rem;
+
+    button {
+        color: color.$error !important;
+    }
+}
+
+@media screen and (max-width: 649px) {
+    .carousel-section {
+        flex-direction: column;
+
+        .carousel-container {
+            width: auto;
+            margin: 1rem;
+        }
+
+        .offer-title-container {
+            width: auto;
+
+            .offer-title-buttons {
+                width: auto;
+            }
+        }
+    }
+
+    .details-item {
+        flex-direction: column;
+        text-align: center;
+        justify-content: space-between;
+    }
+
+    .image {
+        height: auto;
+    }
+}
+
+@media screen and (max-width: 549px) {
+    .user-offers-section {
+        width: auto;
+    }
+
+    .basic-info-container {
+        mat-list {
+            mat-list-item {
+                width: calc(50%) !important;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 449px) {
+    .details-grid {
+        justify-content: center;
+
+        .details-item {
+            width: calc(33%) !important;
+        }
+    }
+
+    .offer-button {
+        height: 50px !important;
+    }
+}
+
+@media screen and (max-width: 349px) {
+    .title {
+        font-size: 8vw !important;
+    }
+
+    .user-offers-section {
+        width: auto;
+    }
+
+    .basic-info-container {
+        mat-list {
+            mat-list-item {
+                width: calc(100%) !important;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 290px) {
+    .details-grid {
+        .details-item {
+            width: calc(100%) !important;
         }
     }
 }
