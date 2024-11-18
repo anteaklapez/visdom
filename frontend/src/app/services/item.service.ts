@@ -164,13 +164,27 @@ export class ItemService {
         emission: 115,
         emissionsClass: EmissionClass.EURO_5,
       },
+      {
+        id: 'c3bd93b2-8727-493c-b3be-c40z42f38de3',
+        subject: 'drvo',
+        price: 2899,
+        description: '20m drva',
+        image: [
+          {
+            id: 'sauce',
+            full: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiQc9dZn33Wnk-j0sXZ19f8NiMZpJys7nTlA&s',
+            small:
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiQc9dZn33Wnk-j0sXZ19f8NiMZpJys7nTlA&s',
+          },
+        ],
+      }
     ]);
 
   private _userOfferSubject$: BehaviorSubject<UserOffer[]> =
     new BehaviorSubject<UserOffer[]>([
       {
-        id: 'sauce',
-        offerId: 'c3bd93b2',
+        objectId: 'sauce',
+        id: 'c3bd93b2',
         name: 'nekretnina filip',
         email: 'a@g.c',
         phone: '055796432',
@@ -186,8 +200,8 @@ export class ItemService {
         ],
       },
       {
-        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
-        offerId: 'c3bd93b21',
+        objectId: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        id: 'c3bd93b21',
         name: 'dsa',
         email: 'a@g.c',
         phone: '123',
@@ -196,8 +210,8 @@ export class ItemService {
         image: [],
       },
       {
-        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
-        offerId: 'c3bd93b12',
+        objectId: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        id: 'c3bd93b12',
         name: 'dsa',
         email: 'a@g.c',
         phone: '123',
@@ -206,8 +220,8 @@ export class ItemService {
         image: [],
       },
       {
-        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
-        offerId: 'c3bd9311b2',
+        objectId: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        id: 'c3bd9311b2',
         name: 'dsa',
         email: 'a@g.c',
         phone: '123',
@@ -216,8 +230,8 @@ export class ItemService {
         image: [],
       },
       {
-        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
-        offerId: 'c31bd93b2',
+        objectId: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        id: 'c31bd93b2',
         name: 'dsa',
         email: 'a@g.c',
         phone: '123',
@@ -226,8 +240,8 @@ export class ItemService {
         image: [],
       },
       {
-        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
-        offerId: 'c3b11112d93b2',
+        objectId: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        id: 'c3b11112d93b2',
         name: 'dsa',
         email: 'a@g.c',
         phone: '123',
@@ -236,8 +250,8 @@ export class ItemService {
         image: [],
       },
       {
-        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
-        offerId: '12c3bd93b2',
+        objectId: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        id: '12c3bd93b2',
         name: 'dsa',
         email: 'a@g.c',
         phone: '123',
@@ -246,8 +260,8 @@ export class ItemService {
         image: [],
       },
       {
-        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
-        offerId: 'c43bd93b2',
+        objectId: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        id: 'c43bd93b2',
         name: 'dsa',
         email: 'a@g.c',
         phone: '123',
@@ -256,8 +270,8 @@ export class ItemService {
         image: [],
       },
       {
-        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
-        offerId: 'c3bd934b2',
+        objectId: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        id: 'c3bd934b2',
         name: 'dsa',
         email: 'a@g.c',
         phone: '123',
@@ -266,8 +280,8 @@ export class ItemService {
         image: [],
       },
       {
-        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
-        offerId: '7c3bd93b2',
+        objectId: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        id: '7c3bd93b2',
         name: 'dsa',
         email: 'a@g.c',
         phone: '123',
@@ -276,8 +290,8 @@ export class ItemService {
         image: [],
       },
       {
-        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
-        offerId: 'c3b7d93b2',
+        objectId: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        id: 'c3b7d93b2',
         name: 'dsa',
         email: 'a@g.c',
         phone: '123',
@@ -286,8 +300,8 @@ export class ItemService {
         image: [],
       },
       {
-        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
-        offerId: 'c3bd9377b2',
+        objectId: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        id: 'c3bd9377b2',
         name: 'dsa',
         email: 'a@g.c',
         phone: '123',
@@ -296,8 +310,8 @@ export class ItemService {
         image: [],
       },
       {
-        id: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
-        offerId: 'c3bd893b2',
+        objectId: 'c3bd93b2-8727-493c-b3be-c40b42f38de3',
+        id: 'c3bd893b2',
         name: 'mirko',
         email: 'markjo@g.c',
         phone: '+3859977903543',
@@ -416,18 +430,18 @@ export class ItemService {
     );
   }
 
-  getUserOffersById(id: string): Observable<UserOffer[]> {
+  getUserOffersById(objectId: string): Observable<UserOffer[]> {
     return this._userOfferSubject$.pipe(
       map((items: UserOffer[]): UserOffer[] =>
-        items.filter((item) => item.id === id)
+        items.filter((item) => item.objectId === objectId)
       )
     );
   }
 
   deleteUserOfferByEmail(offer: UserOffer): Observable<UserOffer[]> {
-    return this.getUserOffersById(offer.id).pipe(
+    return this.getUserOffersById(offer.objectId).pipe(
       map((items: UserOffer[]): UserOffer[] =>
-        items.filter((item) => item.offerId !== offer.offerId)
+        items.filter((item) => item.id !== offer.objectId)
       )
     );
   }

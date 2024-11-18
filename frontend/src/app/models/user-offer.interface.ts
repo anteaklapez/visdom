@@ -2,7 +2,7 @@ import { Image } from "./basic-object.interface";
 
 export interface UserOffer {
     id: string;
-    offerId: string;
+    objectId: string;
     name: string;
     email: string;
     phone: string;

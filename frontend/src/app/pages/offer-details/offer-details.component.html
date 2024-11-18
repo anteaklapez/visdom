@@ -64,43 +64,88 @@
           }}</span>
         </div>
       </div>
-      <button mat-raised-button (click)="scrollToCreateOffer()" class="offer-button">
+      <button
+        mat-raised-button
+        (click)="scrollToCreateOffer()"
+        class="offer-button"
+      >
         NAPRAVITE SVOJU PONUDU
       </button>
     </div>
   </div>
   } @if (selectedCategory === Offer.BUILDINGS) {
-    <div class="offer-title-container">
-      <div class="offer-title">
-        <h1 class="font-weight remove-bottom-margin">{{ objectData.title }}</h1>
-      </div>
-      <div class="offer-title-buttons">
-        <button mat-stroked-button class="button-color">
-          info&commat;visdom.eu
-        </button>
-        <button mat-stroked-button class="button-color">099 7790 857</button>
-        <div class="offer-price">
-          <div>
-            <small>Cijena vozila</small>
-            <span>{{
-              objectData.price | currency : "EUR" : "symbol" : "1.0-0"
-            }}</span>
-          </div>
-        </div>
-        <button mat-raised-button (click)="scrollToCreateOffer()" class="offer-button">
-          NAPRAVITE SVOJU PONUDU
-        </button>
-      </div>
+  <div class="offer-title-container">
+    <div class="offer-title">
+      <h1 class="font-weight remove-bottom-margin">{{ objectData.title }}</h1>
     </div>
+    <div class="offer-title-buttons">
+      <button mat-stroked-button class="button-color">
+        info&commat;visdom.eu
+      </button>
+      <button mat-stroked-button class="button-color">099 7790 857</button>
+      <div class="offer-price">
+        <div>
+          <small>Cijena objekta</small>
+          <span>{{
+            objectData.price | currency : "EUR" : "symbol" : "1.0-0"
+          }}</span>
+        </div>
+      </div>
+      <button
+        mat-raised-button
+        (click)="scrollToCreateOffer()"
+        class="offer-button"
+      >
+        NAPRAVITE SVOJU PONUDU
+      </button>
+    </div>
+  </div>
+  } @if (selectedCategory === Offer.ELSE) {
+  <div class="offer-title-container">
+    <div class="offer-title">
+      <h1 class="font-weight remove-bottom-margin">{{ objectData.subject }}</h1>
+    </div>
+    <div class="offer-title-buttons">
+      <button mat-stroked-button class="button-color">
+        info&commat;visdom.eu
+      </button>
+      <button mat-stroked-button class="button-color">099 7790 857</button>
+      <div class="offer-price">
+        <div>
+          <small>Cijena</small>
+          <span>{{
+            objectData.price | currency : "EUR" : "symbol" : "1.0-0"
+          }}</span>
+        </div>
+      </div>
+      <button
+        mat-raised-button
+        (click)="scrollToCreateOffer()"
+        class="offer-button"
+      >
+        NAPRAVITE SVOJU PONUDU
+      </button>
+    </div>
+  </div>
   }
 </section>
 
 <section class="tab-section">
   <mat-tab-group animationDuration="300ms">
+    @if (selectedCategory !== Offer.ELSE) {
     <mat-tab label="OSNOVNO">
       <div class="details-grid">
         @if (selectedCategory === Offer.CARS) { @for (item of carDetailsItems;
         track $index) {
+        <div class="details-item" *ngIf="item.value">
+          <mat-icon svgIcon="{{ item.icon }}"></mat-icon>
+          <div>
+            <span class="details-item-title">{{ item.title }}</span>
+            <span class="details-item-value">{{ item.value }}</span>
+          </div>
+        </div>
+        } } @if (selectedCategory === Offer.BUILDINGS) { @for (item of
+        buildingDetailsItems; track $index) {
         <div class="details-item" *ngIf="item.value">
           <mat-icon svgIcon="{{ item.icon }}"></mat-icon>
           <div>
@@ -118,10 +163,16 @@
             <span matListItemLine class="font-weight">{{ item.value }}</span>
             <span matListItemTitle class="regular-text">{{ item.title }}</span>
           </mat-list-item>
+          } @for (item of buildingOtherDetailsItems; track $index) {
+          <mat-list-item>
+            <span matListItemLine class="font-weight">{{ item.value }}</span>
+            <span matListItemTitle class="regular-text">{{ item.title }}</span>
+          </mat-list-item>
           }
         </mat-list>
       </div>
     </mat-tab>
+    }
     <mat-tab label="DETALJI">
       <p class="description">{{ objectData.description }}</p>
     </mat-tab>
@@ -279,13 +330,17 @@
     </mat-card-header>
     <mat-card-content>
       <span class="regular-text">
-        {{ offer.name }} | {{ offer.email }} |
-        {{ offer.phone }} | {{ offer.location }}
+        {{ offer.name }} | {{ offer.email }} | {{ offer.phone }} |
+        {{ offer.location }}
       </span>
     </mat-card-content>
     <mat-card-footer class="example-card-footer">
       <mat-card-actions>
-        <button mat-button (click)="deleteUserOffer(offer)" class="remove-user-offer">
+        <button
+          mat-button
+          (click)="deleteUserOffer(offer)"
+          class="remove-user-offer"
+        >
           OBRIŠITE PONUDU
         </button>
       </mat-card-actions>

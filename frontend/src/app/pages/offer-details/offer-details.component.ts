@@ -38,6 +38,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ImgbbService } from '../../services/imgbb.service';
 import { environment } from '../../../environments/environment';
 import { UserOffer } from '../../models/user-offer.interface';
+import { Building } from '../../models/building.interface';
 
 const DEFAULT_IMAGE_FULL = environment.defaultImageFull;
 const DEFAULT_IMAGE_SMALL = environment.defaultImageSmall;
@@ -86,6 +87,8 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedCategory: Offer = Offer.CARS;
   carDetailsItems: DetailsItem[] | undefined = [];
   carOtherDetailsItems: DetailsItem[] | undefined = [];
+  buildingDetailsItems: DetailsItem[] | undefined = [];
+  buildingOtherDetailsItems: DetailsItem[] | undefined = [];
   createOfferForm!: FormGroup;
   isSubmitting: boolean = false;
   isDragging: boolean = false;
@@ -135,7 +138,9 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   scrollToCreateOffer() {
     if (isPlatformBrowser(this._platformId)) {
-      this.createOfferSection.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      this.createOfferSection.nativeElement.scrollIntoView({
+        behavior: 'smooth',
+      });
     }
   }
 
@@ -191,7 +196,9 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   deleteUserOffer(offer: UserOffer) {
-    const confirmation = window.confirm('Jeste li sigurni da želite obrisati ovu ponudu?');
+    const confirmation = window.confirm(
+      'Jeste li sigurni da želite obrisati ovu ponudu?'
+    );
 
     if (confirmation) {
       this.userOffersData$ = this._itemService.deleteUserOfferByEmail(offer);
@@ -199,7 +206,9 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   deleteOffer() {
-    const confirmation = window.confirm('Jeste li sigurni da želite obrisati ovaj oglas?');
+    const confirmation = window.confirm(
+      'Jeste li sigurni da želite obrisati ovaj oglas?'
+    );
   }
 
   onSubmit() {
@@ -284,7 +293,13 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
         break;
       case Offer.BUILDINGS:
         this.objectData$ = this._itemService.buildings$.pipe(
-          map((buildings) => buildings.find((building) => building.id === id))
+          map((buildings) => {
+            const building = buildings.find((building) => building.id === id);
+            this.buildingDetailsItems = this._mapBuildingDetailsItems(building);
+            this.buildingOtherDetailsItems =
+              this._mapBuildingOtherDetailsItems(building);
+            return building;
+          })
         );
         break;
       case Offer.ELSE:
@@ -425,6 +440,45 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
       { title: 'Boja unutrašnjosti', value: car.interiorColor },
       { title: 'Materijal unutrašnjosti', value: car.interiorMaterial },
       { title: 'Kategorija emisija', value: car.emissionsClass },
+    ];
+  }
+
+  private _mapBuildingDetailsItems(
+    building: Building | undefined
+  ): DetailsItem[] | undefined {
+    if (!building) return;
+    return [
+      {
+        title: 'BROJ SPAVAĆIH SOBA',
+        icon: 'bed',
+        value: String(building.roomNumber),
+      },
+      {
+        title: 'BROJ KUPAONICA',
+        icon: 'bath',
+        value: String(building.bathroomNumber),
+      },
+      {
+        title: 'POVRŠINA OBJEKTA',
+        icon: 'house',
+        value: `${String(building.buildingArea)} m²`,
+      },
+      {
+        title: 'POVRŠINA OKĆNICE',
+        icon: 'garden',
+        value: `${String(building.gardenArea)} m²`,
+      },
+    ];
+  }
+
+  private _mapBuildingOtherDetailsItems(
+    building: Building | undefined
+  ): DetailsItem[] | undefined {
+    if (!building) return;
+    return [
+      { title: 'Broj kata', value: building.floors },
+      { title: 'Godina izgradnje', value: building.buildYear },
+      { title: 'Vrsta građevine', value: building.buildingType },
     ];
   }
 

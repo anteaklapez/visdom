@@ -17,11 +17,11 @@ export interface Building {
 }
 
 export enum Floors {
-  BASE_FLOOR = 'prizemnica',
-  HIGH_FLOOR = 'visoka prizemnica',
-  ONE_FLOOR = 'katnica',
-  TWO_FLOOR = 'dvokatnica',
-  MULTY_FLOOR = 'višekatnica'
+  BASE_FLOOR = 'Prizemnica',
+  HIGH_FLOOR = 'Visoka prizemnica',
+  ONE_FLOOR = 'Katnica',
+  TWO_FLOOR = 'Dvokatnica',
+  MULTY_FLOOR = 'Višekatnica'
 }
 
 export enum BuildingType {

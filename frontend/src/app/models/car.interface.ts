@@ -42,36 +42,36 @@ export enum EmissionClass {
 }
 
 export enum Interior {
-  LEATHER = 'kožna',
-  LENIN = 'platnena',
-  LEATHER_AND_LENIN = 'kožna i platnena',
+  LEATHER = 'Kožna',
+  LENIN = 'Platnena',
+  LEATHER_AND_LENIN = 'Kožna i platnena',
 }
 
 export enum BodyShape {
-  SEDAN = 'limuzina',
-  CARAVAN = 'karavan',
-  MONO = 'monovolumen',
-  HATCHBACK = 'hatchback',
-  CABRIO = 'kabriolet',
-  COUPE = 'coupe',
-  SUV = 'terensko vozilo / SUV',
-  COMBI = 'kombibus',
+  SEDAN = 'Limuzina',
+  CARAVAN = 'Karavan',
+  MONO = 'Monovolumen',
+  HATCHBACK = 'Hatchback',
+  CABRIO = 'Kabriolet',
+  COUPE = 'Coupe',
+  SUV = 'Terensko vozilo / SUV',
+  COMBI = 'Kombibus',
 }
 
 export enum DriveType {
-  FRONT_WHEEL_DRIVE = 'prednji',
-  REAR_WHEEL_DRIVE = 'stražnji',
+  FRONT_WHEEL_DRIVE = 'Prednji',
+  REAR_WHEEL_DRIVE = 'Stražnji',
   FOUR_WHEEL_DRIVE = '4x4',
 }
 
 export enum Engine {
-  DIESEL = 'dizel',
-  GASOLINE = 'benzin',
-  ELECTRIC = 'električni',
-  HYBRID = 'hibrid',
+  DIESEL = 'Dizel',
+  GASOLINE = 'Benzin',
+  ELECTRIC = 'Električni',
+  HYBRID = 'Hibrid',
 }
 
 export enum Transmission {
-  MANUAL = 'ručni',
-  AUTOMATIC = 'automatski',
+  MANUAL = 'Ručni',
+  AUTOMATIC = 'Automatski',
 }

@@ -9,16 +9,24 @@
       <mat-card-title class="card-title">{{ building.title }}</mat-card-title>
       <div class="card-details">
         <div class="detail-item">
-          <mat-icon class="material-icon">crop</mat-icon>
-          <span>{{ building.buildingArea | number : "1.0-0" }} m²</span>
-        </div>
-        <div class="detail-item">
           <mat-icon class="material-icon">edit_calendar</mat-icon>
           <span>{{ building.buildYear }}</span>
         </div>
         <div class="detail-item">
-          <mat-icon class="material-icon">settings</mat-icon>
-          <span>{{ building.gardenArea | number : "1.0-0" }}</span>
+          <mat-icon class="material-icon" svgIcon="house"></mat-icon>
+          <span>{{ building.buildingArea | number : "1.0-0" }} m²</span>
+        </div>
+        <div class="detail-item">
+          <mat-icon class="material-icon" svgIcon="garden"></mat-icon>
+          <span>{{ building.gardenArea | number : "1.0-0" }} m²</span>
+        </div>
+        <div class="detail-item">
+          <mat-icon class="material-icon" svgIcon="bed"></mat-icon>
+          <span>{{ building.roomNumber | number : "1.0-0" }}</span>
+        </div>
+        <div class="detail-item">
+          <mat-icon class="material-icon" svgIcon="bath"></mat-icon>
+          <span>{{ building.bathroomNumber | number : "1.0-0" }}</span>
         </div>
       </div>
       <div class="card-footer">
