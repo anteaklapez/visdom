@@ -36,12 +36,8 @@ import {
 import * as uuid from 'uuid';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ImgbbService } from '../../services/imgbb.service';
-import { environment } from '../../../environments/environment';
 import { UserOffer } from '../../models/user-offer.interface';
 import { Building } from '../../models/building.interface';
-
-const DEFAULT_IMAGE_FULL = environment.defaultImageFull;
-const DEFAULT_IMAGE_SMALL = environment.defaultImageSmall;
 
 export interface DetailsItem {
   title: string;

@@ -1,0 +1,25 @@
+@use '../../../theme/colors.scss' as color;
+@use '../../../theme/material/mat-form-field.scss';
+@use '../../../theme/material/mat-button.scss';
+
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    gap: 0.75rem;
+    margin: 2rem auto;
+
+    h1 {
+        font-weight: 700;
+        color: color.$primary;
+        margin-bottom: 0.5rem;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 549px) {
+    form {
+        width: 90vw;
+    }
+}
