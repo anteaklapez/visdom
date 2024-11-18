@@ -26,7 +26,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 pwd_context = CryptContext(schemes=["bcrypt"])
 
 
-def get_user(db: Annotated[Session, Depends(get_db())], username: str):
+def get_user(db: Annotated[Session, Depends(get_db)], username: str):
     user = db.query(UserDB).filter(UserDB.username == username).first()
     if not user:
         return False
@@ -38,7 +38,7 @@ def verify_password(plain_password, hashed_password):
 def get_password_hashed(password):
     return pwd_context.hash(password)
 
-def authenticate_user(db: Annotated[Session, Depends(get_db())], username: str, password: str):
+def authenticate_user(db: Annotated[Session, Depends(get_db)], username: str, password: str):
     user = get_user(db, username)
     if not user:
         return False
@@ -59,7 +59,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
 
 
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Annotated[Session, Depends(get_db())]):
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: Annotated[Session, Depends(get_db)]):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -80,16 +80,8 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: An
     return user
 
 
-async def get_current_active_user(
-    current_user: Annotated[User, Depends(get_current_user)],
-):
-    if current_user.disabled:
-        raise HTTPException(status_code=400, detail="Inactive user")
-    return current_user
-
-
 @router.post("/token")
-async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Annotated[Session, Depends(get_db())]) -> Token:
+async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: Annotated[Session, Depends(get_db)]) -> Token:
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
         raise HTTPException(
@@ -100,10 +92,3 @@ async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: 
     access_token_expires = timedelta(minutes=int(ACCESS_TOKEN_EXPIRE_MINUTES))
     access_token = create_access_token(data = {"sub": user.username}, expires_delta=access_token_expires) 
     return Token(access_token=access_token, token_type="bearer")
-
-
-@router.get("/users/me")
-async def read_users_me(
-    current_user: Annotated[User, Depends(get_current_active_user)],
-):
-    return current_user

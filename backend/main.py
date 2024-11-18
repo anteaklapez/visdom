@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import auth
+import offer
 
 app = FastAPI()
 
 app.include_router(auth.router)
+app.include_router(offer.router)
 
 origins = [
     "http://localhost:8080"
@@ -17,11 +19,6 @@ app.add_middleware(
     allow_methods = ["*"],
     allow_headers = ["*"]
 )
-
-
-@app.get("/")
-async def root():
-    return "Hello"
 
 if __name__ == "__main__":
     import uvicorn

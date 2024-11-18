@@ -20,7 +20,7 @@ class User(BaseModel):
 class UserDB(Base):
     __tablename__ = "users"
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    username = Column(String, primary_key=False, nullable=False)
+    username = Column(String, nullable=False)
     email = Column(String, unique=True, nullable=False)
     hashed_password = Column(String, nullable=False)
 
@@ -36,26 +36,50 @@ class ImageDB(Base):
     full = Column(String, nullable=False)
     small = Column(String, nullable=False)
 
-    basic_object_id = Column(UUID(as_uuid=True), ForeignKey("basic-objects.id"), nullable=False)
-    building_id = Column(UUID(as_uuid=True), ForeignKey("buildings.id"), nullable=False)
-    car_id = Column(UUID(as_uuid=True), ForeignKey("cars.id"), nullable=False)
+    owner_id = Column(UUID(as_uuid=True), nullable=False)
+    owner_type = Column(String, nullable=False)  # Indicates which entity owns this image
+
+    __mapper_args__ = {
+        'polymorphic_on': owner_type,  # Define polymorphic behavior
+        'polymorphic_identity': 'image',  # Default identity
+    }
+
+
 
 
 class BasicObject(BaseModel):
-    id: str
+    id: str | None = None
     subject: str
     price: float
     description: str
     image: List[Image]
 
+    model_config = {
+        "from_attributes": True,
+        "populate_by_name": True,
+        "alias_generator": lambda field_name: "id_str" if field_name == "id" else field_name
+    }
+
+
+
 
 class BasicObjectDB(Base):
-    __tablename__ = "basic-objects"
+    __tablename__ = "basic_objects"
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     subject = Column(String, nullable=False)
     price = Column(Float, nullable=False)
     description = Column(String, nullable=False)
-    images = relationship("ImageDB", back_populates="basic_object_id", cascade="all, delete-orphan")
+
+    images = relationship(
+        "ImageDB",
+        primaryjoin="and_(cast(foreign(ImageDB.owner_id), UUID) == BasicObjectDB.id, ImageDB.owner_type == 'basic_object')",
+        cascade="all, delete-orphan",
+        overlaps="images"
+    )
+
+    @property
+    def id_str(self):
+        return str(self.id)
 
 class Building(BaseModel):
     id: str
@@ -72,6 +96,11 @@ class Building(BaseModel):
     bathroomNumber: int | None
     description: str | None
 
+    model_config = {
+        "from_attributes": True,
+        # Replaces `orm_mode` in Pydantic v2
+    }
+
 class BuildingDB(Base):
     __tablename__ = "buildings"
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
@@ -87,10 +116,15 @@ class BuildingDB(Base):
     bathroomNumber = Column(Integer, nullable=True)
     description = Column(String, nullable=True)
 
-    images = relationship("ImageDB", back_populates="images")
+    images = relationship(
+        "ImageDB",
+        primaryjoin="and_(foreign(ImageDB.owner_id) == BuildingDB.id, ImageDB.owner_type == 'building')",
+        cascade="all, delete-orphan",
+        overlaps="images"
+    )
 
 class Car(BaseModel):
-    id: UUID
+    id: str
     name: str
     brand: str
     model: str
@@ -118,6 +152,11 @@ class Car(BaseModel):
     emission: int | None = None
     vin: str | None = None
     images: List[Image]
+
+    model_config = {
+        "from_attributes": True,
+        # Replaces `orm_mode` in Pydantic v2
+    }
 
 class CarDB(Base):
     __tablename__ = "cars"
@@ -149,14 +188,64 @@ class CarDB(Base):
     emission = Column(Integer, nullable=True)
     vin = Column(String, nullable=True)
 
-    images = relationship("ImageDB", back_populates="images")
+    images = relationship(
+        "ImageDB",
+        primaryjoin="and_(foreign(ImageDB.owner_id) == CarDB.id, ImageDB.owner_type == 'car')",
+        cascade="all, delete-orphan",
+        overlaps="images"
+    )
 
 
 class AllTablesResponse(BaseModel):
-    cars: list[CarDB]
-    buildings: list[BuildingDB]
-    other: list[BasicObjectDB]
+    cars: list[Car]
+    buildings: list[Building]
+    other: list[BasicObject]
 
+
+class UserOffer(BaseModel):
+    id: str
+    objectId: str
+    name: str
+    email: str
+    phone: str
+    location: str
+    description: str
+    image: List[Image]
+    model_config = {
+        "from_attributes": True,  # Replaces `orm_mode` in Pydantic v2
+    }
+
+class UserOfferDB(Base):
+    __tablename__ = "user-offers"
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    objectId = Column(UUID, nullable=False)
+    name = Column(String, nullable=False)
+    email = Column(String, nullable=False)
+    phone = Column(String, nullable=False)
+    location = Column(String, nullable=True)
+    description = Column(String, nullable=True)
+    images = relationship(
+        "ImageDB",
+        primaryjoin="and_(foreign(ImageDB.owner_id) == UserOfferDB.id, ImageDB.owner_type == 'user_offer')",
+        cascade="all, delete-orphan",
+        overlaps="images"
+    )
+
+
+# Automation Function
+def create_image_subclass(entity_name: str):
+    return type(
+        f"{entity_name.capitalize()}ImageDB",  # Class name
+        (ImageDB,),  # Base class
+        {
+            "__mapper_args__": {
+                "polymorphic_identity": entity_name  # Polymorphic identity
+            }
+        },
+    )
+
+# Dynamically Create Subclasses
+BasicObjectImageDB = create_image_subclass("basic_object")
 
 
 
