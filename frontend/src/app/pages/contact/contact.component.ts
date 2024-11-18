@@ -33,7 +33,7 @@ export class ContactComponent implements OnInit {
     if (!this.contactForm.valid) return;
     this.isSubmitting = true;
 
-    console.log('Uploaded form value:', this.contactForm.getRawValue());
+    console.log('Contact form:', this.contactForm.getRawValue());
     this.isSubmitting = false;
   }
 }

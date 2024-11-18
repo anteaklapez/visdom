@@ -1,1 +1,44 @@
-<p>login works!</p>
+@if (isSubmitting) {
+<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
+
+<section class="form-section">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <h1 class="title">PRIJAVA</h1>
+
+    <!-- KORISNIČKO IME -->
+    <mat-form-field>
+      <mat-label>Korisničko ime</mat-label>
+      <input matInput type="text" formControlName="username" />
+      <mat-error>
+        @if (loginForm.get('username')?.invalid &&
+        (loginForm.get('username')?.dirty ||
+        loginForm.get('username')?.touched)) { @if
+        (loginForm.get('username')?.hasError('required')) { Korisničko ime je
+        obavezno. } }
+      </mat-error>
+    </mat-form-field>
+
+    <!-- LOZINKA -->
+    <mat-form-field>
+      <mat-label>Lozinka</mat-label>
+      <input matInput type="password" formControlName="password" />
+      <mat-error>
+        @if (loginForm.get('password')?.invalid &&
+        (loginForm.get('password')?.dirty ||
+        loginForm.get('password')?.touched)) { @if
+        (loginForm.get('password')?.hasError('required')) { Lozinka je obavezna.
+        } @else if (loginForm.get('password')?.hasError('minlength')) { Lozinka
+        mora imati barem 6 karaktera. } }
+      </mat-error>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      type="submit"
+      [disabled]="loginForm.invalid || isSubmitting"
+    >
+      PRIJAVITE SE
+    </button>
+  </form>
+</section>
