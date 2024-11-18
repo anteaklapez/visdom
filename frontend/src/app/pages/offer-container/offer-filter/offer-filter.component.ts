@@ -69,8 +69,14 @@ export class OfferFilterComponent implements OnInit {
 
   onSubmit() {
     if (this.filterForm.valid) {
-      console.log('Form Submitted:', this.filterForm.getRawValue());
+      const filterValues = this.filterForm.getRawValue();
+      this._itemService.filterItems(filterValues, this.selectedCategory);
     }
+  }
+
+  onReset() {
+    this.filterForm.reset();
+    this._itemService.resetFilter();
   }
 
   private _filterCarBrand(value: string): string[] {
