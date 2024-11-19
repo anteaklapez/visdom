@@ -30,6 +30,11 @@ class Image(BaseModel):
     full: str
     small: str
 
+    model_config = {
+        "from_attributes": True,
+        "populate_by_name": True,
+    }
+
 class ImageDB(Base):
     __tablename__ = "images"
     id = Column(String, primary_key=True)
@@ -40,11 +45,9 @@ class ImageDB(Base):
     owner_type = Column(String, nullable=False)  # Indicates which entity owns this image
 
     __mapper_args__ = {
-        'polymorphic_on': owner_type,  # Define polymorphic behavior
-        'polymorphic_identity': 'image',  # Default identity
+        'polymorphic_on': owner_type,
+        'polymorphic_identity': 'image'
     }
-
-
 
 
 class BasicObject(BaseModel):
@@ -52,7 +55,7 @@ class BasicObject(BaseModel):
     subject: str
     price: float
     description: str
-    image: List[Image]
+    image: List[Image] = []
 
     model_config = {
         "from_attributes": True,
@@ -72,9 +75,9 @@ class BasicObjectDB(Base):
 
     images = relationship(
         "ImageDB",
-        primaryjoin="and_(cast(foreign(ImageDB.owner_id), UUID) == BasicObjectDB.id, ImageDB.owner_type == 'basic_object')",
-        cascade="all, delete-orphan",
-        overlaps="images"
+        primaryjoin="and_(foreign(ImageDB.owner_id) == BasicObjectDB.id)",
+        cascade = "all, delete-orphan",
+        overlaps = "images"
     )
 
     @property
@@ -82,11 +85,11 @@ class BasicObjectDB(Base):
         return str(self.id)
 
 class Building(BaseModel):
-    id: str
+    id: str | None = None
     location: str
     title: str
     price: float
-    image: List[Image]
+    image: List[Image] = []
     roomNumber: int | None
     buildingArea: int | None
     gardenArea: int | None
@@ -98,7 +101,8 @@ class Building(BaseModel):
 
     model_config = {
         "from_attributes": True,
-        # Replaces `orm_mode` in Pydantic v2
+        "populate_by_name": True,
+        "alias_generator": lambda field_name: "id_str" if field_name == "id" else field_name
     }
 
 class BuildingDB(Base):
@@ -123,8 +127,12 @@ class BuildingDB(Base):
         overlaps="images"
     )
 
+    @property
+    def id_str(self):
+        return str(self.id)
+
 class Car(BaseModel):
-    id: str
+    id: str | None = None
     name: str
     brand: str
     model: str
@@ -151,12 +159,14 @@ class Car(BaseModel):
     emissionClass: str | None = None
     emission: int | None = None
     vin: str | None = None
-    images: List[Image]
+    images: List[Image] = []
 
     model_config = {
         "from_attributes": True,
-        # Replaces `orm_mode` in Pydantic v2
+        "populate_by_name": True,
+        "alias_generator": lambda field_name: "id_str" if field_name == "id" else field_name
     }
+
 
 class CarDB(Base):
     __tablename__ = "cars"
@@ -195,6 +205,10 @@ class CarDB(Base):
         overlaps="images"
     )
 
+    @property
+    def id_str(self):
+        return str(self.id)
+
 
 class AllTablesResponse(BaseModel):
     cars: list[Car]
@@ -210,9 +224,11 @@ class UserOffer(BaseModel):
     phone: str
     location: str
     description: str
-    image: List[Image]
+    image: List[Image] = []
     model_config = {
-        "from_attributes": True,  # Replaces `orm_mode` in Pydantic v2
+        "from_attributes": True,
+        "populate_by_name": True,
+        "alias_generator": lambda field_name: "id_str" if field_name == "id" else field_name
     }
 
 class UserOfferDB(Base):
@@ -224,12 +240,17 @@ class UserOfferDB(Base):
     phone = Column(String, nullable=False)
     location = Column(String, nullable=True)
     description = Column(String, nullable=True)
+
     images = relationship(
         "ImageDB",
         primaryjoin="and_(foreign(ImageDB.owner_id) == UserOfferDB.id, ImageDB.owner_type == 'user_offer')",
         cascade="all, delete-orphan",
         overlaps="images"
     )
+
+    @property
+    def id_str(self):
+        return str(self.id)
 
 
 # Automation Function
@@ -246,6 +267,9 @@ def create_image_subclass(entity_name: str):
 
 # Dynamically Create Subclasses
 BasicObjectImageDB = create_image_subclass("basic_object")
+CarImageDB = create_image_subclass("car")
+BuildingImageDB = create_image_subclass("building")
+UserOfferImageDB = create_image_subclass("user_offer")
 
 
 
