@@ -42,7 +42,7 @@ class ImageDB(Base):
     small = Column(String, nullable=False)
 
     owner_id = Column(UUID(as_uuid=True), nullable=False)
-    owner_type = Column(String, nullable=False)  # Indicates which entity owns this image
+    owner_type = Column(String, nullable=False)
 
     __mapper_args__ = {
         'polymorphic_on': owner_type,
@@ -55,12 +55,11 @@ class BasicObject(BaseModel):
     subject: str
     price: float
     description: str
-    image: List[Image] = []
+    images: List[Image] = []
 
     model_config = {
         "from_attributes": True,
         "populate_by_name": True,
-        "alias_generator": lambda field_name: "id_str" if field_name == "id" else field_name
     }
 
 
@@ -75,21 +74,19 @@ class BasicObjectDB(Base):
 
     images = relationship(
         "ImageDB",
-        primaryjoin="and_(foreign(ImageDB.owner_id) == BasicObjectDB.id)",
+        primaryjoin="and_(foreign(ImageDB.owner_id) == BasicObjectDB.id, ImageDB.owner_type == 'basic_object')",
         cascade = "all, delete-orphan",
         overlaps = "images"
     )
 
-    @property
-    def id_str(self):
-        return str(self.id)
+
 
 class Building(BaseModel):
     id: str | None = None
     location: str
     title: str
     price: float
-    image: List[Image] = []
+    images: List[Image] = []
     roomNumber: int | None
     buildingArea: int | None
     gardenArea: int | None
@@ -102,7 +99,6 @@ class Building(BaseModel):
     model_config = {
         "from_attributes": True,
         "populate_by_name": True,
-        "alias_generator": lambda field_name: "id_str" if field_name == "id" else field_name
     }
 
 class BuildingDB(Base):
@@ -111,13 +107,13 @@ class BuildingDB(Base):
     location = Column(String, nullable=False)
     title = Column(String, nullable=False)
     price = Column(Float, nullable=False)
-    roomNumber = Column(Integer, nullable=True)
-    buildingArea = Column(Integer, nullable=True)
-    gardenArea = Column(Integer, nullable=True)
-    buildYear = Column(Integer, nullable=True)
-    buildingType = Column(String, nullable=True)
+    roomNumber = Column('roomnumber', Integer, nullable=True)
+    buildingArea = Column('buildingarea', Integer, nullable=True)
+    gardenArea = Column('gardenarea', Integer, nullable=True)
+    buildYear = Column('buildyear', Integer, nullable=True)
+    buildingType = Column('buildingtype', String, nullable=True)
     floors = Column(String, nullable=True)
-    bathroomNumber = Column(Integer, nullable=True)
+    bathroomNumber = Column('bathroomnumber', Integer, nullable=True)
     description = Column(String, nullable=True)
 
     images = relationship(
@@ -127,9 +123,7 @@ class BuildingDB(Base):
         overlaps="images"
     )
 
-    @property
-    def id_str(self):
-        return str(self.id)
+
 
 class Car(BaseModel):
     id: str | None = None
@@ -164,7 +158,6 @@ class Car(BaseModel):
     model_config = {
         "from_attributes": True,
         "populate_by_name": True,
-        "alias_generator": lambda field_name: "id_str" if field_name == "id" else field_name
     }
 
 
@@ -176,25 +169,25 @@ class CarDB(Base):
     model = Column(String, nullable=False)
     price = Column(Float, nullable=False)
     mileage = Column(Integer, nullable=True)
-    productionYear = Column(Integer, nullable=True)
+    productionYear = Column('productionyear',Integer, nullable=True)
     type = Column(String, nullable=True)
-    driveType = Column(String, nullable=True)
-    doorNumber = Column(Integer, nullable=True)
-    seatNumber = Column(Integer, nullable=True)
-    bodyShape = Column(String, nullable=True)
-    modelYear = Column(Integer, nullable=True)
+    driveType = Column('drivetype',String, nullable=True)
+    doorNumber = Column('doornumber',Integer, nullable=True)
+    seatNumber = Column('seatnumber',Integer, nullable=True)
+    bodyShape = Column('bodyshape',String, nullable=True)
+    modelYear = Column('modelyear',Integer, nullable=True)
     registration = Column(String, nullable=True)
-    engineSize = Column(Integer, nullable=True)
+    engineSize = Column('enginesize',Integer, nullable=True)
     location = Column(String, nullable=True)
     description = Column(String, nullable=True)
     power = Column(Integer, nullable=True)
     engine = Column(String, nullable=True)
     transmission = Column(String, nullable=True)
     consumption = Column(Float, nullable=True)
-    bodyColor = Column(String, nullable=True)
-    interiorColor = Column(String, nullable=True)
-    interiorMaterial = Column(String, nullable=True)
-    emissionClass = Column(String, nullable=True)
+    bodyColor = Column('bodycolor',String, nullable=True)
+    interiorColor = Column('interiorcolor',String, nullable=True)
+    interiorMaterial = Column('interiormaterial',String, nullable=True)
+    emissionClass = Column('emissionclass',String, nullable=True)
     emission = Column(Integer, nullable=True)
     vin = Column(String, nullable=True)
 
@@ -205,9 +198,6 @@ class CarDB(Base):
         overlaps="images"
     )
 
-    @property
-    def id_str(self):
-        return str(self.id)
 
 
 class AllTablesResponse(BaseModel):
@@ -224,17 +214,16 @@ class UserOffer(BaseModel):
     phone: str
     location: str
     description: str
-    image: List[Image] = []
+    images: List[Image] = []
     model_config = {
         "from_attributes": True,
         "populate_by_name": True,
-        "alias_generator": lambda field_name: "id_str" if field_name == "id" else field_name
     }
 
 class UserOfferDB(Base):
     __tablename__ = "user-offers"
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    objectId = Column(UUID, nullable=False)
+    objectId = Column('objectid', UUID, nullable=False)
     name = Column(String, nullable=False)
     email = Column(String, nullable=False)
     phone = Column(String, nullable=False)
@@ -248,9 +237,7 @@ class UserOfferDB(Base):
         overlaps="images"
     )
 
-    @property
-    def id_str(self):
-        return str(self.id)
+
 
 
 # Automation Function
