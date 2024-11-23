@@ -128,7 +128,7 @@ async def create_offer(offer_data: UserOffer, db: Annotated[Session, Depends(get
     db.flush()
 
     try:
-        create_images(owner_id=new_offer.id, owner_type="basic_object", images=offer_data.images, db=db)
+        create_images(owner_id=new_offer.id, owner_type="user_offer", images=offer_data.images, db=db)
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=400, detail=str(e))
@@ -140,13 +140,13 @@ async def create_offer(offer_data: UserOffer, db: Annotated[Session, Depends(get
 
 
 @router.get("/vozila", response_model=List[Car])
-async def get_cars(db: Annotated[Session, Depends(get_db)]):
+async def get_cars(db: Annotated[Session, Depends(get_db)]) -> List[Car]:
     result = []
     cars = db.query(CarDB).options(joinedload(CarDB.images)).all()
     if not cars:
         raise HTTPException(status_code=404, detail="No cars found")
     for car in cars:
-        bo = BasicObject(
+        bo = Car(
             id=str(car.id),
             name=car.name,
             brand=car.brand,
@@ -181,13 +181,13 @@ async def get_cars(db: Annotated[Session, Depends(get_db)]):
     return result
 
 @router.get("/nekretnine", response_model=List[Building])
-async def get_buildings(db: Annotated[Session, Depends(get_db)]):
+async def get_buildings(db: Annotated[Session, Depends(get_db)]) -> List[Building]:
     result = []
     buildings = db.query(BuildingDB).options(joinedload(BuildingDB.images)).all()
     if not buildings:
         raise HTTPException(status_code=404, detail="No buildings found")
     for building in buildings:
-        bo = BasicObject(
+        bo = Building(
             id=str(building.id),
             location=building.location,
             title=building.title,
@@ -207,7 +207,7 @@ async def get_buildings(db: Annotated[Session, Depends(get_db)]):
     return result
 
 @router.get("/ostalo", response_model=List[BasicObject])
-async def get_other(db: Annotated[Session, Depends(get_db)]):
+async def get_other(db: Annotated[Session, Depends(get_db)]) -> List[BasicObject]:
     result = []
     basic_objects = db.query(BasicObjectDB).options(joinedload(BasicObjectDB.images)).all()
     if not basic_objects:
@@ -232,9 +232,9 @@ async def get_offers(object_id: str, db: Annotated[Session, Depends(get_db)]):
     if not user_offers:
         raise HTTPException(status_code=404, detail="No user offers found")
     for user_offer in user_offers:
-        bo = BasicObject(
+        bo = UserOffer(
             id=str(user_offer.id),
-            objectId=str(user_offer.id),
+            objectId=str(user_offer.objectId),
             name=user_offer.name,
             email=user_offer.email,
             phone=user_offer.phone,
@@ -248,12 +248,17 @@ async def get_offers(object_id: str, db: Annotated[Session, Depends(get_db)]):
 
 @router.get("/", response_model=AllTablesResponse)
 async def get_all(db: Annotated[Session, Depends(get_db)]):
-    cars = db.query(CarDB).all()
-    buildings = db.query(BuildingDB).all()
-    other = db.query(BasicObjectDB).all()
+    car_db_instances = db.query(CarDB).all()
+    building_db_instances = db.query(BuildingDB).all()
+    basic_object_db_instances = db.query(BasicObjectDB).all()
 
-    if not cars and not buildings and not other:
+    if not car_db_instances and not building_db_instances and not basic_object_db_instances:
         raise HTTPException(status_code=404, detail="No data found")
+
+    # Convert SQLAlchemy models to Pydantic models
+    cars = [Car.model_validate(car) for car in car_db_instances]
+    buildings = [Building.model_validate(building) for building in building_db_instances]
+    other = [BasicObject.model_validate(obj) for obj in basic_object_db_instances]
 
     return AllTablesResponse(cars=cars, buildings=buildings, other=other)
 
@@ -267,8 +272,9 @@ async def delete_vehicle(vehicle_id: str, db: Annotated[Session, Depends(get_db)
     db.delete(vehicle)
     db.commit()
 
-    return {"message": f"Building with ID {vehicle_id} deleted successfully"}
-@router.delete("/brisanje/gradevina/{building_id}")
+    return {"message": f"Vehicle with ID {vehicle_id} deleted successfully"}
+
+@router.delete("/brisanje/nekretnina/{building_id}")
 async def delete_building(building_id: str, db: Annotated[Session, Depends(get_db)]):
     building = db.query(BuildingDB).filter(BuildingDB.id == building_id).first()
 
@@ -305,7 +311,7 @@ async def delete_user_offer(user_offer_id: str, db: Annotated[Session, Depends(g
     return {"message": f"User offer with ID {user_offer_id} deleted successfully"}
 
 
-@router.put("/uredi/gradevina/{building_id}")
+@router.put("/uredi/nekretnina/{building_id}")
 async def edit_building(
     building_id: str,
     updated_building: Building,

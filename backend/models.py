@@ -51,7 +51,7 @@ class ImageDB(Base):
 
 
 class BasicObject(BaseModel):
-    id: str | None = None
+    id: uuid.UUID | None = None
     subject: str
     price: float
     description: str
@@ -82,11 +82,10 @@ class BasicObjectDB(Base):
 
 
 class Building(BaseModel):
-    id: str | None = None
+    id: uuid.UUID | None = None
     location: str
     title: str
     price: float
-    images: List[Image] = []
     roomNumber: int | None
     buildingArea: int | None
     gardenArea: int | None
@@ -95,6 +94,7 @@ class Building(BaseModel):
     floors: str
     bathroomNumber: int | None
     description: str | None
+    images: List[Image] = []
 
     model_config = {
         "from_attributes": True,
@@ -126,7 +126,7 @@ class BuildingDB(Base):
 
 
 class Car(BaseModel):
-    id: str | None = None
+    id: uuid.UUID | None = None
     name: str
     brand: str
     model: str
@@ -207,7 +207,7 @@ class AllTablesResponse(BaseModel):
 
 
 class UserOffer(BaseModel):
-    id: str
+    id: uuid.UUID | None = None
     objectId: str
     name: str
     email: str
