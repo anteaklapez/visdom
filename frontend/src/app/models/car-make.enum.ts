@@ -76,6 +76,7 @@ export enum CarMake {
     VW = 'VW',
     XEV = 'XEV',
     YUGO = 'Yugo',
-    ZASTAVA = 'Zastava'
+    ZASTAVA = 'Zastava',
+    KITA = 'Kita'
   }
   

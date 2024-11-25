@@ -5,7 +5,7 @@
 @use '@angular/material' as mat;
 @include mat.core();
 
-// Note: Color palettes are generated from primary: #f75b39
+// Note: Color palettes are generated from primary: #FF7043
 $_palettes: (
   primary: (
     0: #000000,
@@ -14,34 +14,34 @@ $_palettes: (
     25: #771400,
     30: #8c1900,
     35: #a11e00,
-    40: #F75B39, // background
-    50: #d64324,
-    60: #f95c3a,
+    40: #FF7043,      // $primary
+    50: #E65100,      // $primary-hover
+    60: #ff8a70,
     70: #ff8a70,
     80: #ffb4a3,
     90: #ffdad2,
     95: #ffede9,
     98: #fff8f6,
     99: #fffbff,
-    100: #F7EECF, // text
+    100: #ffffff,     // $white
   ),
   secondary: (
     0: #000000,
-    10: #3d0600,
-    20: #5c190b,
-    25: #6b2414,
-    30: #7a2f1e,
-    35: #893a29,
-    40: #984633,
-    50: #b75d49,
-    60: #d67660,
-    70: #f69078,
-    80: #ffb4a3,
-    90: #ffdad2,
-    95: #ffede9,
-    98: #fff8f6,
-    99: #fffbff,
-    100: #ffffff,
+    10: #00312d,
+    20: #004d43,
+    25: #005a4f,
+    30: #00675b,
+    35: #007467,
+    40: #4DB6AC,      // $secondary
+    50: #00897B,      // $secondary-hover
+    60: #009688,
+    70: #33ab9f,
+    80: #66bfaf,
+    90: #99d4c0,
+    95: #cce8e0,
+    98: #e6f3f1,
+    99: #f2f9f8,
+    100: #ffffff,     // $white
   ),
   tertiary: (
     0: #000000,
@@ -59,12 +59,12 @@ $_palettes: (
     95: #ffefd6,
     98: #fff8f2,
     99: #fffbff,
-    100: #ffffff,
+    100: #ffffff,     // $white
   ),
   neutral: (
     0: #000000,
-    10: #261815,
-    20: #3d2d29,
+    10: #1d2838,      // $footer
+    20: #333333,      // $text
     25: #493734,
     30: #55433f,
     35: #614e4a,
@@ -72,14 +72,14 @@ $_palettes: (
     50: #88726e,
     60: #a38c87,
     70: #bea6a0,
-    80: #dbc1bb,
-    90: #f8ddd7,
+    80: #F7F7F7,      // $gray
+    90: #ECEFF1,      // $background
     95: #ffede9,
     98: #fff8f6,
     99: #fffbff,
     100: #ffffff,
-    4: #170b08,
-    6: #1d100d,
+    4:  #170b08,
+    6:  #1d100d,
     12: #2b1c19,
     17: #362623,
     22: #42312d,
@@ -94,7 +94,7 @@ $_palettes: (
     10: #2a1612,
     20: #422b26,
     25: #4e3630,
-    30: #5a413b,
+    30: #333333, // list text
     35: #674c46,
     40: #745852,
     50: #8e706a,
@@ -114,7 +114,7 @@ $_palettes: (
     25: #7e0007,
     30: #93000a,
     35: #a80710,
-    40: #ba1a1a,
+    40: #ed2517,      // $error
     50: #de3730,
     60: #ff5449,
     70: #ff897d,
@@ -130,7 +130,7 @@ $_palettes: (
 $_rest: (
   secondary: map.get($_palettes, secondary),
   neutral: map.get($_palettes, neutral),
-  neutral-variant: map.get($_palettes,  neutral-variant),
+  neutral-variant: map.get($_palettes, neutral-variant),
   error: map.get($_palettes, error),
 );
 $_primary: map.merge(map.get($_palettes, primary), $_rest);

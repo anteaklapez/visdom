@@ -5,4 +5,10 @@
         font-weight: 600;
         color: color.$text !important;
     }
+
+    .mat-mdc-tab-label-container {
+        border-bottom-color: color.$border !important;
+    }
+
+
 }

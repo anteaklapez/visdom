@@ -479,7 +479,7 @@ export enum KTM {
 }
 
 export enum Lada {
-    LADA_NIVA = "Niva"
+    LADA_NIVA = "Niva",
 }
 
 export enum Lamborghini {
@@ -494,6 +494,10 @@ export enum Lancia {
     LANCIA_PHEDRA = "Phedra",
     LANCIA_VOYAGER = "Voyager",
     LANCIA_Y = "Y"
+}
+
+export enum Kita {
+    KITA__NIVA = "Niva"
 }
 
 export enum LandRover {

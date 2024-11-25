@@ -2,9 +2,13 @@
 @use '../../../../theme/material/mat-menu.scss';
 @use '../../../../theme/colors.scss' as color;
 
+.toolbar {
+    background: transparent;
+}
+
 mat-toolbar {
     .remove-hover:hover {
-        background-color: #fbfbd9;
+        background-color: color.$background !important;
     }
 
     .nav-links {

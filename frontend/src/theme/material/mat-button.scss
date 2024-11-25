@@ -14,7 +14,7 @@
 /* RAISED BUTTON */
 ::ng-deep {
     .mat-mdc-raised-button:not(:active) {
-        border-radius: 4px;
+        border-radius: 0px;
         font-weight: 600;
         box-shadow: none;
     }
@@ -24,7 +24,7 @@
         font-weight: 600;
         background-color: color.$primary;
         color: color.$white;
-        border-radius: 4px;
+        border-radius: 0px;
     }
 
     .mat-mdc-raised-button:not(:disabled):hover {
@@ -42,7 +42,7 @@
     .mat-mdc-outlined-button:not(:disabled) {
         font-weight: 600;
         color: color.$primary;
-        border-radius: 4px;
+        border-radius: 0px;
         border-color: color.$primary;
         border-width: 2px;
     }
@@ -53,6 +53,6 @@
     .mat-mdc-button:not(:disabled) {
         font-weight: 600;
         color: color.$text;
-        border-radius: 4px;
+        border-radius: 0px;
     }
 }

@@ -1,26 +1,26 @@
 :root {
-    --ripple: #ff9982;
+    --ripple: #FAECE5;
 }
 
-$primary: #F75B39;
-$white: #FAF8F3;
-$gray: #F5F0E5;
-$hover: #FAECE5;
-$background: #F7EECF;
-$background-dark: #E9E2C9;
-$background-dots: #ACA27f;
-$text: #3C2E23;
-$footer: #3C2E23;
-$border: #ACA27f;
-$ripple: #f86746;
-$placeholder: #3c2e2373;
-$error: #ba1a1a;
+$primary: #FF7043;
+$primary-hover: #90caf944;
+$white: #ffffff;
+$gray: #F7F7F7;
+$hover: #f4f4f4;
+$background: #ECEFF1;
+$background-dark: #E5E9EB;
+$text: #333333;
+$footer: #1d2838;
+$border: #cacaca; 
+$ripple: #dde2e4;
+$placeholder: #33333373;
+$error: #ed2517;
 
 $box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 $chip-shadow: rgba(0, 0, 0, 0.16) 0px 1px 1px;
 $bottom-shadow: rgba(0, 0, 0, 0.08) 0px 2px 4px;
 $form-field-shadow: rgba(0, 0, 0, 0.06) 0px 1px 4px;
 
-$scrollbar-thumb: #3C2E23;
-$scrollbar-thumb-hover: #4d3a2c;
-$scrollbar-track: #E9E2C9;
+$scrollbar-thumb: #1d2838;        
+$scrollbar-thumb-hover: #2a3a50;  
+$scrollbar-track: #D0D6DB;    
