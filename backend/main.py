@@ -2,11 +2,13 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import auth
 import offer
+import contact
 
 app = FastAPI()
 
 app.include_router(auth.router)
 app.include_router(offer.router)
+app.include_router(contact.router)
 
 origins = [
     "http://localhost:8080"
