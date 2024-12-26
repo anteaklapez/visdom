@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import auth
 import offer
 import contact
+import os
 
 app = FastAPI()
 
@@ -24,4 +25,4 @@ app.add_middleware(
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host=os.getenv("HOST"), port=int(os.getenv("PORT")), reload=True)
