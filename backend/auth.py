@@ -9,7 +9,7 @@ from jwt.exceptions import InvalidTokenError
 import os
 from dotenv import load_dotenv
 
-from backend.models import Token, TokenData, User, UserDB
+from models import Token, TokenData, User, UserDB
 from database import get_db
 from sqlalchemy.orm import Session
 

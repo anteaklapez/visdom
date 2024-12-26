@@ -2,8 +2,8 @@ from typing import Annotated, List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session, joinedload
 
-from backend.auth import get_current_user
-from backend.models import Car, CarDB, ImageDB, Building, BuildingDB, Image, BasicObject, BasicObjectDB, \
+from auth import get_current_user
+from models import Car, CarDB, ImageDB, Building, BuildingDB, Image, BasicObject, BasicObjectDB, \
     AllTablesResponse, UserOfferDB, UserOffer
 from database import get_db
 
