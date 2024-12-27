@@ -23,25 +23,24 @@ EMAIL=os.getenv("EMAIL")
 EMAIL_MAIN=os.getenv("EMAIL_MAIN")
 EMAIL_HOST = os.getenv("EMAIL_HOST")
 EMAIL_PORT = int(os.getenv("EMAIL_PORT"))
-CREDENTIALS_FILE = os.getenv("CREDENTIALS_FILE")
 
 
 def get_credentials():
     """Load or generate credentials for the Gmail API."""
 
     # Load token from environment variable or create it
-    token_json = os.getenv("GMAIL_TOKEN")
+    token_json = os.getenv("EMAIL_TOKEN")
     if token_json:
         creds = Credentials.from_authorized_user_info(json.loads(token_json), SCOPES)
     else:
         # Load credentials from the environment variable
-        credentials_json = os.getenv("GMAIL_CREDENTIALS")
+        credentials_json = os.getenv("EMAIL_CREDENTIALS")
         if not credentials_json:
-            raise ValueError("GMAIL_CREDENTIALS environment variable is not set.")
+            raise ValueError("EMAIL_CREDENTIALS environment variable is not set.")
 
         # Create a flow for new token generation
         flow = InstalledAppFlow.from_client_config(json.loads(credentials_json), SCOPES)
-        creds = flow.run_local_server(port=8080, access_type="offline", prompt="consent")
+        creds = flow.run_local_server(port=8081, access_type="offline", prompt="consent")
 
         # Save the new token to the environment (or log it for debugging)
         token_info = creds.to_json()
