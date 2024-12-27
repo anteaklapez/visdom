@@ -5,6 +5,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from email.mime.text import MIMEText
 import base64
 import os
+import json
 from dotenv import load_dotenv
 from pydantic import BaseModel, EmailStr
 
@@ -27,14 +28,25 @@ CREDENTIALS_FILE = os.getenv("CREDENTIALS_FILE")
 
 def get_credentials():
     """Load or generate credentials for the Gmail API."""
-    if os.path.exists("token.json"):
-        creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+
+    # Load token from environment variable or create it
+    token_json = os.getenv("GMAIL_TOKEN")
+    if token_json:
+        creds = Credentials.from_authorized_user_info(json.loads(token_json), SCOPES)
     else:
-        flow = InstalledAppFlow.from_client_secrets_file(CREDENTIALS_FILE, SCOPES)
+        # Load credentials from the environment variable
+        credentials_json = os.getenv("GMAIL_CREDENTIALS")
+        if not credentials_json:
+            raise ValueError("GMAIL_CREDENTIALS environment variable is not set.")
+
+        # Create a flow for new token generation
+        flow = InstalledAppFlow.from_client_config(json.loads(credentials_json), SCOPES)
         creds = flow.run_local_server(port=8080, access_type="offline", prompt="consent")
 
-        with open("token.json", "w") as token_file:
-            token_file.write(creds.to_json())
+        # Save the new token to the environment (or log it for debugging)
+        token_info = creds.to_json()
+        print("New token generated. Save this in the GMAIL_TOKEN variable:", token_info)
+
     return creds
 
 

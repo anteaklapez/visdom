@@ -13,6 +13,7 @@ app.include_router(contact.router)
 
 origins = [
     "http://localhost:8080"
+    "http://100.64.0.3:41526"
 ]
 
 app.add_middleware(
