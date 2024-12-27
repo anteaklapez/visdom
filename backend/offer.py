@@ -7,11 +7,9 @@ from models import Car, CarDB, ImageDB, Building, BuildingDB, Image, BasicObject
     AllTablesResponse, UserOfferDB, UserOffer
 from database import get_db
 
-router = APIRouter(
-    dependencies=[Depends(get_current_user)]
-)
+router = APIRouter()
 
-@router.post("/izrada/vozila", status_code=200)
+@router.post("/izrada/vozila", status_code=200, dependencies=[Depends(get_current_user)])
 async def create_vehicle(car_data: Car, db: Annotated[Session, Depends(get_db)]):
     new_car = CarDB(
         name=car_data.name,
@@ -57,7 +55,7 @@ async def create_vehicle(car_data: Car, db: Annotated[Session, Depends(get_db)])
 
     return {"message": "Car created successfully"}
 
-@router.post("/izrada/nekretnine", status_code=200)
+@router.post("/izrada/nekretnine", status_code=200, dependencies=[Depends(get_current_user)])
 async def create_building(building_data: Building, db: Annotated[Session, Depends(get_db)]):
     new_building = BuildingDB(
         location=building_data.location,
@@ -89,7 +87,7 @@ async def create_building(building_data: Building, db: Annotated[Session, Depend
     return {"message": "Building created successfully"}
 
 
-@router.post("/izrada/ostalo", status_code=200)
+@router.post("/izrada/ostalo", status_code=200, dependencies=[Depends(get_current_user)])
 async def create_other(other_data: BasicObject, db: Annotated[Session, Depends(get_db)]):
     new_basic_object = BasicObjectDB(
         subject=other_data.subject,
@@ -262,7 +260,7 @@ async def get_all(db: Annotated[Session, Depends(get_db)]):
 
     return AllTablesResponse(cars=cars, buildings=buildings, other=other)
 
-@router.delete("/brisanje/vozilo/{vehicle_id}")
+@router.delete("/brisanje/vozilo/{vehicle_id}", dependencies=[Depends(get_current_user)])
 async def delete_vehicle(vehicle_id: str, db: Annotated[Session, Depends(get_db)]):
     vehicle = db.query(CarDB).filter(CarDB.id == vehicle_id).first()
 
@@ -274,7 +272,7 @@ async def delete_vehicle(vehicle_id: str, db: Annotated[Session, Depends(get_db)
 
     return {"message": f"Vehicle with ID {vehicle_id} deleted successfully"}
 
-@router.delete("/brisanje/nekretnina/{building_id}")
+@router.delete("/brisanje/nekretnina/{building_id}", dependencies=[Depends(get_current_user)])
 async def delete_building(building_id: str, db: Annotated[Session, Depends(get_db)]):
     building = db.query(BuildingDB).filter(BuildingDB.id == building_id).first()
 
@@ -286,7 +284,7 @@ async def delete_building(building_id: str, db: Annotated[Session, Depends(get_d
 
     return {"message": f"Building with ID {building_id} deleted successfully"}
 
-@router.delete("/brisanje/ostalo/{basic_object_id}")
+@router.delete("/brisanje/ostalo/{basic_object_id}", dependencies=[Depends(get_current_user)])
 async def delete_other(basic_object_id: str, db: Annotated[Session, Depends(get_db)]):
     other = db.query(BasicObjectDB).filter(BasicObjectDB.id == basic_object_id).first()
 
@@ -311,7 +309,7 @@ async def delete_user_offer(user_offer_id: str, db: Annotated[Session, Depends(g
     return {"message": f"User offer with ID {user_offer_id} deleted successfully"}
 
 
-@router.put("/uredi/nekretnina/{building_id}")
+@router.put("/uredi/nekretnina/{building_id}", dependencies=[Depends(get_current_user)])
 async def edit_building(
     building_id: str,
     updated_building: Building,
@@ -373,7 +371,7 @@ async def edit_building(
 
 
 
-@router.put("/uredi/ostalo/{basic_object_id}")
+@router.put("/uredi/ostalo/{basic_object_id}", dependencies=[Depends(get_current_user)])
 async def edit_basic_object(
     basic_object_id: str,
     updated_basic_object: BasicObject,
@@ -492,7 +490,7 @@ async def edit_user_offer(
 
     return {"message": f"User offer with ID {user_offer_id} updated successfully"}
 
-@router.put("/uredi/vozilo/{vehicle_id}")
+@router.put("/uredi/vozilo/{vehicle_id}", dependencies=[Depends(get_current_user)])
 async def edit_vehicle(
     vehicle_id: str,
     updated_vehicle: Car,
