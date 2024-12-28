@@ -12,7 +12,8 @@ app.include_router(offer.router)
 app.include_router(contact.router)
 
 origins = [
-    "http://localhost:8080"
+    "http://localhost:8080",
+    "*"
 ]
 
 app.add_middleware(
