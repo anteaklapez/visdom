@@ -76,7 +76,7 @@ export class OfferFilterComponent implements OnInit {
 
   onReset() {
     this.filterForm.reset();
-    this._itemService.resetFilter();
+    this._itemService.resetFilter(this.selectedCategory);
   }
 
   private _filterCarBrand(value: string): string[] {

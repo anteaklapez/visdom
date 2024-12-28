@@ -256,5 +256,7 @@ export class ItemService {
     });
   }
 
-  resetFilter(): void {}
+  resetFilter(selectedCategory: string): void {
+    this.filterItems({}, selectedCategory);
+  }
 }
