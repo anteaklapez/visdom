@@ -1,10 +1,16 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, map, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  forkJoin,
+  map,
+  Observable,
+  of,
+  tap,
+} from 'rxjs';
 import { BasicObject } from '../models/basic-object.interface';
 import { Building } from '../models/building.interface';
-import {
-  Car,
-} from '../models/car.interface';
+import { Car } from '../models/car.interface';
 import { UserOffer } from '../models/user-offer.interface';
 import { Offer } from '../models/offer.enum';
 import { HttpClient } from '@angular/common/http';
@@ -28,10 +34,8 @@ interface FilterCriteria {
 export class ItemService {
   private readonly _http = inject(HttpClient);
 
-  private _allItems: (Car | Building | BasicObject)[] = [];
-
-  _itemSubject$: BehaviorSubject<(Car | Building | BasicObject)[]> =
-    new BehaviorSubject<(Car | Building | BasicObject)[]>([]);
+  private _filteredItemsSubject$ = new BehaviorSubject<(Car | Building | BasicObject)[]>([]);
+  public filteredItems$ = this._filteredItemsSubject$.asObservable();
 
   private _userOfferSubject$: BehaviorSubject<UserOffer[]> =
     new BehaviorSubject<UserOffer[]>([]);
@@ -73,7 +77,10 @@ export class ItemService {
   }
 
   updateBuilding(building: Building): Observable<any> {
-    return this._http.put(`${environment.apiUrl}/uredi/nekretnina/${building.id}`, building);
+    return this._http.put(
+      `${environment.apiUrl}/uredi/nekretnina/${building.id}`,
+      building
+    );
   }
 
   deleteBuilding(id: string): Observable<any> {
@@ -89,7 +96,10 @@ export class ItemService {
   }
 
   updateBasicObject(object: BasicObject): Observable<any> {
-    return this._http.put(`${environment.apiUrl}/uredi/ostalo/${object.id}`, object);
+    return this._http.put(
+      `${environment.apiUrl}/uredi/ostalo/${object.id}`,
+      object
+    );
   }
 
   deleteBasicObject(id: string): Observable<any> {
@@ -112,129 +122,139 @@ export class ItemService {
     );
   }
 
-  getItemById(
-    id: string
-  ): Observable<(Car | Building | BasicObject) | undefined> {
-    return this._itemSubject$.pipe(
-      map(
-        (
-          items: (Car | Building | BasicObject)[]
-        ): (Car | Building | BasicObject) | undefined =>
-          items.find((item) => item.id === id)
-      )
-    );
-  }
-
   public doesItemExist(id: string): Observable<boolean> {
     return forkJoin([
-      this.getCars(),      
-      this.getBuildings(), 
-      this.getBasicObject()
+      this.getCars(),
+      this.getBuildings(),
+      this.getBasicObject(),
     ]).pipe(
       map(([cars, buildings, objects]) => {
-        const foundInCars = cars.some(car => car.id === id);
-        const foundInBuildings = buildings.some(b => b.id === id);
-        const foundInObjects = objects.some(o => o.id === id);
-  
+        const foundInCars = cars.some((car) => car.id === id);
+        const foundInBuildings = buildings.some((b) => b.id === id);
+        const foundInObjects = objects.some((o) => o.id === id);
+
         return foundInCars || foundInBuildings || foundInObjects;
       })
     );
   }
 
   filterItems(criteria: FilterCriteria, category: string): void {
-    let filteredItems = this._allItems;
+    forkJoin([
+      this.getCars().pipe(
+        catchError((error) => {
+          console.error('Error fetching cars:', error);
+          return of([] as Car[]); // Return an empty array if there's an error
+        })
+      ),
+      this.getBuildings().pipe(
+        catchError((error) => {
+          console.error('Error fetching buildings:', error);
+          return of([] as Building[]); // Return an empty array if there's an error
+        })
+      ),
+      this.getBasicObject().pipe(
+        catchError((error) => {
+          console.error('Error fetching basic objects:', error);
+          return of([] as BasicObject[]); // Return an empty array if there's an error
+        })
+      ),
+    ]).subscribe(([cars, buildings, objects]) => {
+      let filteredItems: any = [];
 
-    // Filter by category
-    if (category === Offer.CARS) {
-      filteredItems = this._itemSubject$.getValue().filter((item) => 'engine' in item);
-    } else if (category === Offer.BUILDINGS) {
-      filteredItems = filteredItems.filter((item) => 'title' in item);
-    } else {
-      filteredItems = filteredItems.filter((item) => 'subject' in item);
-    }
+      // Filter by category
+      if (category === Offer.CARS) {
+        filteredItems = cars;
+      } else if (category === Offer.BUILDINGS) {
+        filteredItems = buildings;
+      } else {
+        filteredItems = objects;
+      }
 
-    // Apply brand filter (for cars)
-    if (criteria.brand) {
-      filteredItems = filteredItems.filter(
-        (item) =>
-          'brand' in item &&
-          item.brand.toLowerCase().includes(criteria.brand!.toLowerCase())
-      );
-    }
+      // Apply brand filter (for cars)
+      if (criteria.brand) {
+        filteredItems = filteredItems.filter(
+          (item: any) =>
+            'brand' in item &&
+            item.brand.toLowerCase().includes(criteria.brand!.toLowerCase())
+        );
+      }
 
-    // Apply price range filter
-    if (criteria.priceFrom) {
-      filteredItems = filteredItems.filter(
-        (item) => 'price' in item && item.price >= criteria.priceFrom!
-      );
-    }
-    if (criteria.priceTo) {
-      filteredItems = filteredItems.filter(
-        (item) => 'price' in item && item.price <= criteria.priceTo!
-      );
-    }
+      // Apply price range filter
+      if (criteria.priceFrom) {
+        filteredItems = filteredItems.filter(
+          (item: any) => 'price' in item && item.price >= criteria.priceFrom!
+        );
+      }
+      if (criteria.priceTo) {
+        filteredItems = filteredItems.filter(
+          (item: any) => 'price' in item && item.price <= criteria.priceTo!
+        );
+      }
 
-    // Apply building area filter (for buildings)
-    if (criteria.buildingAreaFrom) {
-      filteredItems = filteredItems.filter(
-        (item: any) =>
-          'buildingArea' in item &&
-          item.buildingArea >= criteria.buildingAreaFrom!
-      );
-    }
-    if (criteria.buildingAreaTo) {
-      filteredItems = filteredItems.filter(
-        (item: any) =>
-          'buildingArea' in item &&
-          item.buildingArea <= criteria.buildingAreaTo!
-      );
-    }
+      // Apply building area filter (for buildings)
+      if (
+        criteria.buildingAreaFrom
+      ) {
+        filteredItems = filteredItems.filter(
+          (item: any) =>
+            'buildingArea' in item &&
+            item.buildingArea >= criteria.buildingAreaFrom!
+        );
+      }
+      if (
+        criteria.buildingAreaTo
+      ) {
+        filteredItems = filteredItems.filter(
+          (item: any) =>
+            'buildingArea' in item &&
+            item.buildingArea <= criteria.buildingAreaTo!
+        );
+      }
 
-    // Apply mileage filter (for cars)
-    if (criteria.mileageFrom) {
-      filteredItems = filteredItems.filter(
-        (item: any) =>
-          'mileage' in item && item.mileage >= criteria.mileageFrom!
-      );
-    }
-    if (criteria.mileageTo) {
-      filteredItems = filteredItems.filter(
-        (item: any) => 'mileage' in item && item.mileage <= criteria.mileageTo!
-      );
-    }
+      // Apply mileage filter (for cars)
+      if (criteria.mileageFrom) {
+        filteredItems = filteredItems.filter(
+          (item: any) =>
+            'mileage' in item && item.mileage >= criteria.mileageFrom!
+        );
+      }
+      if (criteria.mileageTo) {
+        filteredItems = filteredItems.filter(
+          (item: any) =>
+            'mileage' in item && item.mileage <= criteria.mileageTo!
+        );
+      }
 
-    // Apply year filter
-    if (criteria.yearFrom) {
-      const yearFrom = criteria.yearFrom.getFullYear();
-      filteredItems = filteredItems.filter((item) => {
-        if ('productionYear' in item && item.productionYear) {
-          return parseInt(item.productionYear, 10) >= yearFrom;
-        }
-        if ('buildYear' in item && item.buildYear) {
-          return parseInt(item.buildYear, 10) >= yearFrom;
-        }
-        return true;
-      });
-    }
+      // Apply year filter
+      if (criteria.yearFrom) {
+        const yearFrom = criteria.yearFrom.getFullYear();
+        filteredItems = filteredItems.filter((item: any) => {
+          if ('productionYear' in item && item.productionYear) {
+            return parseInt(item.productionYear, 10) >= yearFrom;
+          }
+          if ('buildYear' in item && item.buildYear) {
+            return parseInt(item.buildYear, 10) >= yearFrom;
+          }
+          return true;
+        });
+      }
 
-    if (criteria.yearTo) {
-      const yearTo = criteria.yearTo.getFullYear();
-      filteredItems = filteredItems.filter((item) => {
-        if ('productionYear' in item && item.productionYear) {
-          return parseInt(item.productionYear, 10) <= yearTo;
-        }
-        if ('buildYear' in item && item.buildYear) {
-          return parseInt(item.buildYear, 10) <= yearTo;
-        }
-        return true;
-      });
-    }
+      if (criteria.yearTo) {
+        const yearTo = criteria.yearTo.getFullYear();
+        filteredItems = filteredItems.filter((item: any) => {
+          if ('productionYear' in item && item.productionYear) {
+            return parseInt(item.productionYear, 10) <= yearTo;
+          }
+          if ('buildYear' in item && item.buildYear) {
+            return parseInt(item.buildYear, 10) <= yearTo;
+          }
+          return true;
+        });
+      }
 
-    // Update the BehaviorSubject with filtered items
-    this._itemSubject$.next(filteredItems);
+      this._filteredItemsSubject$.next(filteredItems);
+    });
   }
 
-  resetFilter(): void {
-    this._itemSubject$.next(this._allItems);
-  }
+  resetFilter(): void {}
 }

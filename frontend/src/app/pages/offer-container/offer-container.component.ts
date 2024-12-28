@@ -41,9 +41,10 @@ export class OfferContainerComponent implements OnInit {
   selectedCategory: Offer = Offer.CARS;
   isLoggedIn: boolean = false;
 
-  cars$ = this.itemService.getCars();
-  buildings$ = this.itemService.getBuildings();
-  basicObjects$ = this.itemService.getBasicObject();
+  cars$ = {} as Observable<Car[]>;
+  buildings$ = {} as Observable<Building[]>;
+  basicObjects$ = {} as Observable<BasicObject[]>;
+  filteredItems$ = this.itemService.filteredItems$;
 
   ngOnInit() {
     this._route.url.subscribe((urlSegments) => {
@@ -51,18 +52,24 @@ export class OfferContainerComponent implements OnInit {
       switch (path) {
         case Offer.CARS:
           this.selectedCategory = Offer.CARS;
+          this.cars$ = this.itemService.filteredItems$ as Observable<Car[]>;
           break;
         case Offer.BUILDINGS:
           this.selectedCategory = Offer.BUILDINGS;
+          this.buildings$ = this.itemService.filteredItems$ as Observable<Building[]>;
           break;
         case Offer.ELSE:
           this.selectedCategory = Offer.ELSE;
+          this.basicObjects$ = this.itemService.filteredItems$ as Observable<BasicObject[]>;
           break;
         default:
           this.selectedCategory = Offer.CARS;
+          this.cars$ = this.itemService.filteredItems$ as Observable<Car[]>;
           break;
       }
     });
+
+    this.itemService.filterItems({}, this.selectedCategory);
 
     this._authService.loggedIn$.subscribe((status) => {
       this.isLoggedIn = status;
