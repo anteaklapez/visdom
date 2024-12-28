@@ -106,7 +106,7 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userOffersData$ = this._itemService.getUserOffersById(this.id!);
 
     this.createOfferForm = this._fb.group({
-      id: [this.id],
+      objectId: [this.id],
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern('^\\+?\\d{0,13}')]],
@@ -258,27 +258,33 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   onSubmit() {
     if (!this.createOfferForm.valid) return;
     this.isSubmitting = true;
-
+  
     const uploadObservables = this.images.map((image) =>
       this._imgbbService.uploadToImgbb(image)
     );
-
+  
     forkJoin(uploadObservables).subscribe({
       next: (responses) => {
-        const uploadedImages = responses.map((response) => {
-          return {
-            id: response.data.id,
-            full: response.data.image.url,
-            small: response.data.thumb.url,
-          } as Image;
-        });
+        const uploadedImages = responses.map((response) => ({
+          id: response.data.id,
+          full: response.data.image.url,
+          small: response.data.thumb.url,
+        }));
         this.createOfferForm.get('image')?.setValue(uploadedImages);
+  
+        this._itemService.createUserOffer(this.createOfferForm.value).subscribe({
+          next: () => {
+            console.log('Offer created successfully with images.');
+            this.isSubmitting = false;
+          },
+          error: (err) => {
+            console.error('Error creating offer:', err);
+            this.isSubmitting = false;
+          },
+        });
       },
       error: (err) => {
         console.error('Upload Error:', err);
-        this.isSubmitting = false;
-      },
-      complete: () => {
         this.isSubmitting = false;
       },
     });

@@ -106,6 +106,18 @@ export class ItemService {
     return this._http.delete(`${environment.apiUrl}/brisanje/ostalo/${id}`);
   }
 
+  createUserOffer(userOffer: UserOffer): Observable<any> {
+    return this._http.post(`${environment.apiUrl}/izrada/ponuda`, userOffer);
+  }
+
+  getUserOffer(itemId: string): Observable<Car[]> {
+    return this._http.get<Car[]>(`${environment.apiUrl}/ponude/${itemId}`);
+  }
+
+  deleteUserOffer(id: string): Observable<any> {
+    return this._http.delete(`${environment.apiUrl}/brisanje/ponuda/${id}`);
+  }
+
   getUserOffersById(objectId: string): Observable<UserOffer[]> {
     return this._userOfferSubject$.pipe(
       map((items: UserOffer[]): UserOffer[] =>
