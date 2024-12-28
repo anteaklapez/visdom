@@ -125,11 +125,12 @@ async def create_offer(offer_data: UserOffer, db: Annotated[Session, Depends(get
     db.add(new_offer)
     db.flush()
 
-    try:
-        create_images(owner_id=new_offer.id, owner_type="user_offer", images=offer_data.images, db=db)
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(status_code=400, detail=str(e))
+    if offer_data.images:
+        try:
+            create_images(owner_id=new_offer.id, owner_type="user_offer", images=offer_data.images, db=db)
+        except Exception as e:
+            db.rollback()
+            raise HTTPException(status_code=400, detail=str(e))
 
     db.commit()
     db.refresh(new_offer)
