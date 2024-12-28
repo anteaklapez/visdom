@@ -19,7 +19,9 @@
       >PONUDA</a
     >
     <a mat-button routerLink="/kontakt">KONTAKT</a>
-    <a mat-button routerLink="/prijava">PRIJAVA</a>
+    @if (!isLoggedIn) {
+      <a mat-button routerLink="/prijava">PRIJAVA</a>
+    }
   </span>
 
   <button

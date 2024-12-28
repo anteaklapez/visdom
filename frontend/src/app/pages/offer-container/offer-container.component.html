@@ -1,12 +1,14 @@
 <!-- FAB -->
-<button
-  class="fab"
-  mat-mini-fab
-  [matMenuTriggerFor]="menu"
-  matTooltip="Dodajte..."
->
-  <mat-icon>add</mat-icon>
-</button>
+ @if (isLoggedIn) {
+   <button
+     class="fab"
+     mat-mini-fab
+     [matMenuTriggerFor]="menu"
+     matTooltip="Dodajte..."
+   >
+     <mat-icon>add</mat-icon>
+   </button>
+ }
 
 <mat-menu #menu="matMenu" class="mat-menu">
   <button mat-menu-item [routerLink]="['/izrada/vozila']">

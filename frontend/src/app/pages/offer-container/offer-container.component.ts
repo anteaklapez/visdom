@@ -10,6 +10,7 @@ import { MaterialModule } from '../../shared/modules/material.module';
 import { CarItemComponent } from './offer-items/car-item/car-item.component';
 import { BuildingItemComponent } from './offer-items/building-item/building-item.component';
 import { ElseItemComponent } from './offer-items/else-item/else-item.component';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-offer-container',
@@ -22,7 +23,7 @@ import { ElseItemComponent } from './offer-items/else-item/else-item.component';
     RouterLink,
     CarItemComponent,
     BuildingItemComponent,
-    ElseItemComponent
+    ElseItemComponent,
   ],
   templateUrl: './offer-container.component.html',
   styleUrl: './offer-container.component.scss',
@@ -31,9 +32,11 @@ export class OfferContainerComponent implements OnInit {
   private readonly _route = inject(ActivatedRoute);
   private readonly _breakpointObserver = inject(BreakpointObserver);
   readonly itemService = inject(ItemService);
+  private readonly _authService = inject(AuthService);
 
   isSmallScreen$!: Observable<boolean>;
   selectedCategory: Offer = Offer.CARS;
+  isLoggedIn: boolean = false;
 
   ngOnInit() {
     this._route.url.subscribe((urlSegments) => {
@@ -52,6 +55,10 @@ export class OfferContainerComponent implements OnInit {
           this.selectedCategory = Offer.CARS;
           break;
       }
+    });
+
+    this._authService.loggedIn$.subscribe((status) => {
+      this.isLoggedIn = status;
     });
 
     this.isSmallScreen$ = this._breakpointObserver

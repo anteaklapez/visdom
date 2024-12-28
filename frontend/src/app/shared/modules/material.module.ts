@@ -29,6 +29,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Injectable()
 class CustomDateAdapter extends NativeDateAdapter {
@@ -60,6 +61,7 @@ class CustomDateAdapter extends NativeDateAdapter {
     MatProgressBarModule,
     MatSelectModule,
     MatTabsModule,
+    MatSnackBarModule,
   ],
   providers: [
     provideNativeDateAdapter(),

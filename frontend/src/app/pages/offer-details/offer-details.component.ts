@@ -38,6 +38,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ImgbbService } from '../../services/imgbb.service';
 import { UserOffer } from '../../models/user-offer.interface';
 import { Building } from '../../models/building.interface';
+import { AuthService } from '../../services/auth.service';
 
 export interface DetailsItem {
   title: string;
@@ -67,6 +68,7 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly _route = inject(ActivatedRoute);
   private readonly _itemService = inject(ItemService);
   private readonly _imgbbService = inject(ImgbbService);
+   private readonly _authService = inject(AuthService);
   private readonly _platformId = inject(PLATFORM_ID);
 
   @ViewChild('myCarousel', { static: false }) myCarousel!: ElementRef;
@@ -93,8 +95,13 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedFiles: File[] = [];
 
   id: string | null = null;
+  isLoggedIn: boolean = false;
 
   ngOnInit(): void {
+    this._authService.loggedIn$.subscribe((status) => {
+      this.isLoggedIn = status;
+    });
+
     this.id = this._route.snapshot.paramMap.get('id');
     this._rerouteIfIdInvalid(this.id!);
     this._getCurrentCategory();

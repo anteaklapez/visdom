@@ -336,19 +336,23 @@
     </mat-card-content>
     <mat-card-footer class="example-card-footer">
       <mat-card-actions>
-        <button
-          mat-button
-          (click)="deleteUserOffer(offer)"
-          class="remove-user-offer"
-        >
-          OBRIŠITE PONUDU
-        </button>
+        @if (isLoggedIn) {
+          <button
+            mat-button
+            (click)="deleteUserOffer(offer)"
+            class="remove-user-offer"
+          >
+            OBRIŠITE PONUDU
+          </button>
+        }
       </mat-card-actions>
     </mat-card-footer>
   </mat-card>
   }
 </section>
 }
-<div class="delete-button">
-  <button mat-button (click)="deleteOffer()">OBRIŠITE OGLAS</button>
-</div>
+@if (isLoggedIn) {
+  <div class="delete-button">
+    <button mat-button (click)="deleteOffer()">OBRIŠITE OGLAS</button>
+  </div>
+}

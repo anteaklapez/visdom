@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from '../auth/auth.guard';
 
 export const offerRoutes: Routes = [
   {
@@ -8,6 +9,7 @@ export const offerRoutes: Routes = [
       import('../pages/offer-create/offer-create.component').then(
         (c) => c.OfferCreateComponent
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'izrada/nekretnine',
@@ -16,6 +18,7 @@ export const offerRoutes: Routes = [
       import('../pages/offer-create/offer-create.component').then(
         (c) => c.OfferCreateComponent
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'izrada/ostalo',
@@ -24,6 +27,7 @@ export const offerRoutes: Routes = [
       import('../pages/offer-create/offer-create.component').then(
         (c) => c.OfferCreateComponent
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'ponuda/vozila',
