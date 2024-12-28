@@ -5,7 +5,7 @@ export interface Car {
   name: string;
   brand: string;
   model: string;
-  image: Image[];
+  images: Image[];
   price: number;
   type: string;
   mileage?: number;
@@ -48,30 +48,30 @@ export enum Interior {
 }
 
 export enum BodyShape {
-  SEDAN = 'Limuzina',
-  CARAVAN = 'Karavan',
-  MONO = 'Monovolumen',
-  HATCHBACK = 'Hatchback',
-  CABRIO = 'Kabriolet',
-  COUPE = 'Coupe',
-  SUV = 'Terensko vozilo / SUV',
-  COMBI = 'Kombibus',
+  SEDAN = 'limuzina',
+  CARAVAN = 'karavan',
+  MONO = 'monovolumen',
+  HATCHBACK = 'hatchback',
+  CABRIO = 'kabriolet',
+  COUPE = 'coupe',
+  SUV = 'terensko vozilo / SUV',
+  COMBI = 'kombibus',
 }
 
 export enum DriveType {
-  FRONT_WHEEL_DRIVE = 'Prednji',
-  REAR_WHEEL_DRIVE = 'Stražnji',
+  FRONT_WHEEL_DRIVE = 'prednji',
+  REAR_WHEEL_DRIVE = 'stražnji',
   FOUR_WHEEL_DRIVE = '4x4',
 }
 
 export enum Engine {
-  DIESEL = 'Dizel',
-  GASOLINE = 'Benzin',
-  ELECTRIC = 'Električni',
-  HYBRID = 'Hibrid',
+  DIESEL = 'dizel',
+  GASOLINE = 'benzin',
+  ELECTRIC = 'električni',
+  HYBRID = 'hibrid',
 }
 
 export enum Transmission {
-  MANUAL = 'Ručni',
-  AUTOMATIC = 'Automatski',
+  MANUAL = 'ručni',
+  AUTOMATIC = 'automatski',
 }

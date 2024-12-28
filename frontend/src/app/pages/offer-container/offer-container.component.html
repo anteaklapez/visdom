@@ -42,7 +42,7 @@
 <!-- LIST -->
 <mat-list>
   @if (selectedCategory === Offer.CARS) {
-    @for (item of itemService.cars$ | async; track item.id) {
+    @for (item of cars$ | async; track item.id) {
       <mat-list-item class="list-item">
         <app-car [car]="item"></app-car>
       </mat-list-item>
@@ -53,7 +53,7 @@
   }
 
   @if (selectedCategory === Offer.BUILDINGS) {
-    @for (item of itemService.buildings$ | async; track item.id) {
+    @for (item of buildings$ | async; track item.id) {
       <mat-list-item class="list-item">
         <app-building [building]="item"></app-building>
       </mat-list-item>
@@ -64,7 +64,7 @@
   }
 
   @if (selectedCategory === Offer.ELSE) {
-    @for (item of itemService.basicObjects$ | async; track item.id) {
+    @for (item of basicObjects$ | async; track item.id) {
       <mat-list-item class="list-item">
         <app-else [basicObject]="item"></app-else>
       </mat-list-item>

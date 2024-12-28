@@ -5,7 +5,7 @@ export interface Building {
   location: string;
   title: string;
   price: number;
-  image: Image[];
+  images: Image[];
   roomNumber?: number;
   buildingArea?: number;
   gardenArea?: number;

@@ -247,12 +247,25 @@ section {
     }
 }
 
-.delete-button {
-    text-align: end;
-    margin: 1rem;
+.button-container {
+    display: flex;
+    justify-content: end;;
+    
+    .delete-button {
+        text-align: end;
+        margin: 1rem;
+    
+        button {
+            color: color.$error !important;
+        }
+    }
+    
+    .edit-button {
+        margin: 1rem 0;
 
-    button {
-        color: color.$error !important;
+        button {
+            color: color.$text !important;	
+        }
     }
 }
 

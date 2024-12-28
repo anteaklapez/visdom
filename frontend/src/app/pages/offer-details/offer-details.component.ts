@@ -1,7 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   inject,
@@ -13,13 +11,13 @@ import {
 import { MaterialModule } from '../../shared/modules/material.module';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ItemService } from '../../services/item.service';
-import { forkJoin, map, Observable, Subscription } from 'rxjs';
+import { forkJoin, map, Observable, Subscription, take } from 'rxjs';
 import { AsyncPipe, CommonModule, isPlatformBrowser } from '@angular/common';
 import { Offer } from '../../models/offer.enum';
 import { Carousel, Fancybox } from '@fancyapps/ui';
 import { Thumbs } from '@fancyapps/ui/dist/carousel/carousel.thumbs.esm.js';
 import { IconsModule } from '../../shared/modules/icons.module';
-import { Image } from '../../models/basic-object.interface';
+import { BasicObject, Image } from '../../models/basic-object.interface';
 import {
   BodyShape,
   Car,
@@ -33,7 +31,6 @@ import {
   FormBuilder,
   ReactiveFormsModule,
 } from '@angular/forms';
-import * as uuid from 'uuid';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ImgbbService } from '../../services/imgbb.service';
 import { UserOffer } from '../../models/user-offer.interface';
@@ -68,7 +65,7 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly _route = inject(ActivatedRoute);
   private readonly _itemService = inject(ItemService);
   private readonly _imgbbService = inject(ImgbbService);
-   private readonly _authService = inject(AuthService);
+  private readonly _authService = inject(AuthService);
   private readonly _platformId = inject(PLATFORM_ID);
 
   @ViewChild('myCarousel', { static: false }) myCarousel!: ElementRef;
@@ -122,20 +119,25 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this._platformId)) {
       this.userOfferSubscription = this.userOffersData$.subscribe(
-        (userOffer: UserOffer[]) => {
-          userOffer.map((offer) => {
-            Fancybox.bind(`[data-fancybox="${offer.email}"]`);
+        (userOffers: UserOffer[]) => {
+          userOffers.forEach((offer) => {
+            if (offer.email) {
+              Fancybox.bind(`[data-fancybox="${offer.email}"]`);
+            }
           });
         }
       );
+
       Fancybox.bind('[data-fancybox="gallery"]');
-      new Carousel(
-        this.myCarousel.nativeElement,
-        {
-          Dots: false,
-        },
-        { Thumbs }
-      );
+      if (this.myCarousel) {
+        new Carousel(
+          this.myCarousel.nativeElement,
+          {
+            Dots: false,
+          },
+          { Thumbs }
+        );
+      }
     }
   }
 
@@ -208,10 +210,49 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  editOffer() {
+    this.objectData$.pipe(take(1)).subscribe((data) => {
+      this.navigateToEditPage(data);
+    });
+  }
+
   deleteOffer() {
     const confirmation = window.confirm(
       'Jeste li sigurni da želite obrisati ovaj oglas?'
     );
+    if (!confirmation) return;
+  
+    switch (this.selectedCategory) {
+      case Offer.CARS:
+        this._itemService.deleteCar(this.id!).subscribe(() => {
+          this._router.navigate(['/ponuda/vozila']);
+        });
+        break;
+  
+      case Offer.BUILDINGS:
+        this._itemService.deleteBuilding(this.id!).subscribe(() => {
+          this._router.navigate(['/ponuda/nekretnine']);
+        });
+        break;
+  
+      case Offer.ELSE:
+        this._itemService.deleteBasicObject(this.id!).subscribe(() => {
+          this._router.navigate(['/ponuda/ostalo']);
+        });
+        break;
+    }
+  }  
+
+  navigateToEditPage(objectData: Car | Building | BasicObject): void {
+    this._itemService.setItemToEdit(objectData);
+
+    const url = 'engine' in objectData
+      ? '/izrada/vozila'
+      : 'buildingArea' in objectData
+      ? '/izrada/nekretnine'
+      : '/izrada/ostalo';
+  
+    this._router.navigate([url]);
   }
 
   onSubmit() {
@@ -238,7 +279,6 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isSubmitting = false;
       },
       complete: () => {
-        console.log('Uploaded form value:', this.createOfferForm.getRawValue());
         this.isSubmitting = false;
       },
     });
@@ -281,21 +321,21 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   private _setObjectData(id: string) {
     switch (this.selectedCategory) {
       case Offer.CARS:
-        this.objectData$ = this._itemService.cars$.pipe(
+        this.objectData$ = this._itemService.getCars().pipe(
           map((cars) => {
             const car = cars.find((car) => car.id === id);
-            this.carDetailsItems = this._mapCarDetailsItems(car);
-            this.carOtherDetailsItems = this._mapOtherDetailsItems(car);
             this._getCarFuelTypeIcon(car);
             this._getCarTransmissionTypeIcon(car);
             this._getCarBodyShapeIcon(car);
             this._getCarDriveTypeIcon(car);
+            this.carOtherDetailsItems = this._mapOtherDetailsItems(car);
+            this.carDetailsItems = this._mapCarDetailsItems(car);
             return car;
           })
         );
         break;
       case Offer.BUILDINGS:
-        this.objectData$ = this._itemService.buildings$.pipe(
+        this.objectData$ = this._itemService.getBuildings().pipe(
           map((buildings) => {
             const building = buildings.find((building) => building.id === id);
             this.buildingDetailsItems = this._mapBuildingDetailsItems(building);
@@ -306,13 +346,11 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
         );
         break;
       case Offer.ELSE:
-        this.objectData$ = this._itemService.basicObjects$.pipe(
+        this.objectData$ = this._itemService.getBasicObject().pipe(
           map((objects) => objects.find((object) => object.id === id))
         );
         break;
     }
-
-    this.objectData$.subscribe((res) => console.log(res));
   }
 
   private _getCarFuelTypeIcon(car: Car | undefined) {

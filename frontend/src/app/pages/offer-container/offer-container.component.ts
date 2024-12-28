@@ -11,6 +11,9 @@ import { CarItemComponent } from './offer-items/car-item/car-item.component';
 import { BuildingItemComponent } from './offer-items/building-item/building-item.component';
 import { ElseItemComponent } from './offer-items/else-item/else-item.component';
 import { AuthService } from '../../services/auth.service';
+import { Car } from '../../models/car.interface';
+import { Building } from '../../models/building.interface';
+import { BasicObject } from '../../models/basic-object.interface';
 
 @Component({
   selector: 'app-offer-container',
@@ -37,6 +40,10 @@ export class OfferContainerComponent implements OnInit {
   isSmallScreen$!: Observable<boolean>;
   selectedCategory: Offer = Offer.CARS;
   isLoggedIn: boolean = false;
+
+  cars$ = this.itemService.getCars();
+  buildings$ = this.itemService.getBuildings();
+  basicObjects$ = this.itemService.getBasicObject();
 
   ngOnInit() {
     this._route.url.subscribe((urlSegments) => {

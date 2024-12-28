@@ -1,16 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MaterialModule } from '../../../../shared/modules/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AsyncPipe } from '@angular/common';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ImgbbService } from '../../../../services/imgbb.service';
-import { forkJoin, map, Observable, startWith } from 'rxjs';
+import { forkJoin } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
-import { Image } from '../../../../models/basic-object.interface';
+import { BasicObject, Image } from '../../../../models/basic-object.interface';
 import * as uuid from 'uuid';
-import { MatDatepicker } from '@angular/material/datepicker';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { BuildingType } from '../../../../models/building.interface';
+import { ItemService } from '../../../../services/item.service';
+import { Router } from '@angular/router';
 
 const DEFAULT_IMAGE_FULL = environment.defaultImageFull;
 const DEFAULT_IMAGE_SMALL = environment.defaultImageSmall;
@@ -20,11 +19,15 @@ const DEFAULT_IMAGE_SMALL = environment.defaultImageSmall;
   standalone: true,
   imports: [ReactiveFormsModule, MaterialModule],
   templateUrl: './else-form.component.html',
-  styleUrl: './else-form.component.scss'
+  styleUrl: './else-form.component.scss',
 })
 export class ElseFormComponent implements OnInit {
   private readonly _fb = inject(FormBuilder);
   private readonly _imgbbService = inject(ImgbbService);
+  private readonly _itemService = inject(ItemService);
+  private readonly _router = inject(Router);
+  title: string = 'DODAVANJE OSTALIH PROIZVODA';
+  dataToEdit: BasicObject | null = null;
 
   isDragging: boolean = false;
   isSubmitting: boolean = false;
@@ -34,8 +37,10 @@ export class ElseFormComponent implements OnInit {
   selectedFiles: File[] = [];
 
   ngOnInit(): void {
+    this.dataToEdit = this._itemService.getItemToEdit() as BasicObject | null;
+
     this.basicObjectForm = this._fb.group({
-      title: ['', Validators.required],
+      subject: ['', Validators.required],
       price: [
         '',
         [Validators.min(0), Validators.max(10000000), Validators.required],
@@ -43,6 +48,20 @@ export class ElseFormComponent implements OnInit {
       image: [[]],
       description: [''],
     });
+
+    if (this.dataToEdit) {
+      this.title = 'UREĐIVANJE OSTALIH PROIZVODA';
+      this.basicObjectForm.patchValue({
+        subject: this.dataToEdit.subject,
+        price: this.dataToEdit.price,
+        description: this.dataToEdit.description,
+      });
+
+      if (this.dataToEdit.images) {
+        this.images = this.dataToEdit.images.map((img) => img.full);
+        this.basicObjectForm.get('images')?.setValue(this.dataToEdit.images);
+      }
+    }
   }
 
   onFileSelect(event: any) {
@@ -87,10 +106,21 @@ export class ElseFormComponent implements OnInit {
   }
 
   onSubmit() {
+    // 3. Validate the form
     if (!this.basicObjectForm.valid) return;
     this.isSubmitting = true;
-    this.basicObjectForm.value.id = uuid.v4();
 
+    // Prepare the form data as our BasicObject
+    const basicObjectData = this.basicObjectForm.value as BasicObject;
+
+    // If editing, keep the existing ID; otherwise generate a new one
+    if (this.dataToEdit) {
+      basicObjectData.id = this.dataToEdit.id;
+    } else {
+      basicObjectData.id = uuid.v4();
+    }
+
+    // 4. Handle image uploads (or defaults)
     if (this.images.length > 0) {
       const uploadObservables = this.images.map((image) =>
         this._imgbbService.uploadToImgbb(image)
@@ -98,31 +128,70 @@ export class ElseFormComponent implements OnInit {
 
       forkJoin(uploadObservables).subscribe({
         next: (responses) => {
-          this.basicObjectForm.value.image = responses.map((response) => {
+          basicObjectData.images = responses.map((response) => {
             return {
               id: response.data.id,
               full: response.data.image.url,
               small: response.data.thumb.url,
             } as Image;
           });
+
+          // 5. Create or Update
+          if (this.dataToEdit) {
+            this._updateBasicObject(basicObjectData);
+          } else {
+            this._createBasicObject(basicObjectData);
+          }
         },
         error: (err) => {
           console.error('Upload Error:', err);
           this.isSubmitting = false;
         },
-        complete: () => {
-          this.isSubmitting = false;
-        },
       });
     } else {
-      this.basicObjectForm.value.image = [
-        {
-          id: uuid.v4(),
-          full: DEFAULT_IMAGE_FULL,
-          small: DEFAULT_IMAGE_SMALL,
-        } as Image,
-      ];
-      this.isSubmitting = false;
+      // If no new images were uploaded, either keep existing images or use defaults
+      basicObjectData.images =
+        this.dataToEdit?.images || [
+          {
+            id: uuid.v4(),
+            full: DEFAULT_IMAGE_FULL,
+            small: DEFAULT_IMAGE_SMALL,
+          },
+        ];
+
+      if (this.dataToEdit) {
+        this._updateBasicObject(basicObjectData);
+      } else {
+        this._createBasicObject(basicObjectData);
+      }
     }
+  }
+
+  private _updateBasicObject(basicObjectData: BasicObject) {
+    // Replace with your actual update service method:
+    this._itemService.updateBasicObject(basicObjectData).subscribe({
+      next: () => {
+        this.isSubmitting = false;
+        this._router.navigate(['/ponuda/ostalo']);
+      },
+      error: (err) => {
+        console.error('Error updating object:', err);
+        this.isSubmitting = false;
+      },
+    });
+  }
+
+  private _createBasicObject(basicObjectData: BasicObject) {
+    // Replace with your actual create service method:
+    this._itemService.createBasicObject(basicObjectData).subscribe({
+      next: () => {
+        this.isSubmitting = false;
+        this._router.navigate(['/ponuda/ostalo']);
+      },
+      error: (err) => {
+        console.error('Error creating object:', err);
+        this.isSubmitting = false;
+      },
+    });
   }
 }

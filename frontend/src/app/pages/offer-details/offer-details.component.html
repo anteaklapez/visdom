@@ -4,7 +4,7 @@
 <section class="carousel-section">
   <div class="carousel-container">
     <div #myCarousel>
-      @for (image of objectData.image; track image.id) {
+      @for (image of objectData.images; track image.id) {
       <ng-container>
         <div
           class="f-carousel__slide"
@@ -352,7 +352,12 @@
 </section>
 }
 @if (isLoggedIn) {
-  <div class="delete-button">
-    <button mat-button (click)="deleteOffer()">OBRIŠITE OGLAS</button>
+  <div class="button-container">
+    <div class="edit-button">
+      <button mat-button (click)="editOffer()">UREDITE OGLAS</button>
+    </div>
+    <div class="delete-button">
+      <button mat-button (click)="deleteOffer()">OBRIŠITE OGLAS</button>
+    </div>
   </div>
 }

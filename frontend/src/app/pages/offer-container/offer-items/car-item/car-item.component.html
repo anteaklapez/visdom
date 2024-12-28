@@ -1,7 +1,7 @@
 <mat-card routerLink="{{ car.id }}" matRipple>
   <mat-card-content class="card-content">
     <img
-      [src]="(isSmallScreen$ | async) ? car.image[0].full : car.image[0].small"
+      [src]="(isSmallScreen$ | async) ? car.images[0].full : car.images[0].small"
       alt="{{ car.name }} image"
       class="card-image"
     />

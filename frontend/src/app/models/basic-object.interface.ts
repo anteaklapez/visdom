@@ -3,7 +3,7 @@ export interface BasicObject {
     subject: string;
     price: number;
     description: string;
-    image: Image[];
+    images: Image[];
 }
 
 export interface Image {
