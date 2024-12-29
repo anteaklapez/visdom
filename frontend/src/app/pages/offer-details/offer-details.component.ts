@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   inject,
@@ -67,6 +68,7 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly _imgbbService = inject(ImgbbService);
   private readonly _authService = inject(AuthService);
   private readonly _platformId = inject(PLATFORM_ID);
+  private readonly _cdr = inject(ChangeDetectorRef);
 
   @ViewChild('myCarousel', { static: false }) myCarousel!: ElementRef;
   @ViewChild('createOfferSection') createOfferSection!: ElementRef;
@@ -128,16 +130,21 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       );
 
-      Fancybox.bind('[data-fancybox="gallery"]');
-      if (this.myCarousel) {
-        new Carousel(
-          this.myCarousel.nativeElement,
-          {
-            Dots: false,
-          },
-          { Thumbs }
-        );
-      }
+      this.objectData$.pipe(take(1)).subscribe(() => {
+        Fancybox.bind('[data-fancybox="gallery"]');
+
+        if (this.myCarousel) {
+          new Carousel(
+            this.myCarousel.nativeElement,
+            {
+              Dots: false,
+            },
+            { Thumbs }
+          );
+        } else {
+          console.warn('myCarousel is not available');
+        }
+      });
     }
   }
 
@@ -221,48 +228,49 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
       'Jeste li sigurni da želite obrisati ovaj oglas?'
     );
     if (!confirmation) return;
-  
+
     switch (this.selectedCategory) {
       case Offer.CARS:
         this._itemService.deleteCar(this.id!).subscribe(() => {
           this._router.navigate(['/ponuda/vozila']);
         });
         break;
-  
+
       case Offer.BUILDINGS:
         this._itemService.deleteBuilding(this.id!).subscribe(() => {
           this._router.navigate(['/ponuda/nekretnine']);
         });
         break;
-  
+
       case Offer.ELSE:
         this._itemService.deleteBasicObject(this.id!).subscribe(() => {
           this._router.navigate(['/ponuda/ostalo']);
         });
         break;
     }
-  }  
+  }
 
   navigateToEditPage(objectData: Car | Building | BasicObject): void {
     this._itemService.setItemToEdit(objectData);
 
-    const url = 'engine' in objectData
-      ? '/izrada/vozila'
-      : 'buildingArea' in objectData
-      ? '/izrada/nekretnine'
-      : '/izrada/ostalo';
-  
+    const url =
+      'engine' in objectData
+        ? '/izrada/vozila'
+        : 'buildingArea' in objectData
+        ? '/izrada/nekretnine'
+        : '/izrada/ostalo';
+
     this._router.navigate([url]);
   }
 
   onSubmit() {
     if (!this.createOfferForm.valid) return;
     this.isSubmitting = true;
-  
+
     const uploadObservables = this.images.map((image) =>
       this._imgbbService.uploadToImgbb(image)
     );
-  
+
     forkJoin(uploadObservables).subscribe({
       next: (responses) => {
         const uploadedImages = responses.map((response) => ({
@@ -271,17 +279,19 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
           small: response.data.thumb.url,
         }));
         this.createOfferForm.get('image')?.setValue(uploadedImages);
-  
-        this._itemService.createUserOffer(this.createOfferForm.value).subscribe({
-          next: () => {
-            console.log('Offer created successfully with images.');
-            this.isSubmitting = false;
-          },
-          error: (err) => {
-            console.error('Error creating offer:', err);
-            this.isSubmitting = false;
-          },
-        });
+
+        this._itemService
+          .createUserOffer(this.createOfferForm.value)
+          .subscribe({
+            next: () => {
+              console.log('Offer created successfully with images.');
+              this.isSubmitting = false;
+            },
+            error: (err) => {
+              console.error('Error creating offer:', err);
+              this.isSubmitting = false;
+            },
+          });
       },
       error: (err) => {
         console.error('Upload Error:', err);
@@ -352,9 +362,9 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
         );
         break;
       case Offer.ELSE:
-        this.objectData$ = this._itemService.getBasicObject().pipe(
-          map((objects) => objects.find((object) => object.id === id))
-        );
+        this.objectData$ = this._itemService
+          .getBasicObject()
+          .pipe(map((objects) => objects.find((object) => object.id === id)));
         break;
     }
   }
