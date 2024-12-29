@@ -2,15 +2,33 @@
 @use '../theme/colors.scss' as color;
 
 mat-drawer-container {
-    // background-image: radial-gradient(color.$background-dots, 1px, transparent 0);
-    // background-size: 40px 40px;
+    height: 100vh;
+    /* Ensure full viewport height */
+    overflow: hidden;
+    /* Prevent scrolling issues */
+    display: flex;
+    overscroll-behavior: none;
+}
+
+mat-drawer-content {
+    overflow-y: auto;
+    /* Enable scrolling in content */
+    -webkit-overflow-scrolling: touch;
+    /* Enable smooth scrolling on Safari */
+}
+
+mat-drawer {
+    z-index: 1000;
+    /* Higher than most other UI elements */
+}
 
 
-    background-color: color.$background;               // Corresponds to `bg-white`
-    background-image: 
-      linear-gradient(to right, rgba(128, 128, 128, 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(128, 128, 128, 0.04) 1px, transparent 1px); // Corresponds to `bg-[linear-gradient(...),linear-gradient(...)]`
-    background-size: 14px 24px; 
+mat-drawer-container {
+    background-color: color.$background;
+    background-image:
+        linear-gradient(to right, rgba(128, 128, 128, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(128, 128, 128, 0.04) 1px, transparent 1px);
+    background-size: 14px 24px;
 
     a {
         width: 100%;
@@ -22,6 +40,7 @@ mat-drawer-container {
         border-top: solid 1px color.$background-dark;
         border-bottom: solid 1px color.$background-dark;
         background-color: color.$gray;
+
         a {
             font-size: smaller;
         }
