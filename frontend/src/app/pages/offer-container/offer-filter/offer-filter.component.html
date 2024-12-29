@@ -1,4 +1,4 @@
-<form [formGroup]="filterForm" [style.display]="isFormLoaded ? 'flex' : 'none'">
+<form [formGroup]="filterForm" (ngSubmit)="onSubmit()" [style.display]="isFormLoaded ? 'flex' : 'none'">
 
   @if (selectedCategory === Offer.CARS) {
   <!-- MARKA -->
