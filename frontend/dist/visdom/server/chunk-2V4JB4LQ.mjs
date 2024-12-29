@@ -1,2 +1,0 @@
-import './polyfills.server.mjs';
-import{ja as m}from"./chunk-UE64UMTH.mjs";import{b as a}from"./chunk-5CJAL2NT.mjs";import{Y as n,ca as p,p as e}from"./chunk-OB4D4P5P.mjs";var s="https://api.imgbb.com/1/upload",f=m.imgbbClientId,g=(()=>{class t{constructor(){this._http=p(a)}uploadToImgbb(o){let i=o.split(",")[1]||o,r=new FormData;return r.append("key",f),r.append("image",i),this._http.post(s,r).pipe(e(c=>c))}static{this.\u0275fac=function(i){return new(i||t)}}static{this.\u0275prov=n({token:t,factory:t.\u0275fac,providedIn:"root"})}}return t})();export{g as a};

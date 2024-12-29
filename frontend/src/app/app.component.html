@@ -1,5 +1,30 @@
+<mat-list [class.open]="isSidenavOpen" class="sidenav">
+  <mat-list-item role="listitem">
+    <a mat-button disabled>PONUDA</a>
+  </mat-list-item>
+  <div class="sub-menu">
+    <mat-list-item role="listitem">
+      <a mat-button routerLink="/ponuda/vozila" (click)="closeSideNav()">Vozila</a>
+    </mat-list-item>
+    <mat-list-item role="listitem">
+      <a mat-button routerLink="/ponuda/nekretnine" (click)="closeSideNav()">Nekretnie</a>
+    </mat-list-item>
+    <mat-list-item role="listitem">
+      <a mat-button routerLink="/ponuda/ostalo" (click)="closeSideNav()">Ostalo</a>
+    </mat-list-item>
+  </div>
+  <mat-list-item role="listitem">
+    <a mat-button routerLink="/kontakt" (click)="closeSideNav()">KONTAKT</a>
+  </mat-list-item>
+  <mat-list-item role="listitem">
+    <a mat-button routerLink="/prijava" (click)="closeSideNav()">PRIJAVA</a>
+  </mat-list-item>
+</mat-list>
 
-
-<app-header (toggleSideNav)="toggleSideNav()"></app-header>
+<div class="container">
+  <app-header (toggleSideNav)="toggleSideNav()"></app-header>
+  <div class="content">
     <router-outlet></router-outlet>
-    <app-footer></app-footer>
+  </div>
+  <app-footer></app-footer>
+</div>

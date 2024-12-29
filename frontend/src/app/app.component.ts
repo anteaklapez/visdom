@@ -19,9 +19,13 @@ import { MatDrawer } from '@angular/material/sidenav';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  @ViewChild('drawer') drawer!: MatDrawer;
+  isSidenavOpen: boolean = false;
 
   toggleSideNav() {
-    this.drawer.toggle();
+    this.isSidenavOpen = !this.isSidenavOpen;
+  }
+
+  closeSideNav() {
+    this.isSidenavOpen = false;
   }
 }
