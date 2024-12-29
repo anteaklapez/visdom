@@ -1,0 +1,12 @@
+{
+  "routes": [
+    "/izrada/nekretnine",
+    "/izrada/ostalo",
+    "/izrada/vozila",
+    "/kontakt",
+    "/ponuda/nekretnine",
+    "/ponuda/ostalo",
+    "/ponuda/vozila",
+    "/prijava"
+  ]
+}
