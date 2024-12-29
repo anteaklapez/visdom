@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -11,13 +11,13 @@ import { Offer } from '../../../models/offer.enum';
 import { ItemService } from '../../../services/item.service';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { map, Observable, startWith } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, isPlatformBrowser, NgIf } from '@angular/common';
 import { CarMake } from '../../../models/car-make.enum';
 
 @Component({
   selector: 'app-offer-filter',
   standalone: true,
-  imports: [MaterialModule, ReactiveFormsModule, AsyncPipe],
+  imports: [MaterialModule, ReactiveFormsModule, AsyncPipe, NgIf],
   templateUrl: './offer-filter.component.html',
   styleUrl: './offer-filter.component.scss',
 })
@@ -25,10 +25,12 @@ export class OfferFilterComponent implements OnInit {
   private readonly _fb = inject(FormBuilder);
   private readonly _route = inject(ActivatedRoute);
   private readonly _itemService = inject(ItemService);
+  private readonly _platformId = inject(PLATFORM_ID);
 
   filteredCarBrand$!: Observable<string[] | undefined> | undefined;
   selectedCategory: Offer = Offer.CARS;
   filterForm!: FormGroup;
+  isFormLoaded: boolean = false;
 
   ngOnInit(): void {
     this.filterForm = this._fb.group({
@@ -49,6 +51,10 @@ export class OfferFilterComponent implements OnInit {
     );
 
     this._selectCategory();
+
+    if (isPlatformBrowser(this._platformId)) {
+      this.isFormLoaded = true;
+    }
   }
 
   onYearFromSelected(date: Date, datepicker: MatDatepicker<Date>) {
@@ -111,6 +117,6 @@ export class OfferFilterComponent implements OnInit {
   }
 
   public get Offer() {
-    return Offer; 
+    return Offer;
   }
 }

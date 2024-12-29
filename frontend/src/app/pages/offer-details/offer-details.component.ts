@@ -68,7 +68,6 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly _imgbbService = inject(ImgbbService);
   private readonly _authService = inject(AuthService);
   private readonly _platformId = inject(PLATFORM_ID);
-  private readonly _cdr = inject(ChangeDetectorRef);
 
   @ViewChild('myCarousel', { static: false }) myCarousel!: ElementRef;
   @ViewChild('createOfferSection') createOfferSection!: ElementRef;
