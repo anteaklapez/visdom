@@ -1,48 +1,5 @@
-<mat-drawer-container>
-  <!--  SIDEBAR MENU WHEN ON MOBILE -->
-  <mat-drawer #drawer mode="over">
-    <mat-list>
-      <mat-list-item role="listitem">
-        <a mat-button disabled="true">PONUDA</a>
-      </mat-list-item>
-      <div>
-        <div class="sub-menu">
-          <mat-list-item role="listitem">
-            <a mat-button routerLink="/ponuda/vozila" (click)="drawer.toggle()"
-              >Vozila</a
-            ></mat-list-item
-          >
-          <mat-list-item role="listitem"
-            ><a
-              mat-button
-              routerLink="/ponuda/nekretnine"
-              (click)="drawer.toggle()"
-              >Nekretnie</a
-            ></mat-list-item
-          >
-          <mat-list-item role="listitem"
-            ><a mat-button routerLink="/ponuda/ostalo" (click)="drawer.toggle()"
-              >Ostalo</a
-            ></mat-list-item
-          >
-        </div>
-      </div>
-      <mat-list-item role="listitem">
-        <a mat-button routerLink="/kontakt" (click)="drawer.toggle()">
-          KONTAKT
-        </a>
-      </mat-list-item>
-      <mat-list-item role="listitem">
-        <a mat-button routerLink="/prijava" (click)="drawer.toggle()">
-          PRIJAVA
-        </a>
-      </mat-list-item>
-    </mat-list>
-  </mat-drawer>
 
-  <mat-drawer-content>
-    <app-header (toggleSideNav)="toggleSideNav()"></app-header>
+
+<app-header (toggleSideNav)="toggleSideNav()"></app-header>
     <router-outlet></router-outlet>
     <app-footer></app-footer>
-  </mat-drawer-content>
-</mat-drawer-container>
