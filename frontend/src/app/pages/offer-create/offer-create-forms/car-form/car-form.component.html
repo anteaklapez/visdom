@@ -59,8 +59,7 @@
       <mat-label class="label-style">Slike</mat-label>
       <div class="file-button-container">
         <input type="file" #fileInput (change)="onFileSelect($event)" hidden multiple accept="image/*" />
-        <button type="button" class="add-image-button" mat-raised-button (click)="fileInput.click()"
-          [disableRipple]="true">
+        <button type="button" class="add-image-button basic-button" (click)="fileInput.click()">
           <span class="plus-icon">+</span>
         </button>
         @if (images.length > 0) {
@@ -308,7 +307,7 @@
     </mat-form-field>
   </div>
 
-  <button mat-raised-button type="submit" [disabled]="carsForm.invalid || isSubmitting">
-    Spremi
+  <button class="raised-button" type="submit" [disabled]="carsForm.invalid || isSubmitting">
+    SPREMI
   </button>
 </form>

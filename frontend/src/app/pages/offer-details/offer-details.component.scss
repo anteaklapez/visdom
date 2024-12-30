@@ -1,7 +1,12 @@
 @use '../../../theme/colors.scss' as color;
 @use '../../../theme/carousel.scss';
 @use '../../../theme/material/mat-card.scss';
+@use '../../../theme/material/mat-button.scss';
 @use '../../../theme/material/mat-tab-group.scss';
+
+.remove-user-offer {
+    font-size: smaller !important;
+}
 
 section {
     color: color.$text !important;
@@ -15,10 +20,6 @@ section {
     font-style: normal;
     text-transform: uppercase;
     text-align: center;
-}
-
-.remove-user-offer {
-    font-size: smaller;
 }
 
 .regular-text {
@@ -41,7 +42,6 @@ section {
     display: flex;
     justify-content: center;
     padding: 1rem 0;
-    box-shadow: color.$bottom-shadow;
 
     .carousel-container {
         width: 800px;

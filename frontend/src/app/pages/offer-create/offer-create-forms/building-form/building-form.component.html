@@ -45,10 +45,8 @@
             />
             <button
                 type="button"
-                class="add-image-button"
-                mat-raised-button
+                class="add-image-button basic-button"
                 (click)="fileInput.click()"
-                [disableRipple]="true"
             >
                 <span class="plus-icon">+</span>
             </button>
@@ -179,11 +177,11 @@
         </div>
 
         <button
-            mat-raised-button
+            class="raised-button"
             type="submit"
             [disabled]="buildingForm.invalid || isSubmitting"
         >
-            Spremi
+            SPREMI
         </button>
     </div>
 </form>

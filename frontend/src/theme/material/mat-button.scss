@@ -1,5 +1,80 @@
 @use '../colors.scss' as color;
 
+/* BASIC BUTTON */
+@mixin basic-button-styles($text-color, $hover-bg-color) {
+    color: $text-color;
+    font-size: 0.9rem;
+    padding: 0.7rem 0.5rem;
+    background: none;
+    text-decoration: none;
+    font-family: "Montserrat", "Helvetica Neue", sans-serif;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $hover-bg-color;
+    }
+}
+
+.basic-button {
+    @include basic-button-styles(color.$text, color.$hover);
+}
+
+.basic-error-button {
+    @include basic-button-styles(color.$error, color.$hover-error);
+}
+
+@mixin raised-button-styles() {
+    color: color.$white;
+    background-color: color.$primary;
+    font-size: 0.9rem;
+    padding: 0.7rem 0.5rem;
+    text-decoration: none;
+    font-family: "Montserrat", "Helvetica Neue", sans-serif;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+        background-color: color.$primary-hover;
+    }
+
+    &:disabled {
+        background-color: color.$disabled-background;
+        color: color.$disabled-text;
+        pointer-events: none;
+    }
+}
+
+.raised-button {
+    @include raised-button-styles();
+}
+
+@mixin fab-styles() {
+    color: color.$text;
+    background-color: color.$white;
+    width: 40px;
+    height: 40px;
+    box-shadow: color.$box-shadow;
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    text-decoration: none;
+    font-family: "Montserrat", "Helvetica Neue", sans-serif;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+        background-color: color.$hover;
+    }
+}
+
+.fab {
+    @include fab-styles();
+}
+
+
 /* FAB */
 ::ng-deep {
     .mat-mdc-fab {
@@ -18,7 +93,7 @@
         font-weight: 600;
         box-shadow: none;
     }
-    
+
     .mat-mdc-raised-button:not(:disabled) {
         color: color.$text;
         font-weight: 600;
@@ -50,6 +125,10 @@
 
 /* BASIC BUTTON */
 ::ng-deep {
+    .mat-mdc-button:hover {
+        background-color: color.$hover;
+    }
+
     .mat-mdc-button:not(:disabled) {
         font-weight: 600;
         color: color.$text;

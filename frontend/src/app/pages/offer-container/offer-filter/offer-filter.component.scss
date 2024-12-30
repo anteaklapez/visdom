@@ -1,5 +1,6 @@
 @use '../../../../theme/colors.scss' as color;
 @use '../../../../theme/material/mat-form-field.scss';
+@use '../../../../theme/material/mat-button.scss';
 @use '../../../../theme/material/mat-datepicker.scss';
 
 form {
@@ -25,6 +26,7 @@ form {
     display: flex;
     align-items: center;
     padding-top: 16px;
+    gap: 1rem;
 
     button {
         font-weight: 600;

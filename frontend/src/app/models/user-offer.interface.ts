@@ -8,5 +8,5 @@ export interface UserOffer {
     phone: string;
     location: string;
     description: string;
-    image: Image[];
+    images: Image[];
 }

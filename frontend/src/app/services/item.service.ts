@@ -212,8 +212,8 @@ export class ItemService {
     return this._http.post(`${environment.apiUrl}/izrada/ponuda`, userOffer);
   }
 
-  getUserOffer(itemId: string): Observable<Car[]> {
-    return this._http.get<Car[]>(`${environment.apiUrl}/ponude/${itemId}`);
+  getUserOffer(itemId: string): Observable<UserOffer[]> {
+    return this._http.get<UserOffer[]>(`${environment.apiUrl}/ponude/${itemId}`);
   }
 
   deleteUserOffer(id: string): Observable<any> {

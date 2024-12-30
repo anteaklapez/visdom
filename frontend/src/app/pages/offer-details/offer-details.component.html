@@ -65,9 +65,8 @@
         </div>
       </div>
       <button
-        mat-raised-button
         (click)="scrollToCreateOffer()"
-        class="offer-button"
+        class="raised-button"
       >
         NAPRAVITE SVOJU PONUDU
       </button>
@@ -196,10 +195,8 @@
       />
       <button
         type="button"
-        class="add-image-button"
-        mat-raised-button
+        class="add-image-button basic-button"
         (click)="fileInput.click()"
-        [disableRipple]="true"
       >
         <span class="plus-icon">+</span>
       </button>
@@ -294,7 +291,7 @@
     </mat-form-field>
 
     <button
-      mat-raised-button
+      class="raised-button"
       type="submit"
       [disabled]="createOfferForm.invalid || isSubmitting"
     >
@@ -309,7 +306,7 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>
-        @for (image of offer.image; track $index) {
+        @for (image of offer.images; track $index) {
         <div
           class="f-carousel__slide"
           [attr.data-fancybox]="offer.email"
@@ -338,9 +335,8 @@
       <mat-card-actions>
         @if (isLoggedIn) {
           <button
-            mat-button
             (click)="deleteUserOffer(offer)"
-            class="remove-user-offer"
+            class="remove-user-offer basic-error-button"
           >
             OBRIŠITE PONUDU
           </button>
@@ -354,10 +350,10 @@
 @if (isLoggedIn) {
   <div class="button-container">
     <div class="edit-button">
-      <button mat-button (click)="editOffer()">UREDITE OGLAS</button>
+      <button class="basic-button" (click)="editOffer()">UREDITE OGLAS</button>
     </div>
     <div class="delete-button">
-      <button mat-button (click)="deleteOffer()">OBRIŠITE OGLAS</button>
+      <button class="basic-error-button" (click)="deleteOffer()">OBRIŠITE OGLAS</button>
     </div>
   </div>
 }

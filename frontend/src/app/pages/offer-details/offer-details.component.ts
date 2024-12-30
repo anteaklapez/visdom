@@ -1,6 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   inject,
@@ -12,13 +11,21 @@ import {
 import { MaterialModule } from '../../shared/modules/material.module';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ItemService } from '../../services/item.service';
-import { forkJoin, map, Observable, Subscription, take } from 'rxjs';
+import {
+  forkJoin,
+  map,
+  Observable,
+  Subscription,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import { AsyncPipe, CommonModule, isPlatformBrowser } from '@angular/common';
 import { Offer } from '../../models/offer.enum';
 import { Carousel, Fancybox } from '@fancyapps/ui';
 import { Thumbs } from '@fancyapps/ui/dist/carousel/carousel.thumbs.esm.js';
 import { IconsModule } from '../../shared/modules/icons.module';
-import { BasicObject, Image } from '../../models/basic-object.interface';
+import { BasicObject } from '../../models/basic-object.interface';
 import {
   BodyShape,
   Car,
@@ -104,7 +111,6 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     this._rerouteIfIdInvalid(this.id!);
     this._getCurrentCategory();
     this._setObjectData(this.id!);
-    this.userOffersData$ = this._itemService.getUserOffersById(this.id!);
 
     this.createOfferForm = this._fb.group({
       objectId: [this.id],
@@ -113,20 +119,20 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
       phone: ['', [Validators.required, Validators.pattern('^\\+?\\d{0,13}')]],
       location: [''],
       description: [''],
-      image: [[]],
+      images: [[]],
     });
   }
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this._platformId)) {
-      this.userOfferSubscription = this.userOffersData$.subscribe(
-        (userOffers: UserOffer[]) => {
+      this.userOffersData$ = this._itemService.getUserOffer(this.id!).pipe(
+        tap((userOffers: UserOffer[]) => {
           userOffers.forEach((offer) => {
             if (offer.email) {
               Fancybox.bind(`[data-fancybox="${offer.email}"]`);
             }
           });
-        }
+        })
       );
 
       this.objectData$.pipe(take(1)).subscribe(() => {
@@ -181,6 +187,7 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length) {
       const selectedFiles = Array.from(input.files);
+      this.selectedFiles.push(...selectedFiles);
 
       selectedFiles.forEach((file) => {
         const reader = new FileReader();
@@ -206,13 +213,15 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     return control ? control.errors : null;
   }
 
-  deleteUserOffer(offer: UserOffer) {
+  deleteUserOffer(offer: UserOffer): void {
     const confirmation = window.confirm(
       'Jeste li sigurni da želite obrisati ovu ponudu?'
     );
 
     if (confirmation) {
-      this.userOffersData$ = this._itemService.deleteUserOfferByEmail(offer);
+      this.userOffersData$ = this._itemService
+        .deleteUserOffer(offer.id)
+        .pipe(switchMap(() => this._itemService.getUserOffer(this.id!)));
     }
   }
 
@@ -266,6 +275,8 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.createOfferForm.valid) return;
     this.isSubmitting = true;
 
+    const userOfferData = this.createOfferForm.getRawValue();
+
     const uploadObservables = this.images.map((image) =>
       this._imgbbService.uploadToImgbb(image)
     );
@@ -277,23 +288,28 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
           full: response.data.image.url,
           small: response.data.thumb.url,
         }));
-        this.createOfferForm.get('image')?.setValue(uploadedImages);
 
-        this._itemService
-          .createUserOffer(this.createOfferForm.value)
-          .subscribe({
-            next: () => {
-              console.log('Offer created successfully with images.');
-              this.isSubmitting = false;
-            },
-            error: (err) => {
-              console.error('Error creating offer:', err);
-              this.isSubmitting = false;
-            },
-          });
+        userOfferData.images = uploadedImages;
+
+        this._createUserOffer(userOfferData);
       },
       error: (err) => {
         console.error('Upload Error:', err);
+        this.isSubmitting = false;
+      },
+    });
+  }
+
+  private _createUserOffer(userOffer: UserOffer) {
+    this._itemService.createUserOffer(userOffer).subscribe({
+      next: (res) => {
+        this.userOffersData$ = this._itemService.getUserOffer(this.id!);
+      },
+      error: (err) => {
+        console.error('Error creating car:', err);
+        this.isSubmitting = false;
+      },
+      complete: () => {
         this.isSubmitting = false;
       },
     });

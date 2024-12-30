@@ -10,17 +10,16 @@
 
   <span class="nav-links">
     <a
-      class="remove-hover"
-      mat-button
+      class="remove-hover basic-button"
       [matMenuTriggerFor]="menu"
       #menuTrigger="matMenuTrigger"
       (mouseenter)="menuTrigger.openMenu()"
       (click)="menuTrigger.openMenu()"
       >PONUDA</a
     >
-    <a mat-button routerLink="/kontakt">KONTAKT</a>
+    <a class="basic-button" routerLink="/kontakt">KONTAKT</a>
     @if (!isLoggedIn) {
-      <a mat-button routerLink="/prijava">PRIJAVA</a>
+      <a class="basic-button" routerLink="/prijava">PRIJAVA</a>
     }
   </span>
 
