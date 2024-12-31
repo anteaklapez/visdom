@@ -124,7 +124,6 @@ export class ItemService {
         return data;
       }),
       catchError((error) => {
-        console.error('Error fetching basic objects:', error);
         return of([] as BasicObject[]);
       })
     );

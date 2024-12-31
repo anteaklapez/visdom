@@ -125,6 +125,8 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this._platformId)) {
+      window.scrollTo(0, 0);
+
       this.userOffersData$ = this._itemService.getUserOffer(this.id!).pipe(
         tap((userOffers: UserOffer[]) => {
           userOffers.forEach((offer) => {

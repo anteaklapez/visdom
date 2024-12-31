@@ -1,7 +1,7 @@
 @use '../colors.scss' as color;
 
 mat-card {
-    border-radius: 0px;
+    border-radius: color.$border-radius;
     background-color: color.$white;
     box-shadow: color.$bottom-shadow;
 }

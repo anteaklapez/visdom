@@ -13,7 +13,7 @@
     .mat-button-toggle-standalone.mat-button-toggle-appearance-standard,
     .mat-button-toggle-group-appearance-standard {
         border: none !important;
-        border-radius: 0px !important;
+        border-radius: color.$border-radius !important;
     }
 
     .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {

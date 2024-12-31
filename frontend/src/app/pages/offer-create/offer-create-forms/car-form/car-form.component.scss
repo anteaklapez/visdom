@@ -106,7 +106,7 @@ form {
     gap: 15px;
     padding: 15px;
     min-height: 60px;
-    border-radius: 0px;
+    border-radius: color.$border-radius;
     overflow: hidden;
     margin-bottom: 1rem;
 }
@@ -135,7 +135,7 @@ form {
 .image-box {
     height: 85px;
     width: 85px;
-    border-radius: 0px;
+    border-radius: color.$border-radius;
     box-sizing: border-box;
     background: white;
     object-fit: cover;
@@ -145,7 +145,7 @@ form {
 
 .cdk-drag-preview {
     box-sizing: border-box;
-    border-radius: 0px;
+    border-radius: color.$border-radius;
     box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
         0 8px 10px 1px rgba(0, 0, 0, 0.14),
         0 3px 14px 2px rgba(0, 0, 0, 0.12);
@@ -178,6 +178,6 @@ form {
 
     .mat-button-toggle {
         border: none !important;
-        border-radius: 0px;
+        border-radius: color.$border-radius;
     }
 }

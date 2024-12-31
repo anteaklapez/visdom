@@ -13,7 +13,7 @@ mat-list {
 
 mat-list-item {
     box-shadow: color.$box-shadow;
-    border-radius: 0px;
+    border-radius: color.$border-radius;
 }
 
 .z-index {

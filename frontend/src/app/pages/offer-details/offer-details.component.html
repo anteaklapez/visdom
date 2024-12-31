@@ -159,13 +159,21 @@
         <mat-list>
           @for (item of carOtherDetailsItems; track $index) {
           <mat-list-item>
-            <span matListItemLine class="font-weight">{{ item.value }}</span>
-            <span matListItemTitle class="regular-text">{{ item.title }}</span>
+            @if (item.value) {
+              <span matListItemLine class="font-weight">{{ item.value }}</span>
+            }
+            @if (item.value) {
+              <span matListItemTitle class="regular-text">{{ item.title }}</span>
+            }
           </mat-list-item>
           } @for (item of buildingOtherDetailsItems; track $index) {
           <mat-list-item>
-            <span matListItemLine class="font-weight">{{ item.value }}</span>
-            <span matListItemTitle class="regular-text">{{ item.title }}</span>
+            @if (item.value) {
+              <span matListItemLine class="font-weight">{{ item.value }}</span>
+            }
+            @if (item.value) {
+              <span matListItemTitle class="regular-text">{{ item.title }}</span>
+            }
           </mat-list-item>
           }
         </mat-list>
