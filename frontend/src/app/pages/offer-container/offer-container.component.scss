@@ -78,6 +78,13 @@ mat-list-item {
     text-overflow: ellipsis;
 }
 
+.card-subtitle {
+    margin-top: -1.5rem;
+    font-style: italic;
+    font-size: small;
+    color: color.$dark-gray;
+}
+
 .card-details {
     display: flex;
     flex-wrap: wrap;
