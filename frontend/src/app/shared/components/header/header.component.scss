@@ -7,6 +7,10 @@
     background: transparent;
 }
 
+.logo {
+    height: 75px;
+}
+
 mat-toolbar {
     .remove-hover:hover {
         background-color: color.$background !important;
@@ -38,5 +42,11 @@ mat-toolbar {
 
     .nav-links {
         display: none;
+    }
+}
+
+@media only screen and (max-width: 300px) {
+    .logo {
+        height: 20vw;
     }
 }

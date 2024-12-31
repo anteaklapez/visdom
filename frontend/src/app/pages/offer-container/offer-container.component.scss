@@ -141,6 +141,10 @@ mat-list-item {
 }
 
 @media screen and (max-width: 1449px) {
+    .card-subtitle {
+        margin-top: -1rem;
+    }
+
     mat-list {
         width: 1200px;
     }
@@ -178,6 +182,10 @@ mat-list-item {
 }
 
 @media screen and (max-width: 1249px) {
+    .card-subtitle {
+        margin-top: -0.5rem;
+    }
+
     mat-list {
         width: 1000px;
     }
@@ -243,6 +251,10 @@ mat-list-item {
 
     .card-title {
         width: auto;
+    }
+
+    .card-subtitle {
+        margin-top: -1rem;
     }
 
     mat-accordion {
