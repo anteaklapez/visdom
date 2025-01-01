@@ -4,8 +4,7 @@ from pydantic import BaseModel
 from sqlalchemy.dialects.postgresql import JSONB
 
 from database import Base
-from sqlalchemy import Column, String, UUID, Float, ForeignKey, Integer
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String, UUID, Float, Integer
 import uuid
 
 class Token(BaseModel):
@@ -71,8 +70,8 @@ class Building(BaseModel):
     buildingArea: int | None
     gardenArea: int | None
     buildYear: int | None
-    buildingType: str
-    floors: str
+    buildingType: str | None
+    floors: str | None
     bathroomNumber: int | None
     description: str | None
     images: List[Image] = []
@@ -180,8 +179,8 @@ class UserOffer(BaseModel):
     name: str
     email: str
     phone: str
-    location: str
-    description: str
+    location: str | None
+    description: str | None
     images: List[Image] = []
     model_config = {
         "from_attributes": True,
