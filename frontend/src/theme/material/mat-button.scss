@@ -30,9 +30,9 @@
     color: color.$white;
     background-color: color.$primary;
     font-size: 0.9rem;
+    border-radius: color.$border-radius !important;
     padding: 0.7rem 0.5rem;
     text-decoration: none;
-    border-radius: color.$border-radius;
     font-family: "Montserrat", "Helvetica Neue", sans-serif;
     border: none;
     font-weight: 600;

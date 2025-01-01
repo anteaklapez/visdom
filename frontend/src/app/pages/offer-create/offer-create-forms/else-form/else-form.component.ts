@@ -130,7 +130,7 @@ export class ElseFormComponent implements OnInit {
         next: (responses) => {
           basicObjectData.images = responses.map((response) => {
             return {
-              id: response.data.id,
+              id: uuid.v4(),
               full: response.data.image.url,
               small: response.data.thumb.url,
             } as Image;

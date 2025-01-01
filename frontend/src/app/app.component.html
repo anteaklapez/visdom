@@ -16,9 +16,15 @@
   <mat-list-item role="listitem">
     <a mat-button routerLink="/kontakt" (click)="closeSideNav()">KONTAKT</a>
   </mat-list-item>
-  <mat-list-item role="listitem">
-    <a mat-button routerLink="/prijava" (click)="closeSideNav()">PRIJAVA</a>
-  </mat-list-item>
+  @if (!isLoggedIn) {
+    <mat-list-item role="listitem">
+      <a mat-button routerLink="/prijava" (click)="closeSideNav()">PRIJAVA</a>
+    </mat-list-item>
+  }@else {
+    <mat-list-item role="listitem">
+      <a mat-button routerLink="/ponuda/vozila" (click)="logOut()">ODJAVA</a>
+    </mat-list-item>
+  }
 </mat-list>
 
 <div class="container">

@@ -121,9 +121,10 @@ export class CarFormComponent implements OnInit {
         interiorColor: data.interiorColor,
       });
 
-      if (data.images) {
-        this.images = data.images.map((img: any) => img.full); 
-        this.carsForm.get('images')?.setValue(data.images);
+      if (data && data.images) {
+        this.images = data.images.map((img: any) => img.full);
+        this.carsForm.get('images')?.setValue(this.images);
+        console.log(this.images);
       }
     }
 
@@ -216,6 +217,8 @@ export class CarFormComponent implements OnInit {
 
   onImageDrop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.images, event.previousIndex, event.currentIndex);
+    this.carsForm.get('images')?.setValue(this.images);
+    console.log(this.images);
   }
 
   onDragStarted() {
@@ -278,7 +281,7 @@ export class CarFormComponent implements OnInit {
       forkJoin(uploadObservables).subscribe({
         next: (responses) => {
           const uploadedImages = responses.map((response) => ({
-            id: response.data.id,
+            id: uuid.v4(),
             full: response.data.image.url,
             small: response.data.thumb.url,
           }));

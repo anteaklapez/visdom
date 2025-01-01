@@ -200,7 +200,7 @@ export class BuildingFormComponent implements OnInit {
       forkJoin(uploadObservables).subscribe({
         next: (responses) => {
           const uploadedImages = responses.map((response) => ({
-            id: response.data.id,
+            id: uuid.v4(),
             full: response.data.image.url,
             small: response.data.thumb.url,
           }));

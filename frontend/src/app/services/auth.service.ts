@@ -41,4 +41,9 @@ export class AuthService {
   setLoggedIn(status: boolean): void {
     this._loggedIn.next(status);
   }
+
+  logOut() {
+    localStorage.removeItem('token');
+    this.setLoggedIn(false);
+  }
 }

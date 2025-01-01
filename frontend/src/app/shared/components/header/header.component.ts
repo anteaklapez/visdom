@@ -7,13 +7,12 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MaterialModule } from '../../modules/material.module';
-import { CdkMenuTrigger, CdkMenu, CdkMenuItem } from '@angular/cdk/menu';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, MaterialModule, CdkMenuTrigger, CdkMenu, CdkMenuItem],
+  imports: [RouterLink, MaterialModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -31,5 +30,9 @@ export class HeaderComponent implements OnInit {
 
   openMenu() {
     this.toggleSideNav.emit();
+  }
+
+  logOut() {
+    this._authService.logOut();
   }
 }

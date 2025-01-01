@@ -18,7 +18,11 @@
     >
     <a class="basic-button" routerLink="/kontakt">KONTAKT</a>
     @if (!isLoggedIn) {
-      <a class="basic-button" routerLink="/prijava">PRIJAVA</a>
+    <a class="basic-button" routerLink="/prijava">PRIJAVA</a>
+    } @else {
+    <a class="basic-button" routerLink="/ponuda/vozila" (click)="logOut()"
+      >ODJAVA</a
+    >
     }
   </span>
 

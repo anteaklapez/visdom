@@ -306,6 +306,8 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     this._itemService.createUserOffer(userOffer).subscribe({
       next: (res) => {
         this.userOffersData$ = this._itemService.getUserOffer(this.id!);
+        this.createOfferForm.reset();
+        this.onClearImages();
       },
       error: (err) => {
         console.error('Error creating car:', err);
