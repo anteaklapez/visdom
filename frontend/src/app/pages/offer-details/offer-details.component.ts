@@ -478,8 +478,8 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   private _mapCarDetailsItems(car: Car | undefined): DetailsItem[] | undefined {
     if (!car) return;
     return [
-      { title: 'KILOMETRAŽA', icon: 'road', value: `${car.mileage} km` },
-      { title: 'SNAGA MOTORA', icon: 'engine', value: `${car.power} kW` },
+      { title: 'KILOMETRAŽA', icon: 'road', value: `${car.mileage ? car.mileage + ' km' : ''}` },
+      { title: 'SNAGA MOTORA', icon: 'engine', value: `${car.power ? car.power + ' kW' : ''}` },
       {
         title: 'GODINA PROIZVODNJE',
         icon: 'calendar',
@@ -493,14 +493,14 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       { title: 'VRSTA POGONA', icon: this.driveTypeIcon, value: car.driveType },
       { title: 'OBLIK VOZILA', icon: this.bodyShapeIcon, value: car.bodyShape },
-      { title: 'BROJ VRATA', icon: 'car-door', value: String(car.doorNumber) },
+      { title: 'BROJ VRATA', icon: 'car-door', value: car.doorNumber ? String(car.doorNumber) : '' },
       {
         title: 'BROJ SJEDALA',
         icon: 'car-seat',
-        value: String(car.seatNumber),
+        value: car.seatNumber ? String(car.seatNumber) : '',
       },
       { title: 'REGISTRIRAN DO', icon: 'calendar', value: car.registration },
-      { title: 'CO2 EMISIJE', icon: 'emission', value: `${car.emission} g/km` },
+      { title: 'CO2 EMISIJE', icon: 'emission', value: `${car.emission ? car.emission + ' g/km' : ''}` },
       { title: 'LOKACIJA VOZILA', icon: 'location-pin', value: car.location },
     ];
   }
@@ -510,7 +510,7 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   ): DetailsItem[] | undefined {
     if (!car) return;
     return [
-      { title: 'Veličina motora', value: `${car.engineSize} L` },
+      { title: 'Veličina motora', value: `${car.engineSize ? car.engineSize + ' L' : ''}` },
       { title: 'Godina modela', value: car.modelYear },
       { title: 'Boja vozila', value: car.bodyColor },
       { title: 'Boja unutrašnjosti', value: car.interiorColor },
@@ -527,22 +527,22 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
       {
         title: 'BROJ SPAVAĆIH SOBA',
         icon: 'bed',
-        value: String(building.roomNumber),
+        value: building.roomNumber ? String(building.roomNumber) : '',
       },
       {
         title: 'BROJ KUPAONICA',
         icon: 'bath',
-        value: String(building.bathroomNumber),
+        value: building.bathroomNumber ? String(building.bathroomNumber) : '',
       },
       {
         title: 'POVRŠINA OBJEKTA',
         icon: 'house',
-        value: `${String(building.buildingArea)} m²`,
+        value: `${building.buildingArea ? building.buildingArea + ' m²' : ''}`,
       },
       {
         title: 'POVRŠINA OKĆNICE',
         icon: 'garden',
-        value: `${String(building.gardenArea)} m²`,
+        value: `${building.gardenArea ? building.gardenArea + ' m²' : ''}`,
       },
     ];
   }

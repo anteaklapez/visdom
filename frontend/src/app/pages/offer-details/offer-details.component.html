@@ -128,7 +128,7 @@
     <mat-tab label="OSNOVNO">
       <div class="details-grid">
         @if (selectedCategory === Offer.CARS) { @for (item of carDetailsItems;
-        track $index) {
+        track $index) { @if (item.value) {
         <div class="details-item" *ngIf="item.value">
           <mat-icon svgIcon="{{ item.icon }}"></mat-icon>
           <div>
@@ -136,7 +136,7 @@
             <span class="details-item-value">{{ item.value }}</span>
           </div>
         </div>
-        } } @if (selectedCategory === Offer.BUILDINGS) { @for (item of
+        } } } @if (selectedCategory === Offer.BUILDINGS) { @for (item of
         buildingDetailsItems; track $index) {
         <div class="details-item" *ngIf="item.value">
           <mat-icon svgIcon="{{ item.icon }}"></mat-icon>

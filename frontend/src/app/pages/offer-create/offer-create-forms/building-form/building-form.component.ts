@@ -151,6 +151,7 @@ export class BuildingFormComponent implements OnInit {
   }
 
   private _filterBuildingType(value: string): string[] {
+    if (!value) return this._getBuildingTypeList();
     const filterValue = value.toLowerCase();
     return this._getBuildingTypeList().filter((type) =>
       type.toLowerCase().includes(filterValue)
@@ -158,6 +159,7 @@ export class BuildingFormComponent implements OnInit {
   }
 
   private _filterFloors(value: string): string[] {
+    if (!value) return this._getFloorsTypeList();
     const filterValue = value.toLowerCase();
     return this._getFloorsTypeList().filter((floor) =>
       floor.toLowerCase().includes(filterValue)
