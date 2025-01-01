@@ -124,7 +124,6 @@ export class CarFormComponent implements OnInit {
       if (data && data.images) {
         this.images = data.images.map((img: any) => img.full);
         this.carsForm.get('images')?.setValue(this.images);
-        console.log(this.images);
       }
     }
 
@@ -218,7 +217,6 @@ export class CarFormComponent implements OnInit {
   onImageDrop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.images, event.previousIndex, event.currentIndex);
     this.carsForm.get('images')?.setValue(this.images);
-    console.log(this.images);
   }
 
   onDragStarted() {

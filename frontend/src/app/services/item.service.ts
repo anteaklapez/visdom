@@ -78,6 +78,7 @@ export class ItemService {
 
   // Fetch cars with caching
   getCars(): Observable<Car[]> {
+    console.log(this._carsCache)
     if (this._carsCache) {
       return of(this._carsCache);
     }
