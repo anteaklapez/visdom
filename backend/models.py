@@ -150,7 +150,7 @@ class CarDB(Base):
     bodyShape = Column('bodyshape',String, nullable=True)
     modelYear = Column('modelyear',Integer, nullable=True)
     registration = Column(String, nullable=True)
-    engineSize = Column('enginesize',Integer, nullable=True)
+    engineSize = Column('enginesize',Float, nullable=True)
     location = Column(String, nullable=True)
     description = Column(String, nullable=True)
     power = Column(Integer, nullable=True)
@@ -161,7 +161,7 @@ class CarDB(Base):
     interiorColor = Column('interiorcolor',String, nullable=True)
     interiorMaterial = Column('interiormaterial',String, nullable=True)
     emissionClass = Column('emissionclass',String, nullable=True)
-    emission = Column(Integer, nullable=True)
+    emission = Column(Float, nullable=True)
     vin = Column(String, nullable=True)
     images = Column(JSONB, default=[])
 
