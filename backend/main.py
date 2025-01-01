@@ -13,7 +13,10 @@ app.include_router(contact.router)
 
 origins = [
     "http://localhost:8080",
-    "*"
+    "http://localhost:4200",
+    "https://vis-dom.com",
+    "https://www.vis-dom.com",
+    "https://visdom.up.railway.app"
 ]
 
 app.add_middleware(
