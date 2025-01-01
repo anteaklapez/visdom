@@ -42,7 +42,7 @@ class BasicObject(BaseModel):
     id: uuid.UUID | None = None
     subject: str
     price: float
-    description: str
+    description: str | None
     images: List[Image] = []
 
     model_config = {
@@ -58,7 +58,7 @@ class BasicObjectDB(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     subject = Column(String, nullable=False)
     price = Column(Float, nullable=False)
-    description = Column(String, nullable=False)
+    description = Column(String, nullable=True)
     images = Column(JSONB, default=[])
 
 
