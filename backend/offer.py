@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session, joinedload
 
 from auth import get_current_user
-from models import Car, CarDB, ImageDB, Building, BuildingDB, Image, BasicObject, BasicObjectDB, \
+from models import Car, CarDB, Building, BuildingDB, Image, BasicObject, BasicObjectDB, \
     AllTablesResponse, UserOfferDB, UserOffer
 from database import get_db
 
@@ -11,6 +11,8 @@ router = APIRouter()
 
 @router.post("/izrada/vozila", status_code=200, dependencies=[Depends(get_current_user)])
 async def create_vehicle(car_data: Car, db: Annotated[Session, Depends(get_db)]):
+    images_json = [image.model_dump() for image in car_data.images] if car_data.images else []
+
     new_car = CarDB(
         name=car_data.name,
         brand=car_data.brand,
@@ -37,19 +39,11 @@ async def create_vehicle(car_data: Car, db: Annotated[Session, Depends(get_db)])
         interiorMaterial=car_data.interiorMaterial,
         emissionClass=car_data.emissionClass,
         emission=car_data.emission,
-        vin=car_data.vin
+        vin=car_data.vin,
+        images=images_json
     )
 
     db.add(new_car)
-    db.flush()
-
-
-    try:
-        create_images(owner_id=new_car.id, owner_type="car", images=car_data.images, db=db)
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(status_code=400, detail=str(e))
-
     db.commit()
     db.refresh(new_car)
 
@@ -57,6 +51,8 @@ async def create_vehicle(car_data: Car, db: Annotated[Session, Depends(get_db)])
 
 @router.post("/izrada/nekretnine", status_code=200, dependencies=[Depends(get_current_user)])
 async def create_building(building_data: Building, db: Annotated[Session, Depends(get_db)]):
+    images_json = [image.model_dump() for image in building_data.images] if building_data.images else []
+
     new_building = BuildingDB(
         location=building_data.location,
         title=building_data.title,
@@ -69,18 +65,10 @@ async def create_building(building_data: Building, db: Annotated[Session, Depend
         floors=building_data.floors,
         bathroomNumber=building_data.bathroomNumber,
         description=building_data.description,
+        images=images_json
     )
 
     db.add(new_building)
-    db.flush()
-
-
-    try:
-        create_images(owner_id=new_building.id, owner_type="building", images=building_data.images, db=db)
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(status_code=400, detail=str(e))
-
     db.commit()
     db.refresh(new_building)
 
@@ -89,22 +77,16 @@ async def create_building(building_data: Building, db: Annotated[Session, Depend
 
 @router.post("/izrada/ostalo", status_code=200, dependencies=[Depends(get_current_user)])
 async def create_other(other_data: BasicObject, db: Annotated[Session, Depends(get_db)]):
+    images_json = [image.model_dump() for image in other_data.images] if other_data.images else []
+
     new_basic_object = BasicObjectDB(
         subject=other_data.subject,
         price=other_data.price,
         description=other_data.description,
+        images=images_json
     )
 
     db.add(new_basic_object)
-    db.flush()
-
-
-    try:
-        create_images(owner_id=new_basic_object.id, owner_type="basic_object", images=other_data.images, db=db)
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(status_code=400, detail=str(e))
-
     db.commit()
     db.refresh(new_basic_object)
 
@@ -113,25 +95,19 @@ async def create_other(other_data: BasicObject, db: Annotated[Session, Depends(g
 
 @router.post("/izrada/ponuda", status_code=200)
 async def create_offer(offer_data: UserOffer, db: Annotated[Session, Depends(get_db)]):
+    images_json = [image.model_dump() for image in offer_data.images] if offer_data.images else []
+
     new_offer = UserOfferDB(
         objectId=offer_data.objectId,
         name=offer_data.name,
         email=offer_data.email,
         phone=offer_data.phone,
         location=offer_data.location,
-        description=offer_data.description
+        description=offer_data.description,
+        images=images_json
     )
 
     db.add(new_offer)
-    db.flush()
-
-    if offer_data.images:
-        try:
-            create_images(owner_id=new_offer.id, owner_type="user_offer", images=offer_data.images, db=db)
-        except Exception as e:
-            db.rollback()
-            raise HTTPException(status_code=400, detail=str(e))
-
     db.commit()
     db.refresh(new_offer)
 
@@ -141,10 +117,13 @@ async def create_offer(offer_data: UserOffer, db: Annotated[Session, Depends(get
 @router.get("/vozila", response_model=List[Car])
 async def get_cars(db: Annotated[Session, Depends(get_db)]) -> List[Car]:
     result = []
-    cars = db.query(CarDB).options(joinedload(CarDB.images)).all()
+    cars = db.query(CarDB).all()
+
     if not cars:
         return []
     for car in cars:
+        images = [Image(**image) for image in car.images] if car.images else []
+
         bo = Car(
             id=str(car.id),
             name=car.name,
@@ -173,7 +152,7 @@ async def get_cars(db: Annotated[Session, Depends(get_db)]) -> List[Car]:
             emissionClass=car.emissionClass,
             emission=car.emission,
             vin=car.vin,
-            images=car.images,
+            images=images,
         )
         result.append(bo)
 
@@ -182,10 +161,12 @@ async def get_cars(db: Annotated[Session, Depends(get_db)]) -> List[Car]:
 @router.get("/nekretnine", response_model=List[Building])
 async def get_buildings(db: Annotated[Session, Depends(get_db)]) -> List[Building]:
     result = []
-    buildings = db.query(BuildingDB).options(joinedload(BuildingDB.images)).all()
+    buildings = db.query(BuildingDB).all()
     if not buildings:
         return []
     for building in buildings:
+        images = [Image(**image) for image in building.images] if building.images else []
+
         bo = Building(
             id=str(building.id),
             location=building.location,
@@ -199,7 +180,7 @@ async def get_buildings(db: Annotated[Session, Depends(get_db)]) -> List[Buildin
             floors=building.floors,
             bathroomNumber=building.bathroomNumber,
             description=building.description,
-            images=building.images,
+            images=images,
         )
         result.append(bo)
 
@@ -208,16 +189,18 @@ async def get_buildings(db: Annotated[Session, Depends(get_db)]) -> List[Buildin
 @router.get("/ostalo", response_model=List[BasicObject])
 async def get_other(db: Annotated[Session, Depends(get_db)]) -> List[BasicObject]:
     result = []
-    basic_objects = db.query(BasicObjectDB).options(joinedload(BasicObjectDB.images)).all()
+    basic_objects = db.query(BasicObjectDB).all()
     if not basic_objects:
         return []
     for basic_object in basic_objects:
+        images = [Image(**image) for image in basic_object.images] if basic_object.images else []
+
         bo = BasicObject(
             id=str(basic_object.id),
             subject=basic_object.subject,
             price=basic_object.price,
             description=basic_object.description,
-            images=basic_object.images,
+            images=images,
         )
         result.append(bo)
 
@@ -231,6 +214,8 @@ async def get_offers(object_id: str, db: Annotated[Session, Depends(get_db)]):
     if not user_offers:
         return []
     for user_offer in user_offers:
+        images = [Image(**image) for image in user_offer.images] if user_offer.images else []
+
         bo = UserOffer(
             id=str(user_offer.id),
             objectId=str(user_offer.objectId),
@@ -239,7 +224,7 @@ async def get_offers(object_id: str, db: Annotated[Session, Depends(get_db)]):
             phone=user_offer.phone,
             location=user_offer.location,
             description=user_offer.description,
-            images=user_offer.images,
+            images=images,
         )
         result.append(bo)
 
@@ -322,52 +307,23 @@ async def edit_building(
     if not building:
         raise HTTPException(status_code=404, detail="Building not found")
 
-    # Update building fields, excluding 'images'
+    # Update building fields, including 'images'
     for key, value in updated_building.model_dump(exclude_unset=True).items():
-        if key == 'images':
-            continue  # Skip images; handle them separately
-        if hasattr(building, key) and getattr(building, key) != value:
-            setattr(building, key, value)
-
-    # Handle images
-    if hasattr(updated_building, "images") and updated_building.images is not None:
-        # Fetch existing images from the database
-        existing_images = db.query(ImageDB).filter(
-            ImageDB.owner_id == building_id,
-            ImageDB.owner_type == "building"
-        ).all()
-
-        # Create a set of existing image IDs for quick lookup
-        existing_image_ids = {str(img.id) for img in existing_images}
-
-        # Process the updated images
-        for updated_image in updated_building.images:
-            if updated_image.id not in existing_image_ids:
-                # Image does not exist in the database; add it
-                new_image = ImageDB(
-                    id=updated_image.id,
-                    full=updated_image.full,
-                    small=updated_image.small,
-                    owner_id=building_id,
-                    owner_type="building"
-                )
-                db.add(new_image)
-                building.images.append(new_image)
-            else:
-                # Image already exists; skip it
-                pass  # Do not update existing images
-
-        # Remove images that are not in the updated list
-        updated_image_ids = {img.id for img in updated_building.images}
-        images_to_delete = [img for img in existing_images if img.id not in updated_image_ids]
-        for img in images_to_delete:
-            db.delete(img)
+        if key == "images":
+            # Directly assign the images if they are already dictionaries
+            building.images = value  # value is expected to be a list of dictionaries
+        else:
+            # Update other fields
+            if hasattr(building, key) and getattr(building, key) != value:
+                setattr(building, key, value)
 
     # Commit the transaction
     db.commit()
     db.refresh(building)
 
     return {"message": f"Building with ID {building_id} updated successfully"}
+
+
 
 
 
@@ -384,45 +340,15 @@ async def edit_basic_object(
     if not basic_object:
         raise HTTPException(status_code=404, detail="Basic object not found")
 
-    # Update basic object fields, excluding 'images'
+    # Update basic object fields, including 'images'
     for key, value in updated_basic_object.model_dump(exclude_unset=True).items():
-        if key == 'images':
-            continue  # Skip images; handle them separately
-        if hasattr(basic_object, key) and getattr(basic_object, key) != value:
-            setattr(basic_object, key, value)
-
-    # Handle images
-    if hasattr(updated_basic_object, "images") and updated_basic_object.images is not None:
-        # Fetch existing images from the database
-        existing_images = db.query(ImageDB).filter(
-            ImageDB.owner_id == basic_object_id,
-            ImageDB.owner_type == "basic_object"
-        ).all()
-
-        # Create a set of existing image IDs for quick lookup
-        existing_image_ids = {str(img.id) for img in existing_images}
-
-        # Process the updated images
-        for updated_image in updated_basic_object.images:
-            if updated_image.id not in existing_image_ids:
-                # Image does not exist in the database; add it
-                new_image = ImageDB(
-                    id=updated_image.id,
-                    full=updated_image.full,
-                    small=updated_image.small,
-                    owner_id=basic_object_id,
-                    owner_type="basic_object"
-                )
-                db.add(new_image)
-                basic_object.images.append(new_image)
-            else:
-                # Image already exists; skip it
-                pass  # Do not update existing images
-
-        updated_image_ids = {img.id for img in updated_basic_object.images}
-        images_to_delete = [img for img in existing_images if img.id not in updated_image_ids]
-        for img in images_to_delete:
-             db.delete(img)
+        if key == "images":
+            # Directly assign the images if they are already dictionaries
+            basic_object.images = value  # value is expected to be a list of dictionaries
+        else:
+            # Update other fields
+            if hasattr(basic_object, key) and getattr(basic_object, key) != value:
+                setattr(basic_object, key, value)
 
     # Commit the transaction
     db.commit()
@@ -432,7 +358,8 @@ async def edit_basic_object(
 
 
 
-@router.put("/uredi/ponuda/{user_offer_id}")
+
+@router.put("/uredi/ponuda/{user_offer_id}", dependencies=[Depends(get_current_user)])
 async def edit_user_offer(
     user_offer_id: str,
     updated_user_offer: UserOffer,
@@ -444,52 +371,24 @@ async def edit_user_offer(
     if not user_offer:
         raise HTTPException(status_code=404, detail="User offer not found")
 
-    # Update user offer fields, excluding 'images'
+    # Update user offer fields, including 'images'
     for key, value in updated_user_offer.model_dump(exclude_unset=True).items():
-        if key == 'images':
-            continue  # Skip images; handle them separately
-        if hasattr(user_offer, key) and getattr(user_offer, key) != value:
-            setattr(user_offer, key, value)
-
-    # Handle images
-    if hasattr(updated_user_offer, "images") and updated_user_offer.images is not None:
-        # Fetch existing images from the database
-        existing_images = db.query(ImageDB).filter(
-            ImageDB.owner_id == user_offer_id,
-            ImageDB.owner_type == "user_offer"
-        ).all()
-
-        # Create a set of existing image IDs for quick lookup
-        existing_image_ids = {str(img.id) for img in existing_images}
-
-        # Process the updated images
-        for updated_image in updated_user_offer.images:
-            if updated_image.id not in existing_image_ids:
-                # Image does not exist in the database; add it
-                new_image = ImageDB(
-                    id=updated_image.id,
-                    full=updated_image.full,
-                    small=updated_image.small,
-                    owner_id=user_offer_id,
-                    owner_type="user_offer"
-                )
-                db.add(new_image)
-                user_offer.images.append(new_image)
-            else:
-                # Image already exists; skip it
-                pass  # Do not update existing images
-
-        # Remove images that are not in the updated list
-        updated_image_ids = {img.id for img in updated_user_offer.images}
-        images_to_delete = [img for img in existing_images if img.id not in updated_image_ids]
-        for img in images_to_delete:
-            db.delete(img)
+        if key == "images":
+            # Directly assign the images if they are already dictionaries
+            user_offer.images = value  # value is expected to be a list of dictionaries
+        else:
+            # Update other fields
+            if hasattr(user_offer, key) and getattr(user_offer, key) != value:
+                setattr(user_offer, key, value)
 
     # Commit the transaction
     db.commit()
     db.refresh(user_offer)
 
     return {"message": f"User offer with ID {user_offer_id} updated successfully"}
+
+
+
 
 @router.put("/uredi/vozilo/{vehicle_id}", dependencies=[Depends(get_current_user)])
 async def edit_vehicle(
@@ -503,46 +402,15 @@ async def edit_vehicle(
     if not vehicle:
         raise HTTPException(status_code=404, detail="Vehicle not found")
 
-    # Update vehicle fields, excluding 'images'
+    # Update vehicle fields, including 'images'
     for key, value in updated_vehicle.model_dump(exclude_unset=True).items():
-        if key == 'images':
-            continue  # Skip images; handle them separately
-        if hasattr(vehicle, key) and getattr(vehicle, key) != value:
-            setattr(vehicle, key, value)
-
-    # Handle images
-    if hasattr(updated_vehicle, "images") and updated_vehicle.images is not None:
-        # Fetch existing images from the database
-        existing_images = db.query(ImageDB).filter(
-            ImageDB.owner_id == vehicle_id,
-            ImageDB.owner_type == "car"
-        ).all()
-
-        # Create a set of existing image IDs for quick lookup
-        existing_image_ids = {str(img.id) for img in existing_images}
-
-        # Process the updated images
-        for updated_image in updated_vehicle.images:
-            if updated_image.id not in existing_image_ids:
-                # Image does not exist in the database; add it
-                new_image = ImageDB(
-                    id=updated_image.id,
-                    full=updated_image.full,
-                    small=updated_image.small,
-                    owner_id=vehicle_id,
-                    owner_type="car"
-                )
-                db.add(new_image)
-                vehicle.images.append(new_image)
-            else:
-                # Image already exists; skip it
-                pass  # Do not update existing images
-
-        # Remove images that are not in the updated list
-        updated_image_ids = {img.id for img in updated_vehicle.images}
-        images_to_delete = [img for img in existing_images if img.id not in updated_image_ids]
-        for img in images_to_delete:
-            db.delete(img)
+        if key == "images":
+            # Directly assign the images if they are already dictionaries
+            vehicle.images = value  # value is expected to be a list of dictionaries
+        else:
+            # Update other fields
+            if hasattr(vehicle, key) and getattr(vehicle, key) != value:
+                setattr(vehicle, key, value)
 
     # Commit the transaction
     db.commit()
@@ -550,26 +418,5 @@ async def edit_vehicle(
 
     return {"message": f"Vehicle with ID {vehicle_id} updated successfully"}
 
-
-
-def create_images(owner_id, owner_type, images: List[Image], db: Session):
-    if not images:
-        raise ValueError("No images provided for creation")
-
-    try:
-        for image in images:
-            new_image = ImageDB(
-                id=image.id,
-                full=image.full,
-                small=image.small,
-                owner_id=owner_id,
-                owner_type=owner_type
-            )
-            db.add(new_image)
-
-        db.commit()
-    except Exception as e:
-        db.rollback()
-        raise e
 
 

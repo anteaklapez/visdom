@@ -1,6 +1,8 @@
 from typing import List
 
 from pydantic import BaseModel
+from sqlalchemy.dialects.postgresql import JSONB
+
 from database import Base
 from sqlalchemy import Column, String, UUID, Float, ForeignKey, Integer
 from sqlalchemy.orm import relationship
@@ -35,20 +37,6 @@ class Image(BaseModel):
         "populate_by_name": True,
     }
 
-class ImageDB(Base):
-    __tablename__ = "images"
-    id = Column(String, primary_key=True)
-    full = Column(String, nullable=False)
-    small = Column(String, nullable=False)
-
-    owner_id = Column(UUID(as_uuid=True), nullable=False)
-    owner_type = Column(String, nullable=False)
-
-    __mapper_args__ = {
-        'polymorphic_on': owner_type,
-        'polymorphic_identity': 'image'
-    }
-
 
 class BasicObject(BaseModel):
     id: uuid.UUID | None = None
@@ -71,14 +59,7 @@ class BasicObjectDB(Base):
     subject = Column(String, nullable=False)
     price = Column(Float, nullable=False)
     description = Column(String, nullable=False)
-
-    images = relationship(
-        "ImageDB",
-        primaryjoin="and_(foreign(ImageDB.owner_id) == BasicObjectDB.id, ImageDB.owner_type == 'basic_object')",
-        cascade = "all, delete-orphan",
-        overlaps = "images"
-    )
-
+    images = Column(JSONB, default=[])
 
 
 class Building(BaseModel):
@@ -115,14 +96,7 @@ class BuildingDB(Base):
     floors = Column(String, nullable=True)
     bathroomNumber = Column('bathroomnumber', Integer, nullable=True)
     description = Column(String, nullable=True)
-
-    images = relationship(
-        "ImageDB",
-        primaryjoin="and_(foreign(ImageDB.owner_id) == BuildingDB.id, ImageDB.owner_type == 'building')",
-        cascade="all, delete-orphan",
-        overlaps="images"
-    )
-
+    images = Column(JSONB, default=[])
 
 
 class Car(BaseModel):
@@ -190,13 +164,7 @@ class CarDB(Base):
     emissionClass = Column('emissionclass',String, nullable=True)
     emission = Column(Integer, nullable=True)
     vin = Column(String, nullable=True)
-
-    images = relationship(
-        "ImageDB",
-        primaryjoin="and_(foreign(ImageDB.owner_id) == CarDB.id, ImageDB.owner_type == 'car')",
-        cascade="all, delete-orphan",
-        overlaps="images"
-    )
+    images = Column(JSONB, default=[])
 
 
 
@@ -229,34 +197,7 @@ class UserOfferDB(Base):
     phone = Column(String, nullable=False)
     location = Column(String, nullable=True)
     description = Column(String, nullable=True)
-
-    images = relationship(
-        "ImageDB",
-        primaryjoin="and_(foreign(ImageDB.owner_id) == UserOfferDB.id, ImageDB.owner_type == 'user_offer')",
-        cascade="all, delete-orphan",
-        overlaps="images"
-    )
-
-
-
-
-# Automation Function
-def create_image_subclass(entity_name: str):
-    return type(
-        f"{entity_name.capitalize()}ImageDB",  # Class name
-        (ImageDB,),  # Base class
-        {
-            "__mapper_args__": {
-                "polymorphic_identity": entity_name  # Polymorphic identity
-            }
-        },
-    )
-
-# Dynamically Create Subclasses
-BasicObjectImageDB = create_image_subclass("basic_object")
-CarImageDB = create_image_subclass("car")
-BuildingImageDB = create_image_subclass("building")
-UserOfferImageDB = create_image_subclass("user_offer")
+    images = Column(JSONB, default=[])
 
 
 
