@@ -210,7 +210,7 @@ async def get_other(db: Annotated[Session, Depends(get_db)]) -> List[BasicObject
 @router.get("/ponude/{object_id}", response_model=List[UserOffer])
 async def get_offers(object_id: str, db: Annotated[Session, Depends(get_db)]):
     result = []
-    user_offers = db.query(UserOfferDB).filter(UserOfferDB.objectId == object_id).options(joinedload(UserOfferDB.images)).all()
+    user_offers = db.query(UserOfferDB).filter(UserOfferDB.objectId == object_id).all()
     if not user_offers:
         return []
     for user_offer in user_offers:
