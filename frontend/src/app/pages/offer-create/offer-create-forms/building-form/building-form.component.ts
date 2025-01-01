@@ -56,7 +56,7 @@ export class BuildingFormComponent implements OnInit {
       title: [null, Validators.required],
       price: [
         null,
-        [Validators.min(0), Validators.max(10000000), Validators.required],
+        [Validators.min(0), Validators.max(100000000), Validators.required],
       ],
       images: [[]],
       roomNumber: [null, Validators.min(0)],
