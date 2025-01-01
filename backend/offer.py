@@ -143,7 +143,7 @@ async def get_cars(db: Annotated[Session, Depends(get_db)]) -> List[Car]:
     result = []
     cars = db.query(CarDB).options(joinedload(CarDB.images)).all()
     if not cars:
-        raise HTTPException(status_code=404, detail="No cars found")
+        return []
     for car in cars:
         bo = Car(
             id=str(car.id),
@@ -184,7 +184,7 @@ async def get_buildings(db: Annotated[Session, Depends(get_db)]) -> List[Buildin
     result = []
     buildings = db.query(BuildingDB).options(joinedload(BuildingDB.images)).all()
     if not buildings:
-        raise HTTPException(status_code=404, detail="No buildings found")
+        return []
     for building in buildings:
         bo = Building(
             id=str(building.id),
@@ -210,7 +210,7 @@ async def get_other(db: Annotated[Session, Depends(get_db)]) -> List[BasicObject
     result = []
     basic_objects = db.query(BasicObjectDB).options(joinedload(BasicObjectDB.images)).all()
     if not basic_objects:
-        raise HTTPException(status_code=404, detail="No basic objects found")
+        return []
     for basic_object in basic_objects:
         bo = BasicObject(
             id=str(basic_object.id),
@@ -229,7 +229,7 @@ async def get_offers(object_id: str, db: Annotated[Session, Depends(get_db)]):
     result = []
     user_offers = db.query(UserOfferDB).filter(UserOfferDB.objectId == object_id).options(joinedload(UserOfferDB.images)).all()
     if not user_offers:
-        raise HTTPException(status_code=404, detail="No user offers found")
+        return []
     for user_offer in user_offers:
         bo = UserOffer(
             id=str(user_offer.id),
