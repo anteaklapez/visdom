@@ -113,7 +113,7 @@ class Car(BaseModel):
     seatNumber: str | None = None
     bodyShape: str | None = None
     registration: str | None = None
-    engineSize: int | None = None
+    engineSize: float | None = None
     location: str | None = None
     description: str | None = None
     power: int | None = None
@@ -124,7 +124,7 @@ class Car(BaseModel):
     interiorColor: str | None = None
     interiorMaterial: str | None = None
     emissionClass: str | None = None
-    emission: int | None = None
+    emission: float | None = None
     vin: str | None = None
     images: List[Image] = []
 
