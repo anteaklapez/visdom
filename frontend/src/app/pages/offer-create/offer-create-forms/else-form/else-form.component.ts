@@ -40,13 +40,13 @@ export class ElseFormComponent implements OnInit {
     this.dataToEdit = this._itemService.getItemToEdit() as BasicObject | null;
 
     this.basicObjectForm = this._fb.group({
-      subject: ['', Validators.required],
+      subject: [null, Validators.required],
       price: [
-        '',
+        null,
         [Validators.min(0), Validators.max(10000000), Validators.required],
       ],
       image: [[]],
-      description: [''],
+      description: [null],
     });
 
     if (this.dataToEdit) {

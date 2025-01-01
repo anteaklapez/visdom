@@ -54,39 +54,39 @@ export class CarFormComponent implements OnInit {
     this.dataToEdit = data;
 
     this.carsForm = this._fb.group({
-      name: ['', Validators.required],
-      brand: new FormControl('', Validators.required),
-      type: new FormControl('', Validators.required),
+      name: [null, Validators.required],
+      brand: new FormControl(null, Validators.required),
+      type: new FormControl(null, Validators.required),
       model: new FormControl(
-        { value: '', disabled: true },
+        { value: null, disabled: true },
         Validators.required
       ),
       images: [[]],
       price: [
-        '',
+        null,
         [Validators.min(0), Validators.max(10000000), Validators.required],
       ],
-      modelYear: [{ value: '', disabled: false }],
-      productionYear: [{ value: '', disabled: false }],
-      registration: [''],
-      engineSize: ['', [Validators.min(0), Validators.max(10000000)]],
-      location: [''],
-      description: [''],
-      mileage: ['', [Validators.min(0), Validators.max(10000000)]],
-      power: ['', [Validators.min(0), Validators.max(10000000)]],
-      engine: [''],
-      transmission: [''],
-      seatNumber: [''],
-      doorNumber: [''],
-      bodyShape: [''],
-      consumption: [''],
-      driveType: [''],
-      interiorMaterial: [''],
-      bodyColor: [''],
-      vin: [''],
-      emission: [''],
-      emissionsClass: [''],
-      interiorColor: [''],
+      modelYear: [{ value: null, disabled: false }],
+      productionYear: [{ value: null, disabled: false }],
+      registration: [null],
+      engineSize: [null, [Validators.min(0), Validators.max(10000000)]],
+      location: [null],
+      description: [null],
+      mileage: [null, [Validators.min(0), Validators.max(10000000)]],
+      power: [null, [Validators.min(0), Validators.max(10000000)]],
+      engine: [null],
+      transmission: [null],
+      seatNumber: [null],
+      doorNumber: [null],
+      bodyShape: [null],
+      consumption: [null],
+      driveType: [null],
+      interiorMaterial: [null],
+      bodyColor: [null],
+      vin: [null],
+      emission: [null],
+      emissionsClass: [null],
+      interiorColor: [null],
     });
 
     if (data) {
@@ -255,13 +255,13 @@ export class CarFormComponent implements OnInit {
     if (modelYear instanceof Date) {
       this.carsForm.get('modelYear')?.setValue(modelYear.getFullYear().toString());
     } else {
-      this.carsForm.get('modelYear')?.setValue('');
+      this.carsForm.get('modelYear')?.setValue(null);
     }
   
     if (productionYear instanceof Date) {
       this.carsForm.get('productionYear')?.setValue(productionYear.getFullYear().toString());
     } else {
-      this.carsForm.get('productionYear')?.setValue('');
+      this.carsForm.get('productionYear')?.setValue(null);
     }
   }
   

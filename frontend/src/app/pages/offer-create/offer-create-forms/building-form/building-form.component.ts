@@ -52,21 +52,21 @@ export class BuildingFormComponent implements OnInit {
     this.dataToEdit = this._itemService.getItemToEdit() as Building | null;
 
     this.buildingForm = this._fb.group({
-      location: ['', Validators.required],
-      title: ['', Validators.required],
+      location: [null, Validators.required],
+      title: [null, Validators.required],
       price: [
-        '',
+        null,
         [Validators.min(0), Validators.max(10000000), Validators.required],
       ],
       image: [[]],
-      roomNumber: ['', Validators.min(0)],
-      buildingArea: ['', [Validators.min(0)]],
-      gardenArea: ['', [Validators.min(0)]],
-      floors: ['', [Validators.min(0)]],
-      bathroomNumber: ['', [Validators.min(0)]],
-      buildYear: [{ value: '', disabled: true }],
-      buildingType: [''],
-      description: [''],
+      roomNumber: [null, Validators.min(0)],
+      buildingArea: [null, [Validators.min(0)]],
+      gardenArea: [null, [Validators.min(0)]],
+      floors: [null, [Validators.min(0)]],
+      bathroomNumber: [null, [Validators.min(0)]],
+      buildYear: [{ value: null, disabled: true }],
+      buildingType: [null],
+      description: [null],
     });
 
     if (this.dataToEdit) {
@@ -95,12 +95,12 @@ export class BuildingFormComponent implements OnInit {
       .get('buildingType')
       ?.valueChanges.pipe(
         startWith(''),
-        map((buildingType) => this._filterBuildingType(buildingType || ''))
+        map((buildingType) => this._filterBuildingType(buildingType || null))
       );
 
     this.filteredFloors$ = this.buildingForm.get('floors')?.valueChanges.pipe(
       startWith(''),
-      map((floors) => this._filterFloors(floors || ''))
+      map((floors) => this._filterFloors(floors || null))
     );
   }
 
@@ -180,7 +180,7 @@ export class BuildingFormComponent implements OnInit {
         .get('buildYear')
         ?.setValue(buildYear.getFullYear().toString());
     } else {
-      this.buildingForm.get('buildYear')?.setValue('');
+      this.buildingForm.get('buildYear')?.setValue(null);
     }
   }
 
