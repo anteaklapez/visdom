@@ -45,7 +45,7 @@ export class ElseFormComponent implements OnInit {
         null,
         [Validators.min(0), Validators.max(10000000), Validators.required],
       ],
-      image: [[]],
+      images: [[]],
       description: [null],
     });
 

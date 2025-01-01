@@ -58,7 +58,7 @@ export class BuildingFormComponent implements OnInit {
         null,
         [Validators.min(0), Validators.max(10000000), Validators.required],
       ],
-      image: [[]],
+      images: [[]],
       roomNumber: [null, Validators.min(0)],
       buildingArea: [null, [Validators.min(0)]],
       gardenArea: [null, [Validators.min(0)]],
