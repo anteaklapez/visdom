@@ -26,8 +26,17 @@
       <!-- MARKA -->
       <mat-form-field>
         <mat-label>Marka</mat-label>
-        <input type="text" aria-label="Marka" matInput formControlName="brand" [matAutocomplete]="auto" />
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onCarMakeSelected()">
+        <input
+          type="text"
+          aria-label="Marka"
+          matInput
+          formControlName="brand"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="onCarMakeSelected()"
+        >
           @for (make of filteredCarBrand$ | async; track make) {
           <mat-option [value]="make">{{ make }}</mat-option>
           }
@@ -37,7 +46,13 @@
       <!-- MODEL -->
       <mat-form-field>
         <mat-label>Model</mat-label>
-        <input type="text" aria-label="Marka" matInput formControlName="model" [matAutocomplete]="autoModel" />
+        <input
+          type="text"
+          aria-label="Marka"
+          matInput
+          formControlName="model"
+          [matAutocomplete]="autoModel"
+        />
         <mat-autocomplete #autoModel="matAutocomplete">
           @for (model of filteredCarModel$ | async; track model) {
           <mat-option [value]="model">{{ model }}</mat-option>
@@ -58,8 +73,19 @@
       <!-- SLIKE -->
       <mat-label class="label-style">Slike</mat-label>
       <div class="file-button-container">
-        <input type="file" #fileInput (change)="onFileSelect($event)" hidden multiple accept="image/*" />
-        <button type="button" class="add-image-button basic-button" (click)="fileInput.click()">
+        <input
+          type="file"
+          #fileInput
+          (change)="onFileSelect($event)"
+          hidden
+          multiple
+          accept="image/*"
+        />
+        <button
+          type="button"
+          class="add-image-button basic-button"
+          (click)="fileInput.click()"
+        >
           <span class="plus-icon">+</span>
         </button>
         @if (images.length > 0) {
@@ -68,14 +94,25 @@
       </div>
 
       @if (images.length > 0) {
-      <div cdkDropList cdkDropListOrientation="mixed" class="image-list" (cdkDropListDropped)="onImageDrop($event)">
+      <div
+        cdkDropList
+        cdkDropListOrientation="mixed"
+        class="image-list"
+        (cdkDropListDropped)="onImageDrop($event)"
+      >
         @for (image of images; track image) {
         <div class="image-icon-container">
           @if(!isDragging) {
           <mat-icon (click)="onDeleteImage(image)">remove</mat-icon>
           }
-          <img [src]="image" alt="Image Preview" class="image-box" cdkDrag (cdkDragStarted)="onDragStarted()"
-            (cdkDragEnded)="onDragEnded()" />
+          <img
+            [src]="image"
+            alt="Image Preview"
+            class="image-box"
+            cdkDrag
+            (cdkDragStarted)="onDragStarted()"
+            (cdkDragEnded)="onDragEnded()"
+          />
         </div>
         }
       </div>
@@ -85,7 +122,10 @@
     <!-- MJENJAČ -->
     <div class="toggle-container">
       <mat-label class="label-style">Mjenjač</mat-label>
-      <mat-button-toggle-group name="transmition" formControlName="transmission">
+      <mat-button-toggle-group
+        name="transmition"
+        formControlName="transmission"
+      >
         <mat-button-toggle value="ručni">
           <mat-icon svgIcon="manual"></mat-icon>
           <span class="toggle-text">Ručni</span>
@@ -144,19 +184,43 @@
       <!-- GODINA MODELA -->
       <mat-form-field>
         <mat-label>Modela</mat-label>
-        <input matInput formControlName="modelYear" [matDatepicker]="pickerModelYear" />
-        <mat-datepicker-toggle matIconSuffix [for]="pickerModelYear"></mat-datepicker-toggle>
-        <mat-datepicker #pickerModelYear startView="multi-year" disabled="false"
-          (yearSelected)="onModelYearSelected($event, pickerModelYear)"></mat-datepicker>
+        <input
+          matInput
+          formControlName="modelYear"
+          [matDatepicker]="pickerModelYear"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="pickerModelYear"
+        ></mat-datepicker-toggle>
+        <mat-datepicker
+          #pickerModelYear
+          startView="multi-year"
+          disabled="false"
+          (yearSelected)="onModelYearSelected($event, pickerModelYear)"
+        ></mat-datepicker>
       </mat-form-field>
 
       <!-- GODINA PROIZVODNJE -->
       <mat-form-field>
         <mat-label>Proizvodnje</mat-label>
-        <input matInput formControlName="productionYear" [matDatepicker]="pickerProductionYear" />
-        <mat-datepicker-toggle matIconSuffix [for]="pickerProductionYear"></mat-datepicker-toggle>
-        <mat-datepicker #pickerProductionYear startView="multi-year" disabled="false"
-          (yearSelected)="onProductionYearSelected($event, pickerProductionYear)"></mat-datepicker>
+        <input
+          matInput
+          formControlName="productionYear"
+          [matDatepicker]="pickerProductionYear"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="pickerProductionYear"
+        ></mat-datepicker-toggle>
+        <mat-datepicker
+          #pickerProductionYear
+          startView="multi-year"
+          disabled="false"
+          (yearSelected)="
+            onProductionYearSelected($event, pickerProductionYear)
+          "
+        ></mat-datepicker>
       </mat-form-field>
     </div>
 
@@ -167,7 +231,7 @@
         <mat-label>Sjedala</mat-label>
         <mat-select formControlName="seatNumber" name="Sjedala">
           <mat-option>Makni odabir</mat-option>
-          @for (seat of [1, 2, 3, 4, 5, 6, 7, 8]; track seat) {
+          @for (seat of ['1', '2', '3', '4', '5', '6', '7', '8']; track seat) {
           <mat-option [value]="seat">{{ seat }}</mat-option>
           }
           <mat-option value="9+">9+</mat-option>
@@ -216,7 +280,12 @@
       <!-- POTROŠNJA GORIVA -->
       <mat-form-field>
         <mat-label>Potrošnja goriva (L/100km)</mat-label>
-        <input matInput type="number" placeholder="npr 6.5" formControlName="consumption" />
+        <input
+          matInput
+          type="number"
+          placeholder="npr 6.5"
+          formControlName="consumption"
+        />
       </mat-form-field>
     </div>
 
@@ -248,7 +317,12 @@
       <!-- VELIČINA MOTORA -->
       <mat-form-field>
         <mat-label>Veličina motora (L)</mat-label>
-        <input matInput type="number" placeholder="npr 1.6" formControlName="engineSize" />
+        <input
+          matInput
+          type="number"
+          placeholder="npr 1.6"
+          formControlName="engineSize"
+        />
       </mat-form-field>
 
       <!-- SNAGA -->
@@ -262,7 +336,10 @@
       <!-- KILOMETRAŽA -->
       <mat-form-field>
         <mat-label>Kilometraža</mat-label>
-        <input matInput type="number" formControlName="mileage" />
+        <input matInput type="number" formControlName="mileage" step="1" />
+        @if (carsForm.get('mileage')?.hasError('pattern')) {
+        <mat-error> Unesite cijeli broj. </mat-error>
+        }
       </mat-form-field>
 
       <!-- LOKACIJA -->
@@ -276,7 +353,12 @@
       <!-- EMISIJA CO2 -->
       <mat-form-field>
         <mat-label>Emisija CO₂ (g/km)</mat-label>
-        <input matInput type="number" placeholder="npr 120.5" formControlName="emission" />
+        <input
+          matInput
+          type="number"
+          placeholder="npr 120.5"
+          formControlName="emission"
+        />
       </mat-form-field>
 
       <!-- EKOLOŠKA KATEGORIJA -->
@@ -302,12 +384,22 @@
     <!-- OPIS -->
     <mat-form-field class="text-area-field">
       <mat-label>Opis</mat-label>
-      <textarea matInput formControlName="description" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
-        cdkAutosizeMinRows="1" cdkAutosizeMaxRows="10"></textarea>
+      <textarea
+        matInput
+        formControlName="description"
+        cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        cdkAutosizeMinRows="1"
+        cdkAutosizeMaxRows="10"
+      ></textarea>
     </mat-form-field>
   </div>
 
-  <button class="raised-button" type="submit" [disabled]="carsForm.invalid || isSubmitting">
+  <button
+    class="raised-button"
+    type="submit"
+    [disabled]="carsForm.invalid || isSubmitting"
+  >
     SPREMI
   </button>
 </form>

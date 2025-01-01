@@ -72,7 +72,7 @@ export class CarFormComponent implements OnInit {
       engineSize: [null, [Validators.min(0), Validators.max(10000000)]],
       location: [null],
       description: [null],
-      mileage: [null, [Validators.min(0), Validators.max(10000000)]],
+      mileage: [null, [Validators.min(0), Validators.max(10000000), Validators.pattern('^[0-9]+$')]],
       power: [null, [Validators.min(0), Validators.max(10000000)]],
       engine: [null],
       transmission: [null],
