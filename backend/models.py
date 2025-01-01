@@ -110,7 +110,7 @@ class Car(BaseModel):
     type: str | None = None
     driveType: str | None = None
     doorNumber: int | None = None
-    seatNumber: int | None = None
+    seatNumber: str | None = None
     bodyShape: str | None = None
     registration: str | None = None
     engineSize: int | None = None
@@ -146,7 +146,7 @@ class CarDB(Base):
     type = Column(String, nullable=True)
     driveType = Column('drivetype',String, nullable=True)
     doorNumber = Column('doornumber',Integer, nullable=True)
-    seatNumber = Column('seatnumber',Integer, nullable=True)
+    seatNumber = Column('seatnumber',String, nullable=True)
     bodyShape = Column('bodyshape',String, nullable=True)
     modelYear = Column('modelyear',Integer, nullable=True)
     registration = Column(String, nullable=True)
