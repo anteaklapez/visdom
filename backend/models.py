@@ -116,7 +116,7 @@ class Car(BaseModel):
     engineSize: float | None = None
     location: str | None = None
     description: str | None = None
-    power: int | None = None
+    power: float | None = None
     engine: str | None = None
     transmission: str | None = None
     consumption: float | None = None
@@ -153,7 +153,7 @@ class CarDB(Base):
     engineSize = Column('enginesize',Float, nullable=True)
     location = Column(String, nullable=True)
     description = Column(String, nullable=True)
-    power = Column(Integer, nullable=True)
+    power = Column(Float, nullable=True)
     engine = Column(String, nullable=True)
     transmission = Column(String, nullable=True)
     consumption = Column(Float, nullable=True)
