@@ -237,7 +237,7 @@ async def get_all(db: Annotated[Session, Depends(get_db)]):
     basic_object_db_instances = db.query(BasicObjectDB).all()
 
     if not car_db_instances and not building_db_instances and not basic_object_db_instances:
-        raise HTTPException(status_code=404, detail="No data found")
+        return AllTablesResponse(cars=[], buildings=[], other=[])
 
     # Convert SQLAlchemy models to Pydantic models
     cars = [Car.model_validate(car) for car in car_db_instances]
