@@ -106,21 +106,17 @@ export class ElseFormComponent implements OnInit {
   }
 
   onSubmit() {
-    // 3. Validate the form
     if (!this.basicObjectForm.valid) return;
     this.isSubmitting = true;
 
-    // Prepare the form data as our BasicObject
     const basicObjectData = this.basicObjectForm.value as BasicObject;
 
-    // If editing, keep the existing ID; otherwise generate a new one
     if (this.dataToEdit) {
       basicObjectData.id = this.dataToEdit.id;
     } else {
       basicObjectData.id = uuid.v4();
     }
 
-    // 4. Handle image uploads (or defaults)
     if (this.images.length > 0) {
       const uploadObservables = this.images.map((image) =>
         this._imgbbService.uploadToImgbb(image)
@@ -136,7 +132,6 @@ export class ElseFormComponent implements OnInit {
             } as Image;
           });
 
-          // 5. Create or Update
           if (this.dataToEdit) {
             this._updateBasicObject(basicObjectData);
           } else {
@@ -149,7 +144,6 @@ export class ElseFormComponent implements OnInit {
         },
       });
     } else {
-      // If no new images were uploaded, either keep existing images or use defaults
       basicObjectData.images =
         this.dataToEdit?.images || [
           {

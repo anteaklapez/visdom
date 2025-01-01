@@ -1,22 +1,29 @@
 <mat-card routerLink="{{ car.id }}">
   <mat-card-content class="card-content">
     <img
-      [src]="(isSmallScreen$ | async) ? car.images[0].full : car.images[0].small"
+      [src]="
+        (isSmallScreen$ | async) ? car.images[0].full : car.images[0].small
+      "
       alt="{{ car.name }} image"
       class="card-image"
     />
     <div class="card-data">
       <mat-card-title class="card-title">{{ car.name }}</mat-card-title>
-      <mat-card-subtitle class="card-subtitle">{{ car.brand }}</mat-card-subtitle>
+      <mat-card-subtitle class="card-subtitle">{{
+        car.brand
+      }}</mat-card-subtitle>
       <div class="card-details">
+        @if (car.mileage) {
         <div class="detail-item">
           <mat-icon svgIcon="road" class="material-icon"></mat-icon>
           <span>{{ car.mileage | number : "1.0-0" }} km</span>
         </div>
+        } @if (car.productionYear) {
         <div class="detail-item">
           <mat-icon class="material-icon">edit_calendar</mat-icon>
           <span>{{ car.productionYear }}</span>
         </div>
+        } @if (car.power) {
         <div class="detail-item">
           <mat-icon class="material-icon" svgIcon="engine"></mat-icon>
           <span
@@ -26,20 +33,28 @@
             hp)</span
           >
         </div>
+        } @if (car.transmission) {
         <div class="detail-item">
-          <mat-icon [svgIcon]="transmissionIcon" class="material-icon"></mat-icon>
+          <mat-icon
+            [svgIcon]="transmissionIcon"
+            class="material-icon"
+          ></mat-icon>
           <span>{{ car.transmission | titlecase }}</span>
         </div>
+        } @if (car.engine) {
         <div class="detail-item">
           <mat-icon class="material-icon" [svgIcon]="fuelIcon"></mat-icon>
           <span>{{ car.engine | titlecase }}</span>
         </div>
+        }
       </div>
       <div class="card-footer">
+        @if (car.location) {
         <span class="location">
           <mat-icon class="material-icon" svgIcon="location-pin"></mat-icon>
           <span class="location-text">{{ car.location }}</span>
         </span>
+        }
         <span class="price">€{{ car.price | number }}</span>
       </div>
     </div>

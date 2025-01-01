@@ -20,6 +20,7 @@ import {
   take,
   tap,
 } from 'rxjs';
+import * as uuid from 'uuid';
 import { AsyncPipe, CommonModule, isPlatformBrowser } from '@angular/common';
 import { Offer } from '../../models/offer.enum';
 import { Carousel, Fancybox } from '@fancyapps/ui';
@@ -276,31 +277,37 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   onSubmit() {
     if (!this.createOfferForm.valid) return;
     this.isSubmitting = true;
-
+  
     const userOfferData = this.createOfferForm.getRawValue();
-
-    const uploadObservables = this.images.map((image) =>
-      this._imgbbService.uploadToImgbb(image)
-    );
-
-    forkJoin(uploadObservables).subscribe({
-      next: (responses) => {
-        const uploadedImages = responses.map((response) => ({
-          id: response.data.id,
-          full: response.data.image.url,
-          small: response.data.thumb.url,
-        }));
-
-        userOfferData.images = uploadedImages;
-
-        this._createUserOffer(userOfferData);
-      },
-      error: (err) => {
-        console.error('Upload Error:', err);
-        this.isSubmitting = false;
-      },
-    });
+  
+    if (this.images.length > 0) {
+      const uploadObservables = this.images.map((image) =>
+        this._imgbbService.uploadToImgbb(image)
+      );
+  
+      forkJoin(uploadObservables).subscribe({
+        next: (responses) => {
+          const uploadedImages = responses.map((response) => ({
+            id: uuid.v4(),
+            full: response.data.image.url,
+            small: response.data.thumb.url,
+          }));
+  
+          userOfferData.images = uploadedImages;
+  
+          this._createUserOffer(userOfferData);
+        },
+        error: (err) => {
+          console.error('Upload Error:', err);
+          this.isSubmitting = false;
+        },
+      });
+    } else {
+      userOfferData.images = [];
+      this._createUserOffer(userOfferData);
+    }
   }
+  
 
   private _createUserOffer(userOffer: UserOffer) {
     this._itemService.createUserOffer(userOffer).subscribe({

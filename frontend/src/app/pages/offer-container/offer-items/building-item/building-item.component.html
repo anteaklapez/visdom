@@ -8,32 +8,40 @@
     <div class="card-data">
       <mat-card-title class="card-title">{{ building.title }}</mat-card-title>
       <div class="card-details">
+        @if (building.buildYear) {
         <div class="detail-item">
           <mat-icon class="material-icon">edit_calendar</mat-icon>
           <span>{{ building.buildYear }}</span>
         </div>
+        } @if (building.buildingArea) {
         <div class="detail-item">
           <mat-icon class="material-icon" svgIcon="house"></mat-icon>
           <span>{{ building.buildingArea | number : "1.0-0" }} m²</span>
         </div>
+        } @if (building.gardenArea) {
         <div class="detail-item">
           <mat-icon class="material-icon" svgIcon="garden"></mat-icon>
           <span>{{ building.gardenArea | number : "1.0-0" }} m²</span>
         </div>
+        } @if (building.roomNumber) {
         <div class="detail-item">
           <mat-icon class="material-icon" svgIcon="bed"></mat-icon>
           <span>{{ building.roomNumber | number : "1.0-0" }}</span>
         </div>
+        } @if (building.bathroomNumber) {
         <div class="detail-item">
           <mat-icon class="material-icon" svgIcon="bath"></mat-icon>
           <span>{{ building.bathroomNumber | number : "1.0-0" }}</span>
         </div>
+        }
       </div>
       <div class="card-footer">
+        @if (building.location) {
         <span class="location">
           <mat-icon class="material-icon" svgIcon="location-pin"></mat-icon>
           <span class="location-text">{{ building.location }}</span>
         </span>
+        }
         <span class="price">€{{ building.price | number }}</span>
       </div>
     </div>

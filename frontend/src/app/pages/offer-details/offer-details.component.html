@@ -37,23 +37,29 @@
       <small>{{ objectData.vin }}</small>
     </div>
     <div class="offer-icons">
+      @if (objectData.productionYear) {
       <div class="icon-design">
         <mat-icon>edit_calendar</mat-icon> {{ objectData.productionYear }}
       </div>
+      } @if (objectData.mileage) {
       <div class="icon-design">
         <mat-icon svgIcon="road"></mat-icon>
         {{ objectData.mileage | number : "1.0-0" }} km
       </div>
+      } @if (objectData.power) {
       <div class="icon-design">
         <mat-icon svgIcon="engine"></mat-icon> {{ objectData.power }} kW
       </div>
+      } @if (objectData.engine) {
       <div class="icon-design">
         <mat-icon [svgIcon]="fuelIcon"></mat-icon> {{ objectData.engine }}
       </div>
+      } @if (objectData.transmission) {
       <div class="icon-design">
         <mat-icon [svgIcon]="transmissionIcon"></mat-icon>
         {{ objectData.transmission }}
       </div>
+      }
     </div>
     <div class="offer-title-buttons">
       <button mat-stroked-button class="button-color">
