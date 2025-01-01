@@ -128,15 +128,17 @@ export class OfferDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (isPlatformBrowser(this._platformId)) {
       window.scrollTo(0, 0);
 
-      this.userOffersData$ = this._itemService.getUserOffer(this.id!).pipe(
-        tap((userOffers: UserOffer[]) => {
-          userOffers.forEach((offer) => {
-            if (offer.email) {
-              Fancybox.bind(`[data-fancybox="${offer.email}"]`);
-            }
-          });
-        })
-      );
+      if (this.isLoggedIn) {        
+        this.userOffersData$ = this._itemService.getUserOffer(this.id!).pipe(
+          tap((userOffers: UserOffer[]) => {
+            userOffers.forEach((offer) => {
+              if (offer.email) {
+                Fancybox.bind(`[data-fancybox="${offer.email}"]`);
+              }
+            });
+          })
+        );
+      }
 
       this.objectData$.pipe(take(1)).subscribe(() => {
         Fancybox.bind('[data-fancybox="gallery"]');
