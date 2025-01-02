@@ -62,16 +62,16 @@
       }
     </div>
     <div class="offer-title-buttons">
-      <button
+      <a
         mat-stroked-button
-        class="button-color"
+        class="button-color font-size"
         href="mailto:visdomgradenjedoo@gmail.com"
       >
         visdomgradenjedoo&commat;gmail.com
-      </button>
-      <button mat-stroked-button class="button-color" href="tel:+385916601977">
+      </a>
+      <a mat-stroked-button class="button-color" href="tel:+385916601977">
         +385 91 660 1977
-      </button>
+      </a>
       <div class="offer-price">
         <div>
           <small>Cijena vozila</small>
@@ -91,16 +91,16 @@
       <h1 class="font-weight remove-bottom-margin">{{ objectData.title }}</h1>
     </div>
     <div class="offer-title-buttons">
-      <button
+      <a
         mat-stroked-button
-        class="button-color"
+        class="button-color font-size"
         href="mailto:visdomgradenjedoo@gmail.com"
       >
         visdomgradenjedoo&commat;gmail.com
-      </button>
-      <button mat-stroked-button class="button-color" href="tel:+385916601977">
+      </a>
+      <a mat-stroked-button class="button-color" href="tel:+385916601977">
         +385 91 660 1977
-      </button>
+      </a>
       <div class="offer-price">
         <div>
           <small>Cijena objekta</small>
@@ -120,16 +120,16 @@
       <h1 class="font-weight remove-bottom-margin">{{ objectData.subject }}</h1>
     </div>
     <div class="offer-title-buttons">
-      <button
+      <a
         mat-stroked-button
-        class="button-color"
+        class="button-color font-size"
         href="mailto:visdomgradenjedoo@gmail.com"
       >
         visdomgradenjedoo&commat;gmail.com
-      </button>
-      <button mat-stroked-button class="button-color" href="tel:+385916601977">
+      </a>
+      <a mat-stroked-button class="button-color" href="tel:+385916601977">
         +385 91 660 1977
-      </button>
+      </a>
       <div class="offer-price">
         <div>
           <small>Cijena</small>
@@ -204,6 +204,12 @@
 <section #createOfferSection class="create-offer-section">
   <form [formGroup]="createOfferForm" (ngSubmit)="onSubmit()">
     <h1 class="title">NAPRAVITE SVOJU PONUDU</h1>
+    <p>
+      <small
+        >Možete poslati svoju ponudu za odabrani artikl koristeći obrazac na
+        ovoj stranici, kao alternativu standardnom načinu plaćanja.</small
+      >
+    </p>
 
     <!-- SLIKE -->
     <mat-label class="label-style">Slike</mat-label>
