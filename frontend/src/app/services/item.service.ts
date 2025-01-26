@@ -78,9 +78,6 @@ export class ItemService {
 
   // Fetch cars with caching
   getCars(): Observable<Car[]> {
-    if (this._carsCache) {
-      return of(this._carsCache);
-    }
     return this._http.get<Car[]>(`${environment.apiUrl}/vozila`).pipe(
       map((data) => {
         this._carsCache = data;
@@ -96,9 +93,6 @@ export class ItemService {
 
   // Fetch buildings with caching
   getBuildings(): Observable<Building[]> {
-    if (this._buildingsCache) {
-      return of(this._buildingsCache);
-    }
     return this._http.get<Building[]>(`${environment.apiUrl}/nekretnine`).pipe(
       map((data) => {
         this._buildingsCache = data;
@@ -114,9 +108,6 @@ export class ItemService {
 
   // Fetch basic objects with caching
   getBasicObject(): Observable<BasicObject[]> {
-    if (this._basicObjectsCache) {
-      return of(this._basicObjectsCache);
-    }
     return this._http.get<BasicObject[]>(`${environment.apiUrl}/ostalo`).pipe(
       map((data) => {
         this._basicObjectsCache = data;
